@@ -10,10 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QRHunt">
         <activity
-            android:name=".UserProfileView"
+            android:name=".UserProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".HighScoreListView"
+            android:name=".HighScoreListActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
