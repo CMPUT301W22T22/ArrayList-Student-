@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    private User user;
+    private UserProfile userProfile;
     private TextView userName;
     private TextView contactInfo;
     private TextView score;
@@ -19,9 +19,9 @@ public class UserProfileActivity extends AppCompatActivity {
         userName = findViewById(R.id.UserName);
         contactInfo = findViewById(R.id.ContactInfo);
         score = findViewById(R.id.ContactInfo);
-        userName.setText(user.getUserName());
-        contactInfo.setText(String.valueOf(user.getContactInfo()));
-        score.setText(String.valueOf(user.getScore()));
+        userName.setText(userProfile.getUserName());
+        contactInfo.setText(String.valueOf(userProfile.getContactInfo()));
+        score.setText(String.valueOf(userProfile.getScore()));
     }
 
 
