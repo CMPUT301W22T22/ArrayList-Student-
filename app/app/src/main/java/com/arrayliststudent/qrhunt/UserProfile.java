@@ -1,13 +1,13 @@
 package com.arrayliststudent.qrhunt;
 
-public class User {
+public class UserProfile {
     private String userName;
     private int contactInfo;
     private Boolean Admin;
     private int score;
 
 
-    public User(String userName,int contactInfo,Boolean Admin){
+    public UserProfile(String userName, int contactInfo, Boolean Admin){
         this.Admin = Admin;
         this.userName = userName;
         this.contactInfo = contactInfo;
