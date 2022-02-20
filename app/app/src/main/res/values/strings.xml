@@ -1,9 +1,0 @@
-<resources>
-    <string name="app_name">QR hunt</string>
-    <string name="UserName">User Name:</string>
-    <string name="Contact_info">Contact info:</string>
-    <string name="todo">TODO</string>
-    <string name="User_Score">User Score:</string>
-    <string name="Code_List">CodeList</string>
-    <string name="Remove">Remove</string>
-</resources>
