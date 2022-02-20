@@ -1,4 +1,4 @@
-package com.example.recyclerobserver;
+package com.arrayliststudent.qrhunt;
 
 import java.util.ArrayList;
 

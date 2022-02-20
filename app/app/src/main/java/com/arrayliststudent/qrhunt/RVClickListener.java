@@ -1,7 +1,7 @@
-package com.example.recyclerobserver;
+package com.arrayliststudent.qrhunt;
 
 import android.view.View;
 
-public interface RecyclerClickListener {
+public interface RVClickListener {
     void onItemClick(View itemView, int position);
 }

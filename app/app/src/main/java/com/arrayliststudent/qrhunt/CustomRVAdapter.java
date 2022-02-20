@@ -1,4 +1,4 @@
-package com.example.recyclerobserver;
+package com.arrayliststudent.qrhunt;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
-public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAdapter.ViewHolder> {
+public class CustomRVAdapter extends RecyclerView.Adapter<CustomRVAdapter.ViewHolder> {
 
-    RecyclerClickListener listener;
+    RVClickListener listener;
 
-    CustomRecyclerAdapter(RecyclerClickListener listener) {
+    CustomRVAdapter(RVClickListener listener) {
         this.listener = listener;
 
     }
@@ -42,7 +41,7 @@ public class CustomRecyclerAdapter extends RecyclerView.Adapter<CustomRecyclerAd
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null)
-                listener.onItemClick(holder.itemView, holder.getAbsoluteAdapterPosition());
+                listener.onItemClick(holder.itemView, holder.getAdapterPosition());
             else
                 throw new IllegalStateException("Click listener not set");
         });

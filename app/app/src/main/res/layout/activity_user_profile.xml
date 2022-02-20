@@ -15,8 +15,9 @@
         app:layout_constraintBottom_toTopOf="@+id/textView_UserName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:popupTheme="@style/Theme.QRHunt.PopupOverlay" />
+        app:layout_constraintTop_toTopOf="parent"    />
+<!--        app:popupTheme="@style/Theme.QRHunt.xml" />-->
+
 
     <TextView
         android:id="@+id/textView_UserName"
