@@ -18,7 +18,6 @@
         app:layout_constraintTop_toTopOf="parent"    />
 <!--        app:popupTheme="@style/Theme.QRHunt.xml" />-->
 
-
     <TextView
         android:id="@+id/textView_UserName"
         android:layout_width="97dp"
