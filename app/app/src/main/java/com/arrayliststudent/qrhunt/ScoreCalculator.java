@@ -8,7 +8,7 @@ import java.util.Locale;
  * This class can be used to calculate the score of a given code hash
  * Based on the Proposed Scoring System on Eclass
  */
-public class ScoreCalculator {
+public class ScoreCalculator implements ScoreStrategy{
     private ArrayList hexTable;
 
     public ScoreCalculator(){
