@@ -18,3 +18,6 @@ We want users to compete with each other for the highest scoring QR codes, the m
 When a player scans a QR code they will take a photo of what or where the QR code is and also record the geolocation of the QR code. 
 
 Players can see on a map local QR codes that other players have scanned.
+
+#Firebase link
+https://console.firebase.google.com/u/0/project/arraylist-student/overview

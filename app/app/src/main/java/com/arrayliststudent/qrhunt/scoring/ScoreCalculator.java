@@ -1,4 +1,4 @@
-package com.arrayliststudent.qrhunt;
+package com.arrayliststudent.qrhunt.scoring;
 
 import java.util.ArrayList;
 import java.util.Locale;
