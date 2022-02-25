@@ -23,14 +23,6 @@ public class FirebaseData {
     final String TAG = "you're it";
     FirebaseFirestore database;
 
-    public FirebaseData(User user){//Constructor for user data
-    }
-
-    public FirebaseData(){//Constructor for Code data
-        database = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = database.collection("Codes");
-    }
-
     public void addUserData(User user){
         database = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = database.collection("Users");
