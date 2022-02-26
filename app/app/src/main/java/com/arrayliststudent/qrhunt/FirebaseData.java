@@ -3,11 +3,15 @@ package com.arrayliststudent.qrhunt;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * Firebase controller; responsible for getting and setting Firebase data
@@ -20,14 +24,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
  * @see User
 **/
 public class FirebaseData {
-    final String TAG = "you're it";
-    FirebaseFirestore database;
+    final String TAG = "dunno what to put here";
+    final FirebaseFirestore database = FirebaseFirestore.getInstance();
+    final CollectionReference userReference = database.collection("Users");
+    final CollectionReference codeReference = database.collection("Codes");
 
-    public void addUserData(User user){
-        database = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = database.collection("Users");
-
-        collectionReference
+    public void addUserData(User user){//adds User data to the firebase and updates the app
+        userReference
                 .document(String.valueOf(user.hashCode()))
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -44,6 +47,15 @@ public class FirebaseData {
                         Log.d(TAG, "User data failed to upload: " + e.toString());
                     }
                 });
+    }
+
+    public void createSnapshotListener(CollectionReference collectionReference){
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+            }
+        });
     }
 }
 
