@@ -36,6 +36,8 @@
         <activity
             android:name=".HighScoreListActivity"
             android:exported="false" />
+        <activity
+            android:name=".MapsActivity"/>
     </application>
 
 </manifest>

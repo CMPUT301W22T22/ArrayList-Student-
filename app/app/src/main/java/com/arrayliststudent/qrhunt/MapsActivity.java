@@ -3,6 +3,7 @@ package com.arrayliststudent.qrhunt;
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -54,7 +55,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        Intent intent = getIntent();
+
         getLocationPermission();
+
+
     }
 
     /**
