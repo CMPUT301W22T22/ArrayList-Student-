@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -139,6 +140,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });
+            }else {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "No Permission",
+                        Toast.LENGTH_SHORT);
+
+                toast.show();
             }
         }catch (SecurityException securityException){
             Log.d(TAG,"getDeviceLocation: SecurityException: " + securityException.getMessage());
