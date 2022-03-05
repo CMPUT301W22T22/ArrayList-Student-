@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -59,8 +61,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
 
         getLocationPermission();
-
-
+        initMap();
     }
 
     /**
@@ -108,7 +109,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                     locationPermissionGranted = true;
-                    initMap();
+                    //initMap();
                 }
             }
         }
@@ -159,9 +160,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      */
     private void addMarker(LatLng latLng, float zoom){
         if(locationPermissionGranted){
-        Log.d(TAG,"Adding Marker to: latitude: " + latLng.latitude + ", longitude: " + latLng.longitude);
-        mMap.addMarker(new MarkerOptions().position(deviceLocation).title("Marker"));
+            Log.d(TAG,"Adding Marker to: latitude: " + latLng.latitude + ", longitude: " + latLng.longitude);
+            mMap.addMarker(new MarkerOptions().position(deviceLocation).title("Marker"));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(deviceLocation,15f));
         }
+
     }
 }
 
