@@ -28,11 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_console);
         /*if(auth.login(Settings.Secure.ANDROID_ID)) {
         }*/
-    }
-
-
-    public void OnMapClicked(View view){
-        Intent intent = new Intent(this,MapsActivity.class);
+        Intent intent = new Intent(this,ConsoleActivity.class);
         startActivity(intent);
     }
 
