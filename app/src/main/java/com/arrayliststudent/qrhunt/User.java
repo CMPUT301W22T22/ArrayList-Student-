@@ -5,12 +5,18 @@ import java.util.ArrayList;
 public class User {
 
     private Integer userID;
-
+    private String userId;
     ArrayList<ScannableCode> userCodeList;
+    String name;
 
     public User(int id) {
         this.userID = id;
         this.userCodeList = new ArrayList<>();
+    }
+
+    public User(String androidId, String name) {
+        this.userId = androidId;
+        this.name = name;
     }
 
     public ArrayList<ScannableCode> getUserCodeList() {
