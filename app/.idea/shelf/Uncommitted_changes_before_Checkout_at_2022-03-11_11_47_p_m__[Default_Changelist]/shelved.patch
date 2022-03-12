@@ -1,0 +1,21 @@
+Index: app/src/main/java/com/arrayliststudent/qrhunt/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.arrayliststudent.qrhunt;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.recyclerview.widget.LinearLayoutManager;\r\nimport androidx.recyclerview.widget.RecyclerView;\r\n\r\nimport android.os.Bundle;\r\nimport android.provider.Settings;\r\nimport android.view.View;\r\nimport android.widget.Toast;\r\n\r\n\r\nimport com.google.android.material.floatingactionbutton.FloatingActionButton;\r\n\r\nimport java.net.Authenticator;\r\nimport java.util.Observable;\r\nimport java.util.Observer;\r\n\r\npublic class MainActivity extends AppCompatActivity {\r\n\r\n    MAuthenticator auth;\r\n    MainPresenter presenter;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_console);\r\n        if(auth.login(Settings.Secure.ANDROID_ID)) {\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/arrayliststudent/qrhunt/MainActivity.java b/app/src/main/java/com/arrayliststudent/qrhunt/MainActivity.java
+--- a/app/src/main/java/com/arrayliststudent/qrhunt/MainActivity.java	(revision 42e881af075b2bb40b2d8b981f330a89f530e382)
++++ b/app/src/main/java/com/arrayliststudent/qrhunt/MainActivity.java	(date 1647001899088)
+@@ -25,7 +25,7 @@
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_console);
+-        if(auth.login(Settings.Secure.ANDROID_ID)) {
+-        }
++//        if(auth.login(Settings.Secure.ANDROID_ID)) {
++//        }
+     }
+ }
+\ No newline at end of file
