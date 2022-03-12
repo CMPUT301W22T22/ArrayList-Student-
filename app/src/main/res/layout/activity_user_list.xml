@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".UserListActivity">
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/user_list_view"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toTopOf="@+id/total_userbase_view"
