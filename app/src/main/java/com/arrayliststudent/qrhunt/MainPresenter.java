@@ -24,4 +24,8 @@ public class MainPresenter {
         model.deleteObserver(arg);
     }
 
+    public void newUser(String name, String androidId) {
+        UserDataModel model = UserDataModel.getInstance();
+        model.newUser(name, androidId);
+    }
 }

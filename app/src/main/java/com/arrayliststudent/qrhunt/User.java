@@ -7,12 +7,18 @@ public class User {
     private Integer userID;
     private String name;
 
+    private String userId;
     ArrayList<ScannableCode> userCodeList;
 
     public User(int id, String name) {
         this.userID = id;
         this.name = name;
         this.userCodeList = new ArrayList<>();
+    }
+
+    public User(String androidId, String name) {
+        this.userId = androidId;
+        this.name = name;
     }
 
     public ArrayList<ScannableCode> getUserCodeList() {
