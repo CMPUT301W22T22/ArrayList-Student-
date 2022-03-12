@@ -30,6 +30,10 @@ public class MainActivity extends AppCompatActivity {
         }*/
     }
 
+    public void OnScanClicked(View view){
+        Intent intent = new Intent(this,ScanCodeActivity.class);
+        startActivity(intent);
+    }
 
     public void OnMapClicked(View view){
         Intent intent = new Intent(this,MapsActivity.class);
