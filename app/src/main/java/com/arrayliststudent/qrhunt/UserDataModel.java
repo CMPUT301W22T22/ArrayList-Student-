@@ -2,6 +2,7 @@ package com.arrayliststudent.qrhunt;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Observable;
 
@@ -37,5 +38,9 @@ public class UserDataModel extends Observable {
         if (!userList.containsKey(userID)) {
             userList.put(userID, new User(userID));
         }
+    }
+
+    public Collection<User> getUsers() {
+        return userList.values();
     }
 }
