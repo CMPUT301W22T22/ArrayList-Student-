@@ -24,13 +24,6 @@ public class UserListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_list);
         userDataList = UserDataModel.getInstance().userList;
 
-        userList.addOnItemTouchListener(new RecyclerViewTou(getApplicationContext(), userList, new RecyclerViewClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Toast.makeText(getApplicationContext(), bookList.get(position).getTitle() + " is clicked!", Toast.LENGTH_SHORT).show();
-            }
-        }));
-
         userList = findViewById(R.id.user_list_view);
         totalUserBase = findViewById(R.id.total_userbase_view);
         searchbar = findViewById(R.id.search_bar);
