@@ -3,9 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/ian/Documents/GitHub/ArrayList-Student-/app/src/main/res/layout/activity_console.xml" value="0.33106884057971014" />
-        <entry key="..\:/Users/ian/Documents/GitHub/ArrayList-Student-/app/src/main/res/layout/activity_main.xml" value="0.33106884057971014" />
-        <entry key="..\:/Users/ian/Documents/GitHub/ArrayList-Student-/app/src/main/res/layout/activity_qr_code.xml" value="0.33106884057971014" />
+        <entry key="..\:/Users/Jomshyy Grem/Desktop/301/ArrayList-Student-/app/src/main/res/layout/activity_code_list.xml" value="0.2554347826086957" />
+        <entry key="..\:/Users/Jomshyy Grem/Desktop/301/ArrayList-Student-/app/src/main/res/layout/activity_user_list.xml" value="0.2554347826086957" />
+        <entry key="..\:/Users/Jomshyy Grem/Desktop/301/ArrayList-Student-/app/src/main/res/layout/recycler_content.xml" value="0.2554347826086957" />
+        <entry key="..\:/Users/Jomshyy Grem/Desktop/301/ArrayList-Student-/app/src/main/res/layout/user_recycler_content.xml" value="0.1" />
       </map>
     </option>
   </component>
