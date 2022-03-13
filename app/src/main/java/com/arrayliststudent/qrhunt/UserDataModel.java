@@ -36,7 +36,7 @@ public class UserDataModel extends Observable {
         this.userID = userID;
         userList = new HashMap<>();
         if (!userList.containsKey(userID)) {
-            userList.put(userID, new User(userID));
+            userList.put(userID, new User(userID, "name"));
         }
     }
 

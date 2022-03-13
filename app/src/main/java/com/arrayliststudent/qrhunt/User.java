@@ -5,11 +5,13 @@ import java.util.ArrayList;
 public class User {
 
     private Integer userID;
+    private String name;
 
     ArrayList<ScannableCode> userCodeList;
 
-    public User(int id) {
+    public User(int id, String name) {
         this.userID = id;
+        this.name = name;
         this.userCodeList = new ArrayList<>();
     }
 
@@ -35,5 +37,19 @@ public class User {
         return this.userID.hashCode();
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public int getTotalScore() {
+        int totalScore = 0;
+        for (ScannableCode s : userCodeList) {
+            totalScore += s.getCodeScore();
+        }
+        return totalScore;
+    }
+
+    public int getNumCodes() {
+        return userCodeList.size();
+    }
 }
