@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_console);
         /*if(auth.login(Settings.Secure.ANDROID_ID)) {
         }*/
+        //Intent intent = new Intent(this,ConsoleActivity.class);
+        //startActivity(intent);
     }
 
     public void OnScanClicked(View view){

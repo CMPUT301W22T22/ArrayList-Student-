@@ -69,7 +69,7 @@ public class AddCodeFragment extends DialogFragment {
                         if(temp.length() > 0) {
                             temp2 = Integer.valueOf(temp);
                             if (temp2 > 0 && temp2 < 2147483647) {
-                                code.setCodeScore(temp);
+                                code.setCodeScore(Integer.valueOf(temp));
                             } else {
                                 // Invalid roll number
                                 pass = false;

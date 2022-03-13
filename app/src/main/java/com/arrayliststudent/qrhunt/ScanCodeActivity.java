@@ -188,12 +188,10 @@ public class ScanCodeActivity extends AppCompatActivity {
                         if (!bd.isAdded()){
                             bd.show(fragmentManager, "");
                         }
-                        bd.fetchURL(barcode.getUrl().getUrl());
-                        String title = barcode.getUrl().getTitle();
-                        String url = barcode.getUrl().getUrl();
+                        bd.fetchData(String.valueOf(barcode.getDisplayValue()));
                         break;
-                    case Barcode.FORMAT_ALL_FORMATS:
-                         bd.fetchData(String.valueOf(barcode.getDisplayValue()));
+
+
 
                 }
             }

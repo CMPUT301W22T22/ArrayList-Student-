@@ -44,15 +44,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UserProfileActivity"
-            android:exported="false" />
+            android:name=".UserProfileActivity" />
         <activity
-            android:name=".HighScoreListActivity"
-            android:exported="false" />
+            android:name=".HighScoreListActivity" />
         <activity
             android:name=".MapsActivity"/>
+
         <activity android:name=".ScanCodeActivity"
             android:parentActivityName=".MainActivity"/>
+
+        <activity
+            android:name=".ConsoleActivity" />
+        <activity
+            android:name=".QRCodeActivity" />
+
     </application>
 
 </manifest>

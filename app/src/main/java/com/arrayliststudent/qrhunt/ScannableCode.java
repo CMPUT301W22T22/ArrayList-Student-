@@ -3,9 +3,9 @@ package com.arrayliststudent.qrhunt;
 public class ScannableCode {
 
     String codeName;
-    String codeScore;
+    int codeScore;
 
-    ScannableCode(String codeName, String codeScore){
+    ScannableCode(String codeName, int codeScore){
         this.codeName = codeName;
         this.codeScore = codeScore;
     }
@@ -16,7 +16,7 @@ public class ScannableCode {
         return codeName;
     }
 
-    public String getCodeScore() {
+    public int getCodeScore() {
         return codeScore;
     }
 
@@ -24,7 +24,7 @@ public class ScannableCode {
         this.codeName = codeName;
     }
 
-    public void setCodeScore(String codeScore) {
+    public void setCodeScore(int codeScore) {
         this.codeScore = codeScore;
     }
 }
