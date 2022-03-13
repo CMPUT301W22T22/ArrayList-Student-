@@ -1,16 +1,20 @@
 package com.arrayliststudent.qrhunt;
 
 public class UserProfile {
-    private String userName;
-    private int contactInfo;
-    private Boolean Admin;
-    private int score;
+    private String userName = "No_User_Name";
+    private int contactInfo = -1;
+    private Boolean Admin = false;
+    private int score = 0;
 
 
     public UserProfile(String userName, int contactInfo, Boolean Admin){
         this.Admin = Admin;
         this.userName = userName;
         this.contactInfo = contactInfo;
+    }
+
+    public UserProfile(){
+
     }
 
     public void setUserName(String userName) {
