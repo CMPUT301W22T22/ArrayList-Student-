@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -24,21 +25,22 @@ public class UserListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_list);
         userDataList = UserDataModel.getInstance().userList;
 
-        userList.addOnItemTouchListener(new RecyclerViewTou(getApplicationContext(), userList, new RecyclerViewClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Toast.makeText(getApplicationContext(), bookList.get(position).getTitle() + " is clicked!", Toast.LENGTH_SHORT).show();
-            }
-        }));
-
         userList = findViewById(R.id.user_list_view);
         totalUserBase = findViewById(R.id.total_userbase_view);
         searchbar = findViewById(R.id.search_bar);
 
 
-        userListAdapter = new UserListAdapter();
+        userListAdapter = new UserListAdapter(, userDataList);
         totalUserBase.setText(userDataList.size());
-        userList.setAdapter(UserListAdapter);
+        userList.setAdapter(new ListClickListener(), UserListAdapter);
+    }
+
+    //click listener for userList
+    private class ListClickListener implements RecyclerView.RecyclerListener{
+        @Override
+        public void onItemClick(View view, int position){
+            //do somethin
+        }
     }
 
     /*

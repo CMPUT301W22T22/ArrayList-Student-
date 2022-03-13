@@ -40,7 +40,7 @@ public class UserDataModel extends Observable {
         //userList = new HashMap<>();
 
         if (!userList.containsKey(userID)) {
-            User newUser = new User(userID, "name");
+            User newUser = new User(userID);
             userList.put(userID, newUser);
             database.addUserData(newUser);
         }
