@@ -187,8 +187,12 @@ public class ScanCodeActivity extends AppCompatActivity {
                 String rawValue = barcode.getRawValue();
                 showData.setText(rawValue);
 
+               int score = ScanCodePresenter.calculateScore(barcode.getRawBytes());
+               ScanCodePresenter.createScannableCode(barcode.getDisplayValue(), score);
+
             }
         }
+
     }
 }
 
