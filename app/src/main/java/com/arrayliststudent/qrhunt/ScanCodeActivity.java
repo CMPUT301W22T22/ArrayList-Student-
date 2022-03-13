@@ -49,6 +49,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -183,11 +184,6 @@ public class ScanCodeActivity extends AppCompatActivity {
                 int valueType = barcode.getValueType();
                 // See API reference for complete list of supported types
                 switch (valueType) {
-                    case Barcode.TYPE_WIFI:
-                        String ssid = barcode.getWifi().getSsid();
-                        String password = barcode.getWifi().getPassword();
-                        int type = barcode.getWifi().getEncryptionType();
-                        break;
                     case Barcode.TYPE_URL:
                         if (!bd.isAdded()){
                             bd.show(fragmentManager, "");
@@ -196,6 +192,9 @@ public class ScanCodeActivity extends AppCompatActivity {
                         String title = barcode.getUrl().getTitle();
                         String url = barcode.getUrl().getUrl();
                         break;
+                    case Barcode.FORMAT_ALL_FORMATS:
+                         bd.fetchData(String.valueOf(barcode.getDisplayValue()));
+
                 }
             }
         }

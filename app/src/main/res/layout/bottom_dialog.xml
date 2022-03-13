@@ -25,25 +25,4 @@
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="link"
-        android:textColor="@color/black"
-        android:textAlignment="center"
-        android:id="@+id/txt_link"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
-        android:paddingLeft="12dp"
-        android:padding="12dp"
-        android:paddingBottom="4dp"
-        android:text="visit link"
-        android:id="@+id/visit"/>
-
 </LinearLayout>
