@@ -1,161 +1,205 @@
 package com.arrayliststudent.qrhunt;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.media.AudioManager;
+import android.media.Image;
 import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Size;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageProxy;
+import androidx.camera.core.Preview;
+import androidx.camera.lifecycle.ProcessCameraProvider;
+import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.mlkit.vision.barcode.BarcodeScanner;
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
+import com.google.mlkit.vision.barcode.BarcodeScanning;
+import com.google.mlkit.vision.barcode.common.Barcode;
+import com.google.mlkit.vision.common.InputImage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ScanCodeActivity extends AppCompatActivity {
-    public static int index = 0;
-    public final String directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/.Picture/";
-    private SurfaceView surfaceView;
-    private BarcodeDetector barcodeDetector;
-    private CameraSource cameraSource;
-    private static final int REQUEST_CAMERA_PERMISSION = 201;
-    private ToneGenerator toneGen1;
-    private TextView barcodeText;
-    private String barcodeData;
-    Button btnPicture;
-
+    private ListenableFuture cameraProviderFuture;
+    private ExecutorService cameraExecutor;
+    private PreviewView cameraView;
+    private MyImageAnalyzer analyzer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_code);
-        toneGen1 = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
-        surfaceView = findViewById(R.id.surface_view);
-        barcodeText = findViewById(R.id.barcode_text);
-        btnPicture = findViewById(R.id.btnPic);
-        initialiseScanner();
 
-    }
+        cameraView = findViewById(R.id.camerapreview);
+        this.getWindow().setFlags(1024, 1024);
 
-    private void initialiseScanner() {
+        cameraExecutor = Executors.newSingleThreadExecutor();
+        cameraProviderFuture =  ProcessCameraProvider.getInstance(this);
+        analyzer = new MyImageAnalyzer(getSupportFragmentManager());
 
-        barcodeDetector = new BarcodeDetector.Builder(this)
-                .setBarcodeFormats(Barcode.ALL_FORMATS)
-                .build();
-
-        cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(1920, 1080)
-                .setAutoFocusEnabled(true)
-                .build();
-
-
-
-        surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
+        cameraProviderFuture.addListener(new Runnable() {
             @Override
-            public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
-                try {
-                    if (ActivityCompat.checkSelfPermission(ScanCodeActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                        cameraSource.start(surfaceView.getHolder());
-                    } else {
-                        ActivityCompat.requestPermissions(ScanCodeActivity.this, new
-                                String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            public void run() {
+                try{
+                    if(ActivityCompat.checkSelfPermission(ScanCodeActivity.this, Manifest.permission.CAMERA) != (PackageManager.PERMISSION_GRANTED)){
+                        ActivityCompat.requestPermissions(ScanCodeActivity.this, new String[] {Manifest.permission.CAMERA}, 101);
+                    }else{
+                        ProcessCameraProvider processCameraProvider = (ProcessCameraProvider) cameraProviderFuture.get();
+                        bindpreview(processCameraProvider);
                     }
-
-                } catch (IOException e) {
+                }catch (ExecutionException e){
+                    e.printStackTrace();
+                }catch (InterruptedException e){
                     e.printStackTrace();
                 }
             }
+        }, ContextCompat.getMainExecutor((this)));
+    }
 
-            @Override
-            public void surfaceChanged(@NonNull SurfaceHolder surfaceHolder, int i, int i1, int i2) {
+    @SuppressLint("MissingSuperCall")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == 101 && grantResults.length > 0){
+            ProcessCameraProvider processCameraProvider = null;
+            try {
+                processCameraProvider = (ProcessCameraProvider) cameraProviderFuture.get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            bindpreview(processCameraProvider);
+        }
+    }
 
-            @Override
-            public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-            }
+    private void bindpreview(ProcessCameraProvider processCameraProvider) {
+        Preview preview = new Preview.Builder().build();
+        CameraSelector cameraSelector = new CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
+        preview.setSurfaceProvider(cameraView.getSurfaceProvider());
+        ImageCapture imageCapture = new ImageCapture.Builder().build();
+        ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
+                .setTargetResolution(new Size(1280, 720))
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .build();
 
-        });
-        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
-            @Override
-            public void release() {
-            }
+        imageAnalysis.setAnalyzer(cameraExecutor, analyzer);
+        processCameraProvider.unbindAll();
+        processCameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalysis);
+    }
 
-            @Override
-            public void receiveDetections(@NonNull Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-                if (barcodes.size() != 0){
-                    barcodeText.post(new Runnable() {
+    public class MyImageAnalyzer implements ImageAnalysis.Analyzer {
+        private FragmentManager fragmentManager;
+        private bottom_dialog bd;
+
+        public MyImageAnalyzer(FragmentManager fragmentManager) {
+            this.fragmentManager = fragmentManager;
+            bd = new bottom_dialog();
+        }
+
+        @Override
+        public void analyze(@NonNull ImageProxy image) {
+            scanbarcode(image);
+        }
+
+
+        private void scanbarcode(ImageProxy image) {
+
+            @SuppressLint("UnsafeOptInUsageError") Image image1 = image.getImage();
+            assert image1 != null;
+            InputImage inputImage = InputImage.fromMediaImage(image1, image.getImageInfo().getRotationDegrees());
+            BarcodeScannerOptions options =
+                    new BarcodeScannerOptions.Builder()
+                            .setBarcodeFormats(
+                                    Barcode.FORMAT_ALL_FORMATS)
+                            .build();
+
+            BarcodeScanner scanner = BarcodeScanning.getClient(options);
+
+            Task<List<Barcode>> result = scanner.process(inputImage)
+                    .addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
                         @Override
-                        public void run() {
-                            barcodeText.setText("Code Detected");
-                            toneGen1.startTone(ToneGenerator.TONE_CDMA_PIP, 150);
+                        public void onSuccess(List<Barcode> barcodes) {
+                            // Task completed successfully
+                            readerBarcodeData(barcodes);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            // Task failed with an exception
+                            // ...
+                        }
+                    })
+                    .addOnCompleteListener(new OnCompleteListener<List<Barcode>>() {
+                        @Override
+                        public void onComplete(@NonNull Task<List<Barcode>> task) {
+                            image.close();
                         }
                     });
+        }
+
+        private void readerBarcodeData(List<Barcode> barcodes) {
+            for (Barcode barcode : barcodes) {
+                Rect bounds = barcode.getBoundingBox();
+                Point[] corners = barcode.getCornerPoints();
+
+                String rawValue = barcode.getRawValue();
+
+                int valueType = barcode.getValueType();
+                // See API reference for complete list of supported types
+                switch (valueType) {
+                    case Barcode.TYPE_WIFI:
+                        String ssid = barcode.getWifi().getSsid();
+                        String password = barcode.getWifi().getPassword();
+                        int type = barcode.getWifi().getEncryptionType();
+                        break;
+                    case Barcode.TYPE_URL:
+                        if (!bd.isAdded()){
+                            bd.show(fragmentManager, "");
+                        }
+                        bd.fetchURL(barcode.getUrl().getUrl());
+                        String title = barcode.getUrl().getTitle();
+                        String url = barcode.getUrl().getUrl();
+                        break;
                 }
             }
-        });
-
-        btnPicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cameraSource.takePicture(null,  new CameraSource.PictureCallback() {
-                    @Override
-                    public void onPictureTaken(@NonNull byte[] bytes) {
-                        index++;
-                        File file = Environment.getExternalStoragePublicDirectory(directory);
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        if(bitmap != null){
-                            if(!file.isDirectory()){
-                                file.mkdir();
-                            }
-                            file = new File(file, directory + index + ".jpg");
-
-                            try{
-                                FileOutputStream output = new FileOutputStream(file);
-                                bitmap.compress(Bitmap.CompressFormat.JPEG,100, output);
-                                output.flush();
-                                output.close();
-                            } catch (FileNotFoundException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-
-                    }
-                });
-            }
-        });
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        getSupportActionBar().hide();
-        cameraSource.release();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getSupportActionBar().hide();
-        initialiseScanner();
+        }
     }
 }
+
+
