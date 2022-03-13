@@ -46,7 +46,20 @@ public class UserDataModel extends Observable {
         }
     }
 
+    public User getCurrentUser() {
+        return userList.get(userID);
+    }
+
     public Collection<User> getUsers() {
         return userList.values();
     }
+
+    public void newUser(Integer userID, String userName) {
+        this.userID = userID;
+        userList = new HashMap<>();
+        if (!userList.containsKey(userID)) {
+            userList.put(userID, new User(userID, userName));
+        }
+    }
+
 }
