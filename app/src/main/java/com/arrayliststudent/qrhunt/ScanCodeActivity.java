@@ -60,11 +60,13 @@ public class ScanCodeActivity extends AppCompatActivity {
     private ExecutorService cameraExecutor;
     private PreviewView cameraView;
     private MyImageAnalyzer analyzer;
+    private TextView showData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_code);
+        showData = findViewById(R.id.display_data);
 
         cameraView = findViewById(R.id.camerapreview);
         this.getWindow().setFlags(1024, 1024);
@@ -90,6 +92,7 @@ public class ScanCodeActivity extends AppCompatActivity {
                 }
             }
         }, ContextCompat.getMainExecutor((this)));
+
     }
 
     @SuppressLint("MissingSuperCall")
@@ -112,7 +115,9 @@ public class ScanCodeActivity extends AppCompatActivity {
         Preview preview = new Preview.Builder().build();
         CameraSelector cameraSelector = new CameraSelector.Builder().requireLensFacing(CameraSelector.LENS_FACING_BACK).build();
         preview.setSurfaceProvider(cameraView.getSurfaceProvider());
-        ImageCapture imageCapture = new ImageCapture.Builder().build();
+        ImageCapture imageCapture = new ImageCapture.Builder()
+                .setTargetResolution(new Size(1280, 720))
+                .build();
         ImageAnalysis imageAnalysis = new ImageAnalysis.Builder()
                 .setTargetResolution(new Size(1280, 720))
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
@@ -121,6 +126,7 @@ public class ScanCodeActivity extends AppCompatActivity {
         imageAnalysis.setAnalyzer(cameraExecutor, analyzer);
         processCameraProvider.unbindAll();
         processCameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalysis);
+
     }
 
     public class MyImageAnalyzer implements ImageAnalysis.Analyzer {
@@ -178,22 +184,9 @@ public class ScanCodeActivity extends AppCompatActivity {
             for (Barcode barcode : barcodes) {
                 Rect bounds = barcode.getBoundingBox();
                 Point[] corners = barcode.getCornerPoints();
-
                 String rawValue = barcode.getRawValue();
+                showData.setText(rawValue);
 
-                int valueType = barcode.getValueType();
-                // See API reference for complete list of supported types
-                switch (valueType) {
-                    case Barcode.TYPE_URL:
-                        if (!bd.isAdded()){
-                            bd.show(fragmentManager, "");
-                        }
-                        bd.fetchData(String.valueOf(barcode.getDisplayValue()));
-                        break;
-
-
-
-                }
             }
         }
     }
