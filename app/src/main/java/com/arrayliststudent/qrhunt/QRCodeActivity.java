@@ -26,8 +26,8 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
     private View.OnClickListener onCommentsClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(),CommentsActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(getApplicationContext(),CommentsActivity.class);
+            //startActivity(intent);
         }
     };
 
