@@ -9,11 +9,6 @@ public class MainPresenter {
         model.addCode(code);
     }
 
-    public void setUpUser(int userID) {
-        UserDataModel model = UserDataModel.getInstance();
-        model.setUserID(userID);
-    }
-
     public void setUpObserver(Observer arg) {
         UserDataModel model = UserDataModel.getInstance();
         model.addObserver(arg);

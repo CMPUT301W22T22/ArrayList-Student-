@@ -49,13 +49,6 @@ public class UserDataModel extends Observable {
         notifyObservers();
     }
 
-    public void setUserID(Integer userID) {
-        this.userID = userID;
-        userList = new HashMap<>();
-        if (!userList.containsKey(userID)) {
-            userList.put(userID, new User(userID));
-        }
-    }
     public String getCurrentUserName() {
         return "username";
     }
@@ -64,11 +57,11 @@ public class UserDataModel extends Observable {
         return userList.get(userID);
     }
 
-    public void newUser(Integer userID) {
+    public void newUser(Integer userID, String userName) {
         this.userID = userID;
         userList = new HashMap<>();
         if (!userList.containsKey(userID)) {
-            userList.put(userID, new User(userID));
+            userList.put(userID, new User(userID, userName));
         }
     }
 

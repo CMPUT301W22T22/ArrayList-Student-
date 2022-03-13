@@ -19,6 +19,7 @@ public class User {
     public User(String androidId, String name) {
         this.userId = androidId;
         this.name = name;
+        this.userCodeList = new ArrayList<>();
     }
 
     public ArrayList<ScannableCode> getUserCodeList() {
