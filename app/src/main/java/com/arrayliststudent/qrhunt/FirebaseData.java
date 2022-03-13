@@ -35,46 +35,46 @@ public class FirebaseData {
 
     public void addUserData(User user){//adds or overwrites User data on the firebase
         collectionReference
-                .document(String.valueOf(user.hashCode()))
+                .document(user.getUserId())
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         //if data is successfully uploaded
-                        Log.d(TAG, "User " + user.hashCode() + "  successfully uploaded");
+                        Log.d(TAG, "User " + user.getUserId() + "  successfully uploaded");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //if data upload fails
-                        Log.d(TAG, "User " + user.hashCode() + " data failed to upload: " + e.toString());
+                        Log.d(TAG, "User " + user.getUserId() + " data failed to upload: " + e.toString());
                     }
                 });
     }
 
     public void removerUserData(User user){//removes User data from the firebase
         collectionReference
-                .document(String.valueOf(user.hashCode()))
+                .document(user.getUserId())
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         //if data is successfully uploaded
-                        Log.d(TAG, "User " + user.hashCode() + "  successfully deleted");
+                        Log.d(TAG, "User " + user.getUserId() + "  successfully deleted");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //if data upload fails
-                        Log.d(TAG, "User " + user.hashCode() + " data failed to delete: " + e.toString());
+                        Log.d(TAG, "User " + user.getUserId() + " data failed to delete: " + e.toString());
                     }
                 });
     }
 
-    public HashMap<Integer, User> fetchUserData() {
-        HashMap<Integer, User> userDataList = new HashMap<>();
+    public HashMap<String, User> fetchUserData() {
+        HashMap<String, User> userDataList = new HashMap<>();
 
         //snapshot listener to watch for changes in the database
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -83,7 +83,7 @@ public class FirebaseData {
 
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
-                    int userID = doc.getData().hashCode();
+                    String userID = doc.getData().getUserId();
                     User userData = (User) doc.getData();
 
                     userDataList.put(userID, userData); // Adding the cities and provinces from FireStore
