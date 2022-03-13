@@ -15,13 +15,13 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/CommentsList"
+    <ListView
+        android:id="@+id/comment_list"
         android:layout_width="match_parent"
         android:layout_height="675dp"
         android:layout_gravity="bottom" >
 
-    </androidx.recyclerview.widget.RecyclerView>
+    </ListView>
 
 
 </FrameLayout>
