@@ -11,7 +11,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
 
 /**
  * Firebase controller; responsible for getting and setting Firebase data
@@ -26,36 +29,70 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class FirebaseData {
     final String TAG = "dunno what to put here";
     final FirebaseFirestore database = FirebaseFirestore.getInstance();
-    final CollectionReference userReference = database.collection("Users");
-    final CollectionReference codeReference = database.collection("Codes");
+    final CollectionReference collectionReference = database.collection("Users");
 
-    public void addUserData(User user){//adds User data to the firebase and updates the app
-        userReference
+    public FirebaseData() { }
+
+    public void addUserData(User user){//adds or overwrites User data on the firebase
+        collectionReference
                 .document(String.valueOf(user.hashCode()))
                 .set(user)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         //if data is successfully uploaded
-                        Log.d(TAG, "User data successfully uploaded");
+                        Log.d(TAG, "User " + user.hashCode() + "  successfully uploaded");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         //if data upload fails
-                        Log.d(TAG, "User data failed to upload: " + e.toString());
+                        Log.d(TAG, "User " + user.hashCode() + " data failed to upload: " + e.toString());
                     }
                 });
     }
 
-    public void createSnapshotListener(CollectionReference collectionReference){
+    public void removerUserData(User user){//removes User data from the firebase
+        collectionReference
+                .document(String.valueOf(user.hashCode()))
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        //if data is successfully uploaded
+                        Log.d(TAG, "User " + user.hashCode() + "  successfully deleted");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //if data upload fails
+                        Log.d(TAG, "User " + user.hashCode() + " data failed to delete: " + e.toString());
+                    }
+                });
+    }
+
+    public HashMap<Integer, User> fetchUserData() {
+        HashMap<Integer, User> userDataList = new HashMap<>();
+
+        //snapshot listener to watch for changes in the database
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
 
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                {
+                    int userID = doc.getData().hashCode();
+                    User userData = (User) doc.getData();
+
+                    userDataList.put(userID, userData); // Adding the cities and provinces from FireStore
+                    Log.d(TAG, "User " + userID + " downloaded");
+                }
             }
         });
+
+        return userDataList;
     }
 }
 
