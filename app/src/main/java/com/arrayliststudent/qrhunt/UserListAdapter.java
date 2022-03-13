@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class UserListAdapter extends CustomRVAdapter{
     private RVClickListener listener;
 
-    public UserListAdapter(RVClickListener listener){
+    public UserListAdapter(RVClickListener listener, ){
         super(listener);
     }
 
