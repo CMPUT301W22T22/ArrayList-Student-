@@ -8,10 +8,11 @@ import java.util.Observable;
 
 public class UserDataModel extends Observable {
 
+    FirebaseData database;
     HashMap<Integer, User> userList;
 
     private UserDataModel() {
-        this.userList = new HashMap<>();
+        userList = database.fetchUserData();
     }
 
     private static final UserDataModel userDataModel = new UserDataModel();
@@ -27,16 +28,21 @@ public class UserDataModel extends Observable {
     }
 
     public void addCode(ScannableCode code) {
-        userList.get(this.userID).getUserCodeList().add(code);
+        User user = userList.get(this.userID);
+        user.getUserCodeList().add(code);
+        database.addUserData(user);
         setChanged();
         notifyObservers();
     }
 
     public void setUserID(Integer userID) {
         this.userID = userID;
-        userList = new HashMap<>();
+        //userList = new HashMap<>();
+
         if (!userList.containsKey(userID)) {
-            userList.put(userID, new User(userID));
+            User newUser = new User(userID, "name");
+            userList.put(userID, newUser);
+            database.addUserData(newUser);
         }
     }
 
