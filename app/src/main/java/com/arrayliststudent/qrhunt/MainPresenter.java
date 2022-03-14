@@ -28,4 +28,5 @@ public class MainPresenter {
         UserDataModel model = UserDataModel.getInstance();
         model.newUser(androidId, name);
     }
+
 }

@@ -23,22 +23,7 @@ import java.util.Observer;
 public class MainActivity extends AppCompatActivity {
 
     MAuthenticator auth;
-    MainPresenter presenter;
-    Button confirmBtn;
-    EditText nameEditTxt;
 
-
-    private View.OnClickListener confirmBtnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String name = nameEditTxt.getText().toString();
-            presenter.newUser(Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                    Settings.Secure.ANDROID_ID), name);
-            Intent intent = new Intent(getApplicationContext(), ConsoleActivity.class);
-            startActivity(intent);
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
