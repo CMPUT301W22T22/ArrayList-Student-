@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app='http://schemas.android.com/apk/res-auto'
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    tools:context=".ScanCodeActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:id="@+id/container">
+
+        <androidx.camera.view.PreviewView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/camerapreview">
+        </androidx.camera.view.PreviewView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></RelativeLayout>
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginRight="0.5dp"
+        android:paddingLeft="12dp"
+        android:padding="12dp"
+        android:paddingBottom="4dp"
+        android:text="Data"
+        android:id="@+id/display_data"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:translationX="150dp"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="12dp"
+        android:padding="12dp"
+        android:paddingBottom="4dp"
+        android:text="Take Picture"
+        android:id="@+id/take_Picture"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
