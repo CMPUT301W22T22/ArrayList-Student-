@@ -2,6 +2,7 @@ package com.arrayliststudent.qrhunt;
 
 /**
  * ScanCodePresenter
+ * @author vparab
  * Takes the QR code
  * Calculates Score
  * Creates ScannableCode object

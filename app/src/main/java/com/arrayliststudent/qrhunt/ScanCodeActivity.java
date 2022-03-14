@@ -61,6 +61,7 @@ import java.util.concurrent.Executors;
 
 /**
  * ScanCodeActivity
+ * @author vparab
  * Uses camera and barcode scanner
  * Scans a barcode
  * Displays raw data in bottom left corner
