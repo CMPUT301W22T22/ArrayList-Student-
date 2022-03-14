@@ -7,7 +7,10 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -93,6 +96,7 @@ public class FirebaseData {
                 {
                     String userId = new String();
                     String name = new String();
+                    String contactInfo = new String();
                     ArrayList<ScannableCode> userCodeList;
                     Map<String,Object> user = doc.getData();
                     boolean success = false;
@@ -110,19 +114,22 @@ public class FirebaseData {
                             name = (String) pair.getValue();
                             success = true;
                         }
+                        if (pair.getKey().equals("contactInfo")){
+                            System.out.println((String) pair.getValue());
+                            contactInfo = (String) pair.getValue();
+                            success = true;
+                        }
 //                        if (pair.getKey() == "userCodeList") {
 //                            userCodeList = new ArrayList<ScannableCode>(pair.getValue());
 //                        }
                     }
                     if(success) {
-                        userDataList.put(userId, new User(userId, name));
+                        userDataList.put(userId, new User(userId, name, contactInfo));
                         Log.d(TAG, "User " + userId + " downloaded");
                     }
-
                 }
             }
         });
-
         return userDataList;
     }
 }

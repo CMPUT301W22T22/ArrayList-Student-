@@ -1,6 +1,8 @@
 package com.arrayliststudent.qrhunt;
 
 
+import android.provider.Settings;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -71,6 +73,15 @@ public class UserDataModel extends Observable {
      */
     public HashMap<String, User> getUserList() {
         return userList;
+    }
+
+    public void editUser(User user,User user_remove){
+        database.removerUserData(user_remove);
+        database.addUserData(user);
+    }
+
+    public void removeUser(User user){
+        database.removerUserData(user);
     }
 
     /**
