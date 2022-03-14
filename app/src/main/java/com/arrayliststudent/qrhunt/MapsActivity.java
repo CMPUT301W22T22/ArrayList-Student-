@@ -45,6 +45,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public GoogleMap mMap;
+    public float[][] codeList;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
