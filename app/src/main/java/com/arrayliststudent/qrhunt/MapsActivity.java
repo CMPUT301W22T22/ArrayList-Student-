@@ -52,6 +52,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LatLng deviceLocation;
 
     private boolean locationPermissionGranted = false;
+    public float[][] codeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,14 +155,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     /**
-     * Move Camera to device current location
+     * Move Camera to device current location, add all markers to the map
      * @param latLng
      * @param zoom
      */
     private void addMarker(LatLng latLng, float zoom){
         if(locationPermissionGranted){
             Log.d(TAG,"Adding Marker to: latitude: " + latLng.latitude + ", longitude: " + latLng.longitude);
-            mMap.addMarker(new MarkerOptions().position(deviceLocation).title("Marker"));
+            //mMap.addMarker(new MarkerOptions().position(deviceLocation).title("Marker"));
+            /*add all code markers to the map at once*/
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(deviceLocation,15f));
         }
 
