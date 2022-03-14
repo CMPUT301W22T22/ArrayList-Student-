@@ -1,3 +1,9 @@
+/*
+* This Activity is used to show users their data,
+* and allow users to modify and delete their data.
+* At the same time, users can jump to other Activity to view their QRCode.
+* */
+
 package com.arrayliststudent.qrhunt;
 
 import androidx.annotation.Nullable;
@@ -23,7 +29,8 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-public class UserProfileActivity extends AppCompatActivity implements RemoveProfileFragment.OnFragmentInteractionListener, EditProfileFragment.OnFragmentInteractionListener , Observer {
+public class UserProfileActivity extends AppCompatActivity implements RemoveProfileFragment.OnFragmentInteractionListener,
+        EditProfileFragment.OnFragmentInteractionListener , Observer {
 
     private User user;
     private TextView userName;
@@ -32,6 +39,13 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
     private UserProfilePresenter userProfilePresenter;
     private FirebaseFirestore db;
 
+    /**
+     * The onCreate() method instantiates the UserProfileActivity class
+     * Initialize user's data and read user's data from firebase
+     * When the data in firebase changes, the user's data also changes synchronously
+     * @param savedInstanceState
+     * Bundle saved from previous session.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,18 +123,38 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
 
     }
 
+    /**
+     * Onclick for EditButton
+     * @param view
+     * View that button need.
+     */
     public void editButton(View view){
         new EditProfileFragment(user).show(getSupportFragmentManager(),"EDIT");
     }
 
+    /**
+     * Onclick for CodeListButton
+     * @param view
+     * View that button need.
+     */
     public void CodeList(View view){
 
     }
 
+    /**
+     * Onclick for RemoveButton
+     * @param view
+     * View that button need.
+     */
     public void RemoveProfile(View view){
         new RemoveProfileFragment().show(getSupportFragmentManager(),"Try_Remove");
     }
 
+
+    /**
+     * Onclick for RemoveOK
+     * Remove User Profile
+     */
     @Override
     public void onRemoveOKPressed() {
 
@@ -130,6 +164,12 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
 
     }
 
+
+    /**
+     * Onclick for EditOKButton
+     * @param user
+     * user that changed.
+     */
     @Override
     public void onEditOKPressed(User user) {
         //this.user = user;
@@ -139,6 +179,11 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
         this.user = user;
     }
 
+    /**
+     * Onclick for EditButton
+     * @param observable, o
+     * update data
+     */
     @Override
     public void update(Observable observable, Object o) {
         UserDataModel model = UserDataModel.getInstance();

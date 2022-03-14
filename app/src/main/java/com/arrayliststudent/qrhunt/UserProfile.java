@@ -1,3 +1,9 @@
+/*
+*
+* terminated! Used to store user data
+*
+* */
+
 package com.arrayliststudent.qrhunt;
 
 public class UserProfile {
