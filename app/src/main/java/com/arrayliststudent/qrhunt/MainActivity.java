@@ -20,7 +20,7 @@ import java.util.Observer;
 public class MainActivity extends AppCompatActivity {
 
     MAuthenticator auth;
-    MainPresenter presenter;
+    //MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_console);
         /*if(auth.login(Settings.Secure.ANDROID_ID)) {
         }*/
-        //Intent intent = new Intent(this,ConsoleActivity.class);
-        //startActivity(intent);
-    }
-
-    public void OnScanClicked(View view){
-        Intent intent = new Intent(this,ScanCodeActivity.class);
-        startActivity(intent);
-    }
-
-    public void OnMapClicked(View view){
-        Intent intent = new Intent(this,MapsActivity.class);
+        Intent intent = new Intent(this,ConsoleActivity.class);
         startActivity(intent);
     }
 

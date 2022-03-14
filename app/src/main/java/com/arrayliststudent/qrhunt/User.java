@@ -4,13 +4,15 @@ import java.util.ArrayList;
 
 public class User {
 
-    private Integer userID;
+    private String userId;
     private String name;
 
     ArrayList<ScannableCode> userCodeList;
 
-    public User(int id, String name) {
-        this.userID = id;
+
+
+    public User(String androidId, String name) {
+        this.userId = androidId;
         this.name = name;
         this.userCodeList = new ArrayList<>();
     }
@@ -26,7 +28,7 @@ public class User {
         boolean result = false;
         if (obj instanceof User) {
             User s = (User)obj;
-            result = this.userID.equals(s.userID);
+            result = this.userId.equals(s.userId);
         }
         return result;
     }
@@ -34,7 +36,7 @@ public class User {
     // Use the Integer hashCode() from User.userID
     @Override
     public int hashCode() {
-        return this.userID.hashCode();
+        return this.userId.hashCode();
     }
 
     public String getName() {
@@ -51,5 +53,9 @@ public class User {
 
     public int getNumCodes() {
         return userCodeList.size();
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }

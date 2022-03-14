@@ -1,5 +1,11 @@
 package com.arrayliststudent.qrhunt;
 
+/**
+ * ScanCodePresenter
+ * Takes the QR code
+ * Calculates Score (Temp. formula being used)
+ * Creates ScanmableCode object
+ */
 public class ScanCodePresenter {
 
     public static int calculateScore(byte[] rawValue){

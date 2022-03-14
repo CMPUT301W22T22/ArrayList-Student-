@@ -10,6 +10,7 @@ import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.Image;
 import android.media.ToneGenerator;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Size;
@@ -22,10 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageCapture;
+import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
@@ -50,30 +53,40 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * ScanCodeActivity
+ * Uses camera and barcode scanner
+ * Scans a barcode
+ * Displays raw data in bottom left corner
+ * Takes Picture when button is pressed
+ */
 public class ScanCodeActivity extends AppCompatActivity {
     private ListenableFuture cameraProviderFuture;
     private ExecutorService cameraExecutor;
     private PreviewView cameraView;
     private MyImageAnalyzer analyzer;
     private TextView showData;
+    private Button takePicture;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_code);
         showData = findViewById(R.id.display_data);
+        takePicture = findViewById(R.id.take_Picture);
 
         cameraView = findViewById(R.id.camerapreview);
         this.getWindow().setFlags(1024, 1024);
 
         cameraExecutor = Executors.newSingleThreadExecutor();
         cameraProviderFuture =  ProcessCameraProvider.getInstance(this);
-        analyzer = new MyImageAnalyzer(getSupportFragmentManager());
+        analyzer = new MyImageAnalyzer();
 
         cameraProviderFuture.addListener(new Runnable() {
             @Override
@@ -127,16 +140,46 @@ public class ScanCodeActivity extends AppCompatActivity {
         processCameraProvider.unbindAll();
         processCameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture, imageAnalysis);
 
+        takePicture.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.P)
+            @Override
+            public void onClick(View view) {
+                capturePhoto(imageCapture);
+            }
+        });
+
     }
 
-    public class MyImageAnalyzer implements ImageAnalysis.Analyzer {
-        private FragmentManager fragmentManager;
-        private bottom_dialog bd;
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    private void capturePhoto(ImageCapture imageCapture) {
 
-        public MyImageAnalyzer(FragmentManager fragmentManager) {
-            this.fragmentManager = fragmentManager;
-            bd = new bottom_dialog();
-        }
+        Date date = new Date();
+        String timestamp = String.valueOf(date.getTime());
+        String photoFilePath = getApplicationContext().getExternalCacheDir() + "/" + timestamp + ".jpg";
+
+        File photoFile = new File(photoFilePath);
+
+        imageCapture.takePicture(
+                new ImageCapture.OutputFileOptions.Builder(photoFile).build(),
+                ContextCompat.getMainExecutor(this),
+                new ImageCapture.OnImageSavedCallback() {
+                    @Override
+                    public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
+                        Toast.makeText(ScanCodeActivity.this, "Photo has been saved", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(@NonNull ImageCaptureException exception) {
+                        Toast.makeText(ScanCodeActivity.this, "Error Photo was not saved: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    /**
+     * MyImageAnalyzer
+     * Contains methods to perform various tasks for ScanCodeActivity
+     */
+    public class MyImageAnalyzer implements ImageAnalysis.Analyzer {
 
         @Override
         public void analyze(@NonNull ImageProxy image) {
@@ -192,7 +235,6 @@ public class ScanCodeActivity extends AppCompatActivity {
 
             }
         }
-
     }
 }
 
