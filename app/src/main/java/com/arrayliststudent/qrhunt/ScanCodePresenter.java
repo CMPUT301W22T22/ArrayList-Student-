@@ -3,17 +3,23 @@ package com.arrayliststudent.qrhunt;
 /**
  * ScanCodePresenter
  * Takes the QR code
- * Calculates Score (Temp. formula being used)
- * Creates ScanmableCode object
+ * Calculates Score
+ * Creates ScannableCode object
  */
 public class ScanCodePresenter {
 
     public static int calculateScore(byte[] rawValue){
-        int score = 0;
+        ScoreGenerator generate = new ScoreGenerator();
+
+        String hash = "";
 
         for(int i = 0; i < rawValue.length; i++){
-            score = score + rawValue[i];
+            hash = hash + rawValue[i];
         }
+
+        int score = generate.calculateScore(hash);
+        System.out.println(score);
+
         return score;
     }
 

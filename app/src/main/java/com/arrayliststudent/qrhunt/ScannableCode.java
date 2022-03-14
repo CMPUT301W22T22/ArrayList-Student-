@@ -1,5 +1,9 @@
 package com.arrayliststudent.qrhunt;
 
+/**
+ * ScannableCode
+ * contains the name and score of a qr code
+ */
 public class ScannableCode {
 
     String codeName;
