@@ -64,6 +64,7 @@ import java.util.concurrent.Executors;
  * Uses camera and barcode scanner
  * Scans a barcode
  * Displays raw data in bottom left corner
+ * Displays score in bottom right corner
  * Takes Picture when button is pressed
  */
 public class ScanCodeActivity extends AppCompatActivity {
@@ -72,6 +73,7 @@ public class ScanCodeActivity extends AppCompatActivity {
     private PreviewView cameraView;
     private MyImageAnalyzer analyzer;
     private TextView showData;
+    private TextView showScore;
     private Button takePicture;
 
     @Override
@@ -79,6 +81,7 @@ public class ScanCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_code);
         showData = findViewById(R.id.display_data);
+        showScore = findViewById(R.id.display_score);
         takePicture = findViewById(R.id.take_Picture);
 
         cameraView = findViewById(R.id.camerapreview);
@@ -153,9 +156,14 @@ public class ScanCodeActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.P)
     private void capturePhoto(ImageCapture imageCapture) {
 
+        File photoDir = new File ("/mnt/sdcard/Pictures/QRHUNT");
+        if (!photoDir.exists()){
+            photoDir.mkdir();
+        }
         Date date = new Date();
         String timestamp = String.valueOf(date.getTime());
-        String photoFilePath = getApplicationContext().getExternalCacheDir() + "/" + timestamp + ".jpg";
+        //String photoFilePath = getApplicationContext().getExternalCacheDir() + "/" + timestamp + ".jpg";
+        String photoFilePath = photoDir + "/" + timestamp + ".jpg";
 
         File photoFile = new File(photoFilePath);
 
@@ -231,6 +239,7 @@ public class ScanCodeActivity extends AppCompatActivity {
                 showData.setText(rawValue);
 
                int score = ScanCodePresenter.calculateScore(barcode.getRawBytes());
+               showScore.setText(score + " points");
                ScanCodePresenter.createScannableCode(barcode.getDisplayValue(), score);
 
             }
