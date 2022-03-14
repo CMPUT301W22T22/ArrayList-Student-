@@ -51,7 +51,7 @@
             android:name=".MapsActivity"/>
 
         <activity android:name=".ScanCodeActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".ConsoleActivity"/>
 
         <activity
             android:name=".ConsoleActivity" />
