@@ -31,7 +31,7 @@ import java.util.Map;
  *
  * @author jmgraham
  * @see User
-**/
+ **/
 public class FirebaseData {
     final String TAG = "dunno what to put here";
     FirebaseFirestore database;

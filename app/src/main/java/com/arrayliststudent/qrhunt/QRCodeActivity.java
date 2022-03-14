@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * The QRCodeActivity displays the information for a given ScannableCode.
+ */
 public class QRCodeActivity extends AppCompatActivity implements Observer {
     QRPresenter presenter;
     CustomAdapter nameTextAdapter;
@@ -23,6 +26,11 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
 
     ImageView commentsImageView;
 
+    /**
+     * Click listener for comments button. This starts the CommentsActivity.
+     * @param v
+     * View object that was clicked, in this case the Comments ImageView.
+     */
     private View.OnClickListener onCommentsClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -36,6 +44,12 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
 
     }
 
+    /**
+     * The onCreate() method instantiates the QRPresenter class and sets the click listeners for
+     *  all views for this Activity.
+     * @param savedInstanceState
+     * Bundle saved from previous session.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

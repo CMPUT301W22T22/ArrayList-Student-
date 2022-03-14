@@ -22,6 +22,8 @@ import java.util.ArrayList;
  * @see ScannableCode
  * @see CodeListActivity
  */
+
+
 public class CodeListAdapter extends CustomRVAdapter{
     RVClickListener listener;
 

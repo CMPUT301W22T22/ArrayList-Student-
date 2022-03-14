@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * The ConsoleActivity is the main control panel for the application. From here the user can choose
+ * to scan a new code, view their existing codes, see the highest ranked players, search for users
+ * or nearby codes, open their user profile, or open the map. The user name of the current user
+ * along with their total score and number of codes is also displayed at the top of the screen.
+ */
 public class ConsoleActivity extends AppCompatActivity implements Observer {
 
     ConsolePresenter presenter;
@@ -30,7 +37,15 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
     ImageView ranksImageView;
     ImageView QRImageView;
     ImageView CameraImageView;
+    CardView scanCodeView;
 
+    /**
+     * Click listener for QR code list button. This should open the list of QR codes that the
+     * user has previously obtained. In this release, the activity showing the information of
+     * a single QR code is started.
+     * @param v
+     * View object that was clicked, in this case the QR Code ImageView.
+     */
     private View.OnClickListener onQRClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -39,14 +54,26 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    /**
+     * Click listener for the Camera button. This should opens the QR scanner so the user can
+     * take record a new QR code.
+     * @param v
+     * View object that was clicked, in this case the Camera ImageView.
+     */
     private View.OnClickListener onCameraClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
-//            startActivity(intent);
+        Intent intent = new Intent(getApplicationContext(), ScanCodeActivity.class);
+        startActivity(intent);
         }
     };
 
+    /**
+     * Click listener for the Camera button. This opens the Map so the user can
+     * view their location on the map and nearby QR codes.
+     * @param v
+     * View object that was clicked, in this case the Map ImageView.
+     */
     private View.OnClickListener onMapClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -55,6 +82,12 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    /**
+     * Click listener for the User Profile button. This opens the User Profile for the current
+     * user.
+     * @param v
+     * View object that was clicked, in this case the User Profile ImageView.
+     */
     private View.OnClickListener onUserClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -63,6 +96,12 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    /**
+     * Click listener for the Search button. This opens the SearchActivity. To be completed
+     * on next release.
+     * @param v
+     * View object that was clicked, in this case the Search ImageView.
+     */
     private View.OnClickListener onSearchClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -71,6 +110,12 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    /**
+     * Click listener for the Search button. This opens the HighScoreListActivity which displays
+     * the ranks and high scores of users. To be completed on next release.
+     * @param v
+     * View object that was clicked, in this case the Rank ImageView.
+     */
     private View.OnClickListener onRankClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -79,6 +124,14 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    /**
+     * The update method is called from the Observable class UserDataModel upon notifyObservers().
+     * The intended purpose is to refresh any views with data from the UserDataModel.
+     * @param o
+     * The Observable class which called update(), which is the UserDataModel.
+     * @param arg
+     * Any object passed from the Observable, not used in this case.
+     */
     @Override
     public void update(Observable o, Object arg) {
         UserDataModel model = UserDataModel.getInstance();
@@ -88,6 +141,12 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         numCodesTextView.setText(currentUser.getNumCodes());
     }
 
+    /**
+     * The onCreate() method constructs the ConsolePresenter, and sets the click listeners for all
+     *  views for this Activity.
+     * @param savedInstanceState
+     * Bundle saved from previous session.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,8 +168,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         QRImageView.setOnClickListener(onQRClicked);
         CameraImageView = findViewById(R.id.console_img_camera);
         CameraImageView.setOnClickListener(onCameraClicked);
-
+        scanCodeView = findViewById(R.id.console_card_scancode);
+        scanCodeView.setOnClickListener(onCameraClicked);
     }
-
-
 }
