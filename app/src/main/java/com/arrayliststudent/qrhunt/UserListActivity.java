@@ -16,7 +16,7 @@ public class UserListActivity extends AppCompatActivity {
     private TextInputEditText searchbar;
 
     private CustomRVAdapter userListAdapter;
-    private HashMap<Integer, User> userDataList;
+    private HashMap<String, User> userDataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +27,11 @@ public class UserListActivity extends AppCompatActivity {
         userList = findViewById(R.id.user_list_view);
         totalUserBase = findViewById(R.id.total_userbase_view);
         searchbar = findViewById(R.id.search_bar);
-
-
-        userListAdapter = new UserListAdapter();
-        totalUserBase.setText(userDataList.size());
-        userList.setAdapter(UserListAdapter);
+//
+//
+//        userListAdapter = new UserListAdapter();
+//        totalUserBase.setText(userDataList.size());
+//        userList.setAdapter(UserListAdapter);
     }
 
     /*

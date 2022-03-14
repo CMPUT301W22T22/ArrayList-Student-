@@ -11,10 +11,13 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Firebase controller; responsible for getting and setting Firebase data
@@ -28,12 +31,16 @@ import java.util.HashMap;
 **/
 public class FirebaseData {
     final String TAG = "dunno what to put here";
-    final FirebaseFirestore database = FirebaseFirestore.getInstance();
-    final CollectionReference collectionReference = database.collection("Users");
+    FirebaseFirestore database;
+    CollectionReference collectionReference;
 
-    public FirebaseData() { }
+    public FirebaseData() {
+        database = FirebaseFirestore.getInstance();
+        collectionReference = database.collection("Users");
+    }
 
     public void addUserData(User user){//adds or overwrites User data on the firebase
+
         collectionReference
                 .document(user.getUserId())
                 .set(user)
@@ -81,13 +88,37 @@ public class FirebaseData {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
 
+
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
-                    String userID = doc.getData().getUserId();
-                    User userData = (User) doc.getData();
+                    String userId = new String();
+                    String name = new String();
+                    ArrayList<ScannableCode> userCodeList;
+                    Map<String,Object> user = doc.getData();
+                    boolean success = false;
+                    for (Map.Entry<String, Object> pair : user.entrySet()) {
 
-                    userDataList.put(userID, userData); // Adding the cities and provinces from FireStore
-                    Log.d(TAG, "User " + userID + " downloaded");
+                        String key = pair.getKey();
+
+                        if (pair.getKey().equals("userId")) {
+                            System.out.println((String) pair.getValue());
+                            userId = (String) pair.getValue();
+                            success = true;
+                        }
+                        if (pair.getKey().equals("name")) {
+                            System.out.println((String) pair.getValue());
+                            name = (String) pair.getValue();
+                            success = true;
+                        }
+//                        if (pair.getKey() == "userCodeList") {
+//                            userCodeList = new ArrayList<ScannableCode>(pair.getValue());
+//                        }
+                    }
+                    if(success) {
+                        userDataList.put(userId, new User(userId, name));
+                        Log.d(TAG, "User " + userId + " downloaded");
+                    }
+
                 }
             }
         });
