@@ -97,7 +97,6 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         numCodesTextView = findViewById(R.id.console_text_numcodes);
         presenter = new ConsolePresenter();
         presenter.setUpObserver(this);
-
         mapImageView = findViewById(R.id.console_img_map);
         mapImageView.setOnClickListener(onMapClicked);
         userImageView = findViewById(R.id.console_img_user);

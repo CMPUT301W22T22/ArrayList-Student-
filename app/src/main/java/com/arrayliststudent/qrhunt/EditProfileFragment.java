@@ -17,12 +17,12 @@ import android.widget.EditText;
 
 public class EditProfileFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
-    private UserProfile userProfile;
+    private User user;
     private EditText name_edit;
     private EditText contact_edit;
 
     public interface OnFragmentInteractionListener{
-        void onEditOKPressed(UserProfile userProfile);
+        void onEditOKPressed(User user);
     }
     @Override
     public void onAttach(Context context){
@@ -44,8 +44,8 @@ public class EditProfileFragment extends DialogFragment {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_edit_profile,null);
         name_edit = view.findViewById(R.id.UserName_edit);
         contact_edit = view.findViewById(R.id.content_edit);
-        name_edit.setText(userProfile.getUserName());
-        contact_edit.setText(String.valueOf(userProfile.getContactInfo()));
+        name_edit.setText(user.getName());
+        contact_edit.setText(user.getContactInfo());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
@@ -55,14 +55,14 @@ public class EditProfileFragment extends DialogFragment {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        userProfile.setUserName(name_edit.getText().toString());
-                        userProfile.setContactInfo(Integer.valueOf(contact_edit.getText().toString()));
-                        listener.onEditOKPressed(userProfile);
+                        user.setName(name_edit.getText().toString());
+                        user.setContactInfo(contact_edit.getText().toString());
+                        listener.onEditOKPressed(user);
                     }
                 }).create();
 
     }
-    public EditProfileFragment(UserProfile userProfile){
-        this.userProfile = userProfile;
+    public EditProfileFragment(User user){
+        this.user = user;
     }
 }
