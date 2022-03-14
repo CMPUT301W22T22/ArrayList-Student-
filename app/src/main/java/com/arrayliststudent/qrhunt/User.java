@@ -1,8 +1,9 @@
 package com.arrayliststudent.qrhunt;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class User {
+public class User implements Comparable{
 
     private Integer userID;
 
@@ -29,11 +30,38 @@ public class User {
         return result;
     }
 
+    public String getUserName(){
+        return "moogly";
+    }
+
     // Use the Integer hashCode() from User.userID
     @Override
     public int hashCode() {
         return this.userID.hashCode();
     }
 
+    /**
+     * Follows standard alphabetical sorting with usernames
+     * @param user
+     * @return
+     * An int representing the difference
+     */
+    @Override
+    public int compareTo(Object user) {
+        if(user instanceof User){
+            String a = this.getUserName();
+            String b = ((User) user).getUserName();
+            return a.compareTo(b);
+        }
+        return 0;
+    }
 
+    public static Comparator<User> reverseAlphabeticalComparator
+            = new Comparator<User>() {
+
+        @Override
+        public int compare(User a, User b) {
+            return -(a.compareTo(b));
+        }
+    };
 }

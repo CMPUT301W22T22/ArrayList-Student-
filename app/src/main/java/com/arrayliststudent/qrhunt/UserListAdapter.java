@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -25,10 +26,11 @@ import java.util.HashMap;
  */
 public class UserListAdapter extends CustomRVAdapter{
     private RVClickListener listener;
-    private HashMap<Integer, User> userDataList;
+    private ArrayList<User> userDataList;
 
-    public UserListAdapter(RVClickListener listener, HashMap<Integer, User> userDataList){
+    public UserListAdapter(RVClickListener listener, ArrayList<User> userDataList){
         super(listener);
+
         this.userDataList = userDataList;
     }
 
@@ -46,7 +48,7 @@ public class UserListAdapter extends CustomRVAdapter{
         UserDataModel model = UserDataModel.getInstance();
         ArrayList<User> users = (ArrayList<User>) model.getUsers();
 
-        holder.getUsername().setText(users.get(position).getUsername());
+        holder.getUsername().setText(users.get(position).getUserName());
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null)

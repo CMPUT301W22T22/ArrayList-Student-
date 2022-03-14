@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sort"
+        android:title="Sort">
+        <!-- "file" submenu -->
+        <menu>
+            <item android:id="@+id/sort_a2z"
+                android:title="Alphabetically" />
+            <item android:id="@+id/sort_z2a"
+                android:title="Reverse" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/delete"
+        android:title="Delete" />
+</menu>
