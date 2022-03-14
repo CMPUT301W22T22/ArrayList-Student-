@@ -6,6 +6,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+/**
+ * ScannableCodeTest
+ * This is a test of the ScannableCode class
+ */
 public class ScannableCodeTest {
     private ScannableCode code;
 
