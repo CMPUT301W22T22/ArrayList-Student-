@@ -65,9 +65,13 @@ public class UserDataModel extends Observable {
         return userList;
     }
 
-    public void editUser(User user){
-        database.removerUserData(getCurrentUser());
+    public void editUser(User user,User user_remove){
+        database.removerUserData(user_remove);
         database.addUserData(user);
+    }
+
+    public void removeUser(User user){
+        database.removerUserData(user);
     }
 
     public void newUser(String userID, String userName) {

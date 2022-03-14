@@ -36,10 +36,15 @@ public class UserProfilePresenter {
         model.newUser(androidId, name);
     }
 
-    public void editUser(User user){
+    public void removeUser(User user){
+        UserDataModel model = UserDataModel.getInstance();
+        model.removeUser(user);
+    }
+
+    public void editUser(User user,User user_remove){
         UserDataModel model = UserDataModel.getInstance();
         model.fetchData();
-        model.editUser(user);
+        model.editUser(user,user_remove);
     }
 
 }
