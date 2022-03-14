@@ -58,6 +58,8 @@
         <activity
             android:name=".QRCodeActivity" />
 
+        <activity android:name=".CommentsActivity"/>
+
     </application>
 
 </manifest>
