@@ -26,19 +26,17 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
         userProfilePresenter = new UserProfilePresenter();
         Intent intent = getIntent();
         setContentView(R.layout.activity_user_profile);
-        UserDataModel model = UserDataModel.getInstance();
-        //model.fetchData();
-        HashMap<String, User> userHashMap = model.getUserList();
-        //String android_ID = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                //Settings.Secure.ANDROID_ID);
-        user = userHashMap.get(Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID));
+        String android_ID = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        //user = firebaseData.getUser(android_ID);
+        user =  userProfilePresenter.getUsers().get(android_ID);
+        //user = new User(android_ID,"name");
         userName = findViewById(R.id.UserName);
         contactInfo = findViewById(R.id.ContactInfo);
         score = findViewById(R.id.ContactInfo);
         userName.setText(user.getName());
         contactInfo.setText(user.getContactInfo());
-        score.setText(String.valueOf(user.getTotalScore()));
+        score.setText(user.getTotalScore());
     }
 
     public void editButton(View view){
