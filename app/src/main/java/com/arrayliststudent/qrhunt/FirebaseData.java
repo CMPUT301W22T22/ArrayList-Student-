@@ -7,20 +7,14 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Firebase controller; responsible for getting and setting Firebase data
@@ -34,8 +28,8 @@ import java.util.Map;
  **/
 public class FirebaseData {
     final String TAG = "dunno what to put here";
-    FirebaseFirestore database;
-    CollectionReference collectionReference;
+    final FirebaseFirestore database = FirebaseFirestore.getInstance();
+    final CollectionReference collectionReference = database.collection("Users");
 
     public FirebaseData() {
         database = FirebaseFirestore.getInstance();
@@ -90,7 +84,6 @@ public class FirebaseData {
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
-
 
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {

@@ -1,12 +1,13 @@
 package com.arrayliststudent.qrhunt;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * This class represents a User object including their user name, user id, and list of previously
  * scanned ScannableCodes.
  */
-public class User {
+public class User implements Comparable{
 
     private String userId;
     private String name;
@@ -32,6 +33,7 @@ public class User {
     }
 
     // equals() and hashCode implementations are necessary for use by Hash Map
+    // To compare if two Users are equal, use the String equals() method to compare the Song.title String
     @Override
     public boolean equals(Object obj) {
         boolean result = false;
@@ -100,4 +102,29 @@ public class User {
     public void setContactInfo(String contactInfo) {
         this.contactInfo = contactInfo;
     }
+
+    /**
+     * Follows standard alphabetical sorting with usernames
+     * @param user
+     * @return
+     * An int representing the difference
+     */
+    @Override
+    public int compareTo(Object user) {
+        if(user instanceof User){
+            String a = this.getUserName();
+            String b = ((User) user).getUserName();
+            return a.compareTo(b);
+        }
+        return 0;
+    }
+
+    public static Comparator<User> reverseAlphabeticalComparator
+            = new Comparator<User>() {
+
+        @Override
+        public int compare(User a, User b) {
+            return -(a.compareTo(b));
+        }
+    };
 }

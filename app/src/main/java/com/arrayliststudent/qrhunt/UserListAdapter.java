@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * Custom list for users
@@ -27,6 +29,20 @@ public class UserListAdapter extends CustomRVAdapter{
 
     public UserListAdapter(RVClickListener listener){
         super(listener);
+    private ArrayList<User> userDataList;
+
+    public UserListAdapter(RVClickListener listener, ArrayList<User> userDataList){
+        super(listener);
+
+        this.userDataList = userDataList;
+    }
+
+    @NonNull
+    @Override
+    public CustomRVAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.user_recycler_content, parent, false);
+        return new CustomRVAdapter.ViewHolder(view);
     }
 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -35,7 +51,7 @@ public class UserListAdapter extends CustomRVAdapter{
         UserDataModel model = UserDataModel.getInstance();
         ArrayList<User> users = (ArrayList<User>) model.getUsers();
 
-        //holder.getUsername().setText(users.get(position).getUsername());
+        holder.getUsername().setText(users.get(position).getUserName());
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null)
