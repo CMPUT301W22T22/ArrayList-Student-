@@ -13,7 +13,6 @@ public class UserDataModel extends Observable {
 
     private UserDataModel() {
         database = new FirebaseData();
-        userList = database.fetchUserData();
     }
 
     private static final UserDataModel userDataModel = new UserDataModel();

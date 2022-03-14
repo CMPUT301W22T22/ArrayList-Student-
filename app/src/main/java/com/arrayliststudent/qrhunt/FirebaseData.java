@@ -95,23 +95,30 @@ public class FirebaseData {
                     String name = new String();
                     ArrayList<ScannableCode> userCodeList;
                     Map<String,Object> user = doc.getData();
+                    boolean success = false;
                     for (Map.Entry<String, Object> pair : user.entrySet()) {
-//                        System.out.println(String.format("Key (name) is: %s, Value (age) is : %s", pair.getKey(), pair.getValue()));
-//                        System.out.println("wtf is going on");
+
                         String key = pair.getKey();
-                        if (pair.getKey() == "userId") {
+
+                        if (pair.getKey().equals("userId")) {
+                            System.out.println((String) pair.getValue());
                             userId = (String) pair.getValue();
+                            success = true;
                         }
-                        if (pair.getKey() == "name") {
+                        if (pair.getKey().equals("name")) {
+                            System.out.println((String) pair.getValue());
                             name = (String) pair.getValue();
+                            success = true;
                         }
 //                        if (pair.getKey() == "userCodeList") {
 //                            userCodeList = new ArrayList<ScannableCode>(pair.getValue());
 //                        }
-
                     }
-                    userDataList.put(userId, new User(userId, name));
-                    Log.d(TAG, "User " + userId + " downloaded");
+                    if(success) {
+                        userDataList.put(userId, new User(userId, name));
+                        Log.d(TAG, "User " + userId + " downloaded");
+                    }
+
                 }
             }
         });

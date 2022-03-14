@@ -33,6 +33,9 @@ public class MAuthenticator {
     public boolean login(String androidId) {
         UserDataModel model = UserDataModel.getInstance();
         HashMap<String, User> userList = model.getUserList();
+        for (Map.Entry<String, User> pair : userList.entrySet()) {
+            System.out.println(pair.getKey() + " " );
+        }
         if (userList.containsKey(androidId)) {
             System.out.println("user id " + androidId + " found");
             this.android_id = androidId;
