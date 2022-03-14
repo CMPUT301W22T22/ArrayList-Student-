@@ -4,6 +4,11 @@ import java.util.Observer;
 
 public class MainPresenter {
 
+    MainPresenter() {
+        UserDataModel model = UserDataModel.getInstance();
+        model.fetchData();
+    }
+
     public void addNewCode(ScannableCode code) {
         UserDataModel model = UserDataModel.getInstance();
         model.addCode(code);
@@ -19,8 +24,8 @@ public class MainPresenter {
         model.deleteObserver(arg);
     }
 
-    public void newUser(String name, String androidId) {
+    public void newUser( String androidId, String name) {
         UserDataModel model = UserDataModel.getInstance();
-        model.newUser(name, androidId);
+        model.newUser(androidId, name);
     }
 }

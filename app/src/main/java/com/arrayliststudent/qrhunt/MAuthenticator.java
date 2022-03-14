@@ -31,28 +31,16 @@ public class MAuthenticator {
     }
 
     public boolean login(String androidId) {
-        this.android_id = androidId;
-        MAuthenticator.successFlag = false;
-        db.collection("Users")
-                .document(androidId)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot.exists()) {
-                            Log.d("FireStore", "Document exists!");
-                            this.document = documentSnapshot;
-                            MAuthenticator.successFlag = true;
-                        } else {
-                            MAuthenticator.successFlag = false;
-                            Log.d("FireStore", "Document does not exists!");
-                        }
-                    } else {
-                        MAuthenticator.successFlag = false;
-                        Log.d("FireStore", "Failed with: ", task.getException());
-                    }
-                });
-        return MAuthenticator.successFlag;
+        UserDataModel model = UserDataModel.getInstance();
+        HashMap<String, User> userList = model.getUserList();
+        if (userList.containsKey(androidId)) {
+            System.out.println("user id " + androidId + " found");
+            this.android_id = androidId;
+            return true;
+        } else {
+            System.out.println("user id " + androidId + " not found");
+            return false;
+        }
 
     }
 

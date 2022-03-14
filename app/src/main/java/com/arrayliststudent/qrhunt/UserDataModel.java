@@ -9,15 +9,16 @@ import java.util.Observable;
 public class UserDataModel extends Observable {
 
     FirebaseData database;
-    HashMap<Integer, User> userList;
+    HashMap<String, User> userList;
 
     private UserDataModel() {
+        database = new FirebaseData();
         userList = database.fetchUserData();
     }
 
     private static final UserDataModel userDataModel = new UserDataModel();
 
-    private Integer userID;
+    private String userID;
 
     public static UserDataModel getInstance() {
         return userDataModel;
@@ -35,16 +36,6 @@ public class UserDataModel extends Observable {
         notifyObservers();
     }
 
-    public void setUserID(Integer userID) {
-        this.userID = userID;
-        //userList = new HashMap<>();
-
-        if (!userList.containsKey(userID)) {
-            User newUser = new User(userID, "name");
-            userList.put(userID, newUser);
-            database.addUserData(newUser);
-        }
-    }
 
     public User getCurrentUser() {
         return userList.get(userID);
@@ -54,12 +45,31 @@ public class UserDataModel extends Observable {
         return userList.values();
     }
 
-    public void newUser(Integer userID, String userName) {
-        this.userID = userID;
-        userList = new HashMap<>();
-        if (!userList.containsKey(userID)) {
-            userList.put(userID, new User(userID, userName));
+    public boolean checkUserID(String userID) {
+        System.out.println("stuff happened");
+
+        userList = database.fetchUserData();
+
+        if (userList.containsKey(userID)) {
+            System.out.println("user id " + userID + " found");
+            this.userID = userID;
+            return true;
+        } else {
+            System.out.println("user id " + userID + " not found");
+            return false;
         }
     }
 
+    public HashMap<String, User> getUserList() {
+        return userList;
+    }
+
+    public void newUser(String userID, String userName) {
+        database.addUserData(new User(userID, userName));
+
+    }
+
+    public void fetchData() {
+        userList = database.fetchUserData();
+    }
 }
