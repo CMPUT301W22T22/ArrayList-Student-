@@ -20,15 +20,15 @@ When a player scans a QR code they will take a photo of what or where the QR cod
 Players can see on a map local QR codes that other players have scanned.
 
 # Attribution of image assets
-ConsoleActivity:
-<a href="https://www.flaticon.com/free-icons/camera" title="camera icons">Camera icons created by Freepik - Flaticon</a>
-QR code image - https://pngimg.com/image/71955
-<a href="https://www.flaticon.com/free-icons/rank" title="rank icons">Rank icons created by surang - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/search" title="search icons">Search icons created by Freepik - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/map" title="map icons">Map icons created by Freepik - Flaticon</a>
+ConsoleActivity: </br>
+<a href="https://www.flaticon.com/free-icons/camera" title="camera icons">Camera icons created by Freepik - Flaticon</a> </br>
+QR code image - https://pngimg.com/image/71955 </br>
+<a href="https://www.flaticon.com/free-icons/rank" title="rank icons">Rank icons created by surang - Flaticon</a> </br>
+<a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a> </br>
+<a href="https://www.flaticon.com/free-icons/search" title="search icons">Search icons created by Freepik - Flaticon</a> </br>
+<a href="https://www.flaticon.com/free-icons/map" title="map icons">Map icons created by Freepik - Flaticon</a> </br>
 
-QRCodeActivity:
-<a href="https://www.flaticon.com/free-icons/rubbish" title="rubbish icons">Rubbish icons created by IYAHICON - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/customer" title="customer icons">Customer icons created by Freepik - Flaticon</a>
-<a href="https://www.flaticon.com/free-icons/comment" title="comment icons">Comment icons created by Freepik - Flaticon</a>
+QRCodeActivity: </br>
+<a href="https://www.flaticon.com/free-icons/rubbish" title="rubbish icons">Rubbish icons created by IYAHICON - Flaticon</a> </br>
+<a href="https://www.flaticon.com/free-icons/customer" title="customer icons">Customer icons created by Freepik - Flaticon</a> </br>
+<a href="https://www.flaticon.com/free-icons/comment" title="comment icons">Comment icons created by Freepik - Flaticon</a> </br>
