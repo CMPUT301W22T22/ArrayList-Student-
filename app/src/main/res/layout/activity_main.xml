@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,19 +11,43 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/codelist_recycler"
+    <TextView
+        android:id="@+id/main_txt_register"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/main_edit_username"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:text="Please enter your user name"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        android:layout_marginTop="50dp">
+    </TextView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/codelist_btn_add"
+    <EditText
+        android:id="@+id/main_edit_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_edit_username"
+        app:layout_constraintBottom_toTopOf="@id/main_btn_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
         android:clickable="true"
         android:focusable="true"
-        app:srcCompat="@android:drawable/ic_input_add" />
-</FrameLayout>
+        android:layout_marginTop="50dp">
+    </EditText>
+
+    <Button
+        android:id="@+id/main_btn_confirm"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="Register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_edit_username"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="50dp">
+    </Button>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 

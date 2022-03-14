@@ -71,4 +71,5 @@ public class UserDataModel extends Observable {
     public void fetchData() {
         userList = database.fetchUserData();
     }
+
 }
