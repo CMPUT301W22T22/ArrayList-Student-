@@ -44,7 +44,7 @@ public class UserListActivity extends AppCompatActivity {
 
         userListAdapter = new UserListAdapter(new ListClickListener(), userDataList);
         System.out.println(userDataList.size());
-        totalUserBase.setText(userDataList.size());
+        totalUserBase.setText(/*userDataList.size()*/"hewwo");
         userList.setAdapter(userListAdapter);
 
         totalUserBase.setText(getTotalUserText(userDataList.size()));
