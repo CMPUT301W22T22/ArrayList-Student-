@@ -89,14 +89,29 @@ public class User {
         return userId;
     }
 
+    /**
+     * Getter for the ContactInfo
+     * @return contactInfo
+     * String representing the contactInfo of the user.
+     */
     public String getContactInfo() {
         return contactInfo;
     }
 
+    /**
+     * Setter for the userName
+     * @param name
+     * String representing the name of the user.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Setter for the userName
+     * @param contactInfo
+     * String representing the ContactInfo of the user.
+     */
     public void setContactInfo(String contactInfo) {
         this.contactInfo = contactInfo;
     }
