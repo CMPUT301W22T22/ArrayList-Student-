@@ -9,19 +9,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
+/**
+ * @author Kieran
+ *
+ * Comment activity class. Currently just does local, unsaved adding/viewing of comments for
+ * demonstration purposes... does not seem to pass comment from fragment to activity 3/13
+ *
+ * Launches fragment for adding comment.
+ *
+ * Known issue 3/13: The comment seems to be passed from the fragment to the activity but is not
+ * displayed. Liekly will be resolved upon database integration.
+ */
 public class CommentsActivity extends AppCompatActivity implements AddCommentFragment.OnFragmentInteractionListener{
 
     ListView commentView;
     ArrayList<Comment> comments;
     CommentAdapter commentAdapter;
-
-    private View.OnClickListener onACButtonClicked = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //launch add comment fragment
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +34,18 @@ public class CommentsActivity extends AppCompatActivity implements AddCommentFra
         commentView =findViewById(R.id.comment_list);
         //get list of comments
 
+        //placeholder comments variable until database is hooked up
+        comments = new ArrayList<Comment>();
         //create adapter
 
-        //commentAdapter = new CommentAdapter(this, comments);
+        commentAdapter = new CommentAdapter(this, comments);
 
         //tie view to adapter
 
-        //commentView.setAdapter(commentAdapter);
+        commentView.setAdapter(commentAdapter);
 
         //attach list to view
+
         //display list of comments
 
         final Button addCommentButton = findViewById(R.id.add_comment_butt);
@@ -50,5 +56,7 @@ public class CommentsActivity extends AppCompatActivity implements AddCommentFra
     @Override
     public void onCommentOkPressed(String comment) {
         //add to list of comments (need author)
+        commentAdapter.add(new Comment("author", comment));
     }
+
 }

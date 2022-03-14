@@ -12,6 +12,12 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * @author Kieran
+ *
+ * Fragment for adding a comment. Launched from comment activity and (currently) sends comment
+ * body to Comment activity.
+ */
 public class AddCommentFragment extends DialogFragment {
 
     private EditText addComment;

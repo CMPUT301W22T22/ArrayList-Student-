@@ -10,9 +10,14 @@ public class Comment {
     private String author;
     private String body;
 
-    public Comment(String author, String content) {
+    /**
+     * Comment constructor
+     * @param author The author of the comment (i.e the user)
+     * @param body The comment itself (the body of text that is the comment)
+     */
+    public Comment(String author, String body) {
         this.author = author;
-        this.body = content;
+        this.body = body;
     }
 
     public String getAuthor() {
