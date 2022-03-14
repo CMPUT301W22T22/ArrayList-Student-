@@ -39,6 +39,7 @@ public class MAuthenticator {
         if (userList.containsKey(androidId)) {
             System.out.println("user id " + androidId + " found");
             this.android_id = androidId;
+            model.setUserId(androidId);
             return true;
         } else {
             System.out.println("user id " + androidId + " not found");
