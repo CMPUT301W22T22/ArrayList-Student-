@@ -112,8 +112,8 @@ public class User implements Comparable{
     @Override
     public int compareTo(Object user) {
         if(user instanceof User){
-            String a = this.getUserName();
-            String b = ((User) user).getUserName();
+            String a = this.getName();
+            String b = ((User) user).getName();
             return a.compareTo(b);
         }
         return 0;

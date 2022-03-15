@@ -14,7 +14,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Firebase controller; responsible for getting and setting Firebase data
@@ -32,8 +34,6 @@ public class FirebaseData {
     final CollectionReference collectionReference = database.collection("Users");
 
     public FirebaseData() {
-        database = FirebaseFirestore.getInstance();
-        collectionReference = database.collection("Users");
     }
 
     public void addUserData(User user){//adds or overwrites User data on the firebase

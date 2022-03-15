@@ -30,9 +30,8 @@ public class UserListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
-        //userDataList = new ArrayList<>(UserDataModel.getInstance().userList.values());
-        userDataList = new ArrayList<>();
-        userDataList = populate(userDataList);
+        userDataList = new ArrayList<>(UserDataModel.getInstance().userList.values());
+        // = populate(userDataList);
 
         System.out.println("gdsgdsgds");
         Intent intent = new Intent();
@@ -49,10 +48,8 @@ public class UserListActivity extends AppCompatActivity {
         totalUserBase.setText(getTotalUserText(userDataList.size()));
     }
 
-    private ArrayList<User> populate(ArrayList<User> list){
-        list.add(new User(11));
-        list.add(new User(22));
-        list.add(new User(33));
+    private ArrayList<User> populate(){
+        ArrayList<User> list = new ArrayList<>();
 
         return list;
     }

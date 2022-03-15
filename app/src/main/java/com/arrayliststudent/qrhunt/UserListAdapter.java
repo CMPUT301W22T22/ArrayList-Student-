@@ -26,9 +26,6 @@ import java.util.HashMap;
  */
 public class UserListAdapter extends CustomRVAdapter{
     private RVClickListener listener;
-
-    public UserListAdapter(RVClickListener listener){
-        super(listener);
     private ArrayList<User> userDataList;
 
     public UserListAdapter(RVClickListener listener, ArrayList<User> userDataList){
@@ -51,7 +48,7 @@ public class UserListAdapter extends CustomRVAdapter{
         UserDataModel model = UserDataModel.getInstance();
         ArrayList<User> users = (ArrayList<User>) model.getUsers();
 
-        holder.getUsername().setText(users.get(position).getUserName());
+        holder.getUsername().setText(users.get(position).getName());
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null)
