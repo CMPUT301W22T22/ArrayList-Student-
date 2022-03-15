@@ -53,7 +53,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LatLng deviceLocation;
 
     private boolean locationPermissionGranted = false;
-    public float[][] codeList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -48,7 +48,8 @@
         <activity
             android:name=".HighScoreListActivity" />
         <activity
-            android:name=".MapsActivity"/>
+            android:name=".MapsActivity"
+            android:parentActivityName=".ConsoleActivity"/>
 
         <activity android:name=".ScanCodeActivity"
             android:parentActivityName=".ConsoleActivity"/>
