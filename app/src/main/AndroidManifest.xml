@@ -57,7 +57,8 @@
             android:name=".ConsoleActivity" />
         <activity
             android:name=".QRCodeActivity" />
-
+        <activity
+            android:name=".UserListActivity" />
         <activity android:name=".CommentsActivity"/>
 
     </application>

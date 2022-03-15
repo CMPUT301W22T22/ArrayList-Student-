@@ -105,8 +105,8 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
     private View.OnClickListener onSearchClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-//            Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(),UserListActivity.class);
+            startActivity(intent);
         }
     };
 
