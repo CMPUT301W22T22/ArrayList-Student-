@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.camera.core.ImageCapture;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 

@@ -17,11 +17,6 @@
         app:srcCompat="@android:drawable/ic_menu_sort_by_size"
         tools:ignore="SpeakableTextPresentCheck" />
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ScoreList"

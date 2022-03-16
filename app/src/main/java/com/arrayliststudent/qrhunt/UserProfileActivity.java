@@ -139,6 +139,8 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
      */
     public void CodeList(View view){
 
+        Intent intent = new Intent(this,CodeListActivity.class);
+        startActivity(intent);
     }
 
     /**
