@@ -46,10 +46,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             String name = nameEditTxt.getText().toString();
-            presenter.newUser(Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                    Settings.Secure.ANDROID_ID), name);
-            Intent intent = new Intent(getApplicationContext(), ConsoleActivity.class);
-            startActivity(intent);
+            if(!name.isEmpty()){
+                presenter.newUser(Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                        Settings.Secure.ANDROID_ID), name);
+                Intent intent = new Intent(getApplicationContext(), ConsoleActivity.class);
+                startActivity(intent);
+            }
+            else{
+                Toast.makeText(getApplicationContext(),"Name can't be empty",Toast.LENGTH_SHORT)
+                        .show();
+            }
         }
     };
 
