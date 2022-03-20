@@ -13,16 +13,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
-        android:clickable="true"
         app:srcCompat="@android:drawable/ic_menu_sort_by_size"
-        tools:ignore="SpeakableTextPresentCheck" />
+        tools:ignore="OnClick,SpeakableTextPresentCheck"
+        android:onClick="RankButton"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ScoreList"
         android:layout_width="match_parent"
-        android:layout_height="675dp"
-        android:layout_gravity="bottom" >
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom">
 
     </androidx.recyclerview.widget.RecyclerView>
 
