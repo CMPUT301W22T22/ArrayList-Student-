@@ -60,6 +60,7 @@
             android:name=".QRCodeActivity" />
 
         <activity android:name=".CommentsActivity"/>
+        <activity android:name=".GPSLocationActivity"/>
 
     </application>
 
