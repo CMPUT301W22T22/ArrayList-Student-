@@ -7,9 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 public class HighScoreListActivity extends AppCompatActivity{
@@ -17,6 +22,7 @@ public class HighScoreListActivity extends AppCompatActivity{
     private HighScorePresenter presenter;
     private HighScoreAdapter adapter;
     private ArrayList<User> userArrayList;
+    private Boolean rankMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,35 @@ public class HighScoreListActivity extends AppCompatActivity{
                 this, DividerItemDecoration.HORIZONTAL
         ));
         presenter.UpdateData();
+    }
+
+    public void RankButton(View view){
+        if (rankMode){
+            rankMode = false;
+            RankList(false);
+        }
+        else{
+            rankMode = true;
+            RankList(true);
+        }
+    }
+
+    public void RankList(Boolean RankMode){
+        Collections.sort(userArrayList, new Comparator<User>() {
+            @Override
+            public int compare(User user, User t1) {
+                int i;
+                if(RankMode){
+                    i = user.getTotalScore()-t1.getTotalScore();
+                }else {
+                    i = t1.getTotalScore()-user.getTotalScore();
+                }
+                if (i == 0){
+                    return 1;
+                }
+                return i;
+            }
+        });
     }
 
     public void iniOnGetDataListener(HighScorePresenter presenter){
