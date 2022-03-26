@@ -9,6 +9,8 @@ import java.util.Observer;
  */
 public class ConsolePresenter {
 
+
+
     /**
      * This function is an example for how to add an Observer object to the Observable class
      * UserDataModel. notifyObservers() is called so the TextViews of the ConsoleActivity are
