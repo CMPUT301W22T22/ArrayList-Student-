@@ -20,6 +20,12 @@ public class ScannableCode {
 
     ScannableCode() {}
 
+    @Override
+    public int hashCode() {
+        String hashString = codeName + Integer.toString(codeScore);
+        return hashString.hashCode();
+    }
+
     /**
      * Getter for the code name.
      * @return codeName

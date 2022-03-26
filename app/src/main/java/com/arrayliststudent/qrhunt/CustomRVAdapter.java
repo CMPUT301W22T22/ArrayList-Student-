@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomRVAdapter extends RecyclerView.Adapter<CustomRVAdapter.ViewHolder> {
 
@@ -34,10 +35,10 @@ public class CustomRVAdapter extends RecyclerView.Adapter<CustomRVAdapter.ViewHo
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
         UserDataModel model = UserDataModel.getInstance();
-        ArrayList<ScannableCode> localDataset = model.getLocalData();
+        ArrayList<User> data = model.getUserDataList();
 
-        holder.getCodeName().setText(localDataset.get(position).getCodeName());
-        holder.getCodeScore().setText(localDataset.get(position).getCodeScore());
+//        holder.getCodeName().setText(data.get(position).getCodeName());
+//        holder.getCodeScore().setText(data.get(position).getCodeScore());
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null)
@@ -51,8 +52,8 @@ public class CustomRVAdapter extends RecyclerView.Adapter<CustomRVAdapter.ViewHo
     @Override
     public int getItemCount() {
         UserDataModel model = UserDataModel.getInstance();
-        if (model.getLocalData() != null) {
-            return model.getLocalData().size();
+        if (model.getUserDataList() != null) {
+            return model.getUserDataList().size();
         } else {
             return 0;
         }

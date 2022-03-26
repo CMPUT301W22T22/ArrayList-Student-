@@ -1,6 +1,9 @@
 package com.arrayliststudent.qrhunt;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class represents a User object including their user name, user id, and list of previously
@@ -12,22 +15,21 @@ public class User {
     private String name;
     private String contactInfo = "None";
 
-    ArrayList<ScannableCode> userCodeList;
+    private List<String> userCodeList = new LinkedList<String>();
+
 
     public User(String androidId, String name) {
         this.userId = androidId;
         this.name = name;
-        this.userCodeList = new ArrayList<>();
     }
 
     public User(String androidId, String name, String contactInfo) {
         this.userId = androidId;
         this.name = name;
         this.contactInfo = contactInfo;
-        this.userCodeList = new ArrayList<>();
     }
 
-    public ArrayList<ScannableCode> getUserCodeList() {
+    public List<String> getUserCodeList() {
         return userCodeList;
     }
 
@@ -65,9 +67,10 @@ public class User {
      */
     public int getTotalScore() {
         int totalScore = 0;
-        for (ScannableCode s : userCodeList) {
-            totalScore += s.getCodeScore();
-        }
+//        for (String s : userCodeList) {
+//            if ()
+//            totalScore += Integer.valueOf(s);
+//        }
         return totalScore;
     }
 
@@ -114,5 +117,9 @@ public class User {
      */
     public void setContactInfo(String contactInfo) {
         this.contactInfo = contactInfo;
+    }
+
+    public void setCodeList(List<String> userCodeList) {
+        this.userCodeList = userCodeList;
     }
 }
