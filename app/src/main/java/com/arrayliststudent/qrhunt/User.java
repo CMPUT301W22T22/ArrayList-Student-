@@ -29,6 +29,10 @@ public class User {
         this.contactInfo = contactInfo;
     }
 
+    public User() {
+
+    }
+
     public List<String> getUserCodeList() {
         return userCodeList;
     }
@@ -121,5 +125,9 @@ public class User {
 
     public void setCodeList(List<String> userCodeList) {
         this.userCodeList = userCodeList;
+    }
+
+    public void setId(String value) {
+        this.userId = value;
     }
 }
