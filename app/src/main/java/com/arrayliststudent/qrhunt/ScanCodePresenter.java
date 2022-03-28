@@ -1,5 +1,10 @@
 package com.arrayliststudent.qrhunt;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 /**
  * ScanCodePresenter
  * @author vparab
@@ -25,7 +30,10 @@ public class ScanCodePresenter {
     }
 
     public static void createScannableCode(String name, int score){
+
         ScannableCode code = new ScannableCode(name, score);
     }
+
+
 
 }

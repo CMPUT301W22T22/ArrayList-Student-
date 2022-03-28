@@ -145,11 +145,9 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
             ScoreCalculator calc = new ScoreCalculator();
             int score = calc.getScore(hash);
 
-            ScannableCode newCode = new ScannableCode();
-            newCode.setCodeName("test code");
-            newCode.setCodeScore(score);
+            ScannableCode code = new ScannableCode("test name", score);
             UserDataModel model = UserDataModel.getInstance();
-            model.addCode(newCode);
+            model.addCode(code);
 
         }
     };

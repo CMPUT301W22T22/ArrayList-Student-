@@ -48,7 +48,7 @@ public class UserDataModel extends Observable {
         User user = userList.get(userID);
         user.getUserCodeList().add(code.getCodeName());
         database.addUserData(user);
-        database.addCode(code, userID);
+        database.addCode(code);
         setChanged();
         notifyObservers();
     }
