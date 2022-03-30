@@ -168,6 +168,9 @@ public class ScanCodeActivity extends AppCompatActivity {
 
         File photoFile = new File(photoFilePath);
 
+        GPSLocation location = new GPSLocation(getApplicationContext());
+        double[] current_location = location.getDeviceLocation();
+
         imageCapture.takePicture(
                 new ImageCapture.OutputFileOptions.Builder(photoFile).build(),
                 ContextCompat.getMainExecutor(this),
