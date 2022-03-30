@@ -123,6 +123,10 @@ public class ScannableCode {
         return this.id;
     }
 
+    /**
+     * setter for location
+     * @param context
+     */
     public void setLocation(Context context) {
         GPSLocation gpsLocation = new GPSLocation(context);
         this.location = gpsLocation.getDeviceLocation();
