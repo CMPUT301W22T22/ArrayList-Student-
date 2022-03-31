@@ -18,7 +18,7 @@ public class ScannableCode {
     String codeName;
     String id;
     int codeScore;
-    double[] location;
+    double[] location = {0,0};
     private ArrayList<Comment> comments = new ArrayList<Comment>();
 
     ScannableCode(String codeName, int codeScore){
@@ -130,5 +130,14 @@ public class ScannableCode {
     public void setLocation(Context context) {
         GPSLocation gpsLocation = new GPSLocation(context);
         this.location = gpsLocation.getDeviceLocation();
+    }
+
+    /**
+     * getter for Location
+     * @return
+     */
+
+    public double[] getLocation() {
+        return location;
     }
 }
