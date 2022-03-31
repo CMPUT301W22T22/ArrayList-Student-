@@ -134,6 +134,11 @@ public class ScannableCode {
         this.location = gpsLocation.getDeviceLocation();
     }
 
+    public void setLocation(List<Double> list){
+        this.location[0] = list.get(0);
+        this.location[0] = list.get(1);
+    }
+
     /**
      * getter for Location
      * @return
