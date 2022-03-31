@@ -181,10 +181,6 @@ public class FirebaseData {
                                 System.out.println((String) pair.getValue());
                                 code.setCodeScore(Integer.valueOf((String) pair.getValue()));
                             }
-                            if (key.equals("Location")) {
-                                System.out.println((String) pair.getValue());
-                                code.setLocation((List<Double>) pair.getValue());
-                            }
                         }
                     } else {
                         Log.d(TAG, "No such document");
