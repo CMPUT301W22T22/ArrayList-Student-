@@ -1,5 +1,9 @@
 package com.arrayliststudent.qrhunt;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -32,6 +36,7 @@ public class User {
     public User() {
 
     }
+
 
     public List<String> getUserCodeList() {
         return userCodeList;
@@ -75,6 +80,13 @@ public class User {
 //            if ()
 //            totalScore += Integer.valueOf(s);
 //        }
+        ScoreGenerator scoreGenerator = new ScoreGenerator();
+        ScanCodePresenter scanCodePresenter = new ScanCodePresenter();
+        for (String s : userCodeList){
+            totalScore += ScanCodePresenter.calculateScore(s.getBytes(StandardCharsets.UTF_8));
+        }
+
+
         return totalScore;
     }
 

@@ -250,7 +250,7 @@ public class FirebaseData {
                             contactInfo = (String) pair.getValue();
                             success = true;
                         }
-                        if (pair.getKey() == "userCodeList") {
+                        if (pair.getKey().equals("userCodeList")) {
                             userCodeList = (List) pair.getValue();
 
                         }
