@@ -13,6 +13,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.grpc.Context;
@@ -40,17 +41,19 @@ public class HighScorePresenter {
     public void UpdateData(){
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable
-                    FirebaseFirestoreException error) {
-                HashMap<String, User> userDataList = new HashMap<>();
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                // Iterate over all documents in the collection
+                HashMap<String,User> userHashMap = new HashMap<>();
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
                     String userId = new String();
                     String name = new String();
                     String contactInfo = new String();
-                    ArrayList<ScannableCode> userCodeList;
+                    List<String> userCodeList = null;
                     Map<String,Object> user = doc.getData();
+                    User addedUser;
                     boolean success = false;
+                    // Get all fields from the current document and construct a User
                     for (Map.Entry<String, Object> pair : user.entrySet()) {
 
                         String key = pair.getKey();
@@ -70,23 +73,26 @@ public class HighScorePresenter {
                             contactInfo = (String) pair.getValue();
                             success = true;
                         }
-//                        if (pair.getKey() == "userCodeList") {
-//                            userCodeList = new ArrayList<ScannableCode>(pair.getValue());
-//                        }
+                        if (pair.getKey().equals("userCodeList")) {
+                            userCodeList = (List) pair.getValue();
+
+                        }
                     }
+
+                    // Add the user from the current document to userDataList
                     if(success) {
-                        userDataList.put(userId, new User(userId, name, contactInfo));
+                        addedUser = new User(userId, name, contactInfo);
+                        if(userCodeList != null) {
+                            addedUser.setCodeList(userCodeList);
+                        }
+                        userHashMap.put(userId, addedUser);
                         Log.d(TAG, "User " + userId + " downloaded");
                     }
                 }
-
-                if (!userDataList.isEmpty()){
-                    if(listener!=null){
-                        listener.refreshRecyclerView(userDataList);
-                    }
+                if (userHashMap!=null){
+                    listener.refreshRecyclerView(userHashMap);
                 }
             }
-
         });
     }
 }

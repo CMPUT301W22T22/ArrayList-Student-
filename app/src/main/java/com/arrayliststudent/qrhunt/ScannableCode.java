@@ -1,5 +1,7 @@
 package com.arrayliststudent.qrhunt;
 
+import android.content.Context;
+
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -16,6 +18,7 @@ public class ScannableCode {
     String codeName;
     String id;
     int codeScore;
+    double[] location;
     private ArrayList<Comment> comments = new ArrayList<Comment>();
 
     ScannableCode(String codeName, int codeScore){
@@ -118,5 +121,14 @@ public class ScannableCode {
 
     public String getId() {
         return this.id;
+    }
+
+    /**
+     * setter for location
+     * @param context
+     */
+    public void setLocation(Context context) {
+        GPSLocation gpsLocation = new GPSLocation(context);
+        this.location = gpsLocation.getDeviceLocation();
     }
 }

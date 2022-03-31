@@ -22,7 +22,7 @@ public class HighScoreListActivity extends AppCompatActivity{
     private HighScorePresenter presenter;
     private HighScoreAdapter adapter;
     private ArrayList<User> userArrayList;
-    private Boolean rankMode = false;
+    private Boolean rankMode = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,8 @@ public class HighScoreListActivity extends AppCompatActivity{
             rankMode = true;
             RankList(true);
         }
+        adapter = new HighScoreAdapter(getApplicationContext(),userArrayList);
+        recyclerView.setAdapter(adapter);
     }
 
     public void RankList(Boolean RankMode){
@@ -88,6 +90,16 @@ public class HighScoreListActivity extends AppCompatActivity{
                     recyclerView.addItemDecoration(new DividerItemDecoration(
                             getApplicationContext(), DividerItemDecoration.HORIZONTAL
                     ));
+                    if (rankMode){
+                        rankMode = false;
+                        RankList(false);
+                    }
+                    else{
+                        rankMode = true;
+                        RankList(true);
+                    }
+                    adapter = new HighScoreAdapter(getApplicationContext(),userArrayList);
+                    recyclerView.setAdapter(adapter);
             }
         });
     }
