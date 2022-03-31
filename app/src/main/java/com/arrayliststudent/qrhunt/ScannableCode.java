@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class represents a ScannableCode object including the codeName and codeScore. The next
@@ -137,7 +139,10 @@ public class ScannableCode {
      * @return
      */
 
-    public double[] getLocation() {
-        return location;
+    public List<Double> getLocation() {
+        List<Double> list = new LinkedList<>();
+        list.add(location[0]);
+        list.add(location[1]);
+        return list;
     }
 }
