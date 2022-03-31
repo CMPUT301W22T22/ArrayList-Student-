@@ -189,7 +189,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             if (pair.getKey().equals("Location")) {
                                 codeLocation = (List<Double>) pair.getValue();
                                 mMap.addMarker(new MarkerOptions().position(new LatLng(codeLocation.get(0),codeLocation.get(1))).title(codeLocation.get(0)+","+codeLocation.get(1)));
-                                Log.d(TAG,"*******Adding code marker to: latitude: " + codeLocation.get(0) + ", longitude: " + codeLocation.get(1));
+                                Log.d(TAG,"Added code marker to: latitude: " + codeLocation.get(0) + ", longitude: " + codeLocation.get(1));
                             }
                         }
                     }
