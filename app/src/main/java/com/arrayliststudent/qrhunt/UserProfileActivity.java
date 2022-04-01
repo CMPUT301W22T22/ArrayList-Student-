@@ -78,7 +78,7 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
                     String userId = new String();
                     String name = new String();
                     String contactInfo = new String();
-                    List<String> userCodeList = null;
+                    List<Map> userCodeList = null;
                     Map<String,Object> user = doc.getData();
                     User addedUser;
                     boolean success = false;

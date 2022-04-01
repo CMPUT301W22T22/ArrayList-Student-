@@ -2,6 +2,8 @@ package com.arrayliststudent.qrhunt;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
 import android.service.autofill.UserData;
 import android.view.View;
 import android.widget.Button;
@@ -53,7 +55,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
     private View.OnClickListener onQRClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(),QRCodeActivity.class);
+            Intent intent = new Intent(getApplicationContext(),CodeListActivity.class);
             startActivity(intent);
         }
     };
@@ -145,7 +147,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
             ScoreCalculator calc = new ScoreCalculator();
             int score = calc.getScore(hash);
 
-            ScannableCode code = new ScannableCode("test name", score);
+            ScannableCode code = new ScannableCode("test name", score, hash);
             code.setLocation(getApplicationContext());
             UserDataModel model = UserDataModel.getInstance();
             model.addCode(code);
@@ -165,9 +167,13 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) {
         UserDataModel model = UserDataModel.getInstance();
         User currentUser = model.getCurrentUser();
-//        userTextView.setText(currentUser.getName());
-//        scoreTextView.setText(currentUser.getTotalScore());
-//        numCodesTextView.setText(currentUser.getNumCodes());
+        currentUser.addToScore(0);
+        currentUser.addToNumCodes(0);
+
+        System.out.println("update method called");
+        userTextView.setText(currentUser.getName());
+        scoreTextView.setText(String.valueOf(currentUser.getTotalScore()));
+        numCodesTextView.setText(String.valueOf(currentUser.getNumCodes()));
     }
 
     /**
@@ -185,6 +191,13 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         numCodesTextView = findViewById(R.id.console_text_numcodes);
         presenter = new ConsolePresenter();
         presenter.setUpObserver(this);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                presenter.refresh();
+            }
+        }, 1000);
         mapImageView = findViewById(R.id.console_img_map);
         mapImageView.setOnClickListener(onMapClicked);
         userImageView = findViewById(R.id.console_img_user);

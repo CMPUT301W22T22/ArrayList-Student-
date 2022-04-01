@@ -113,52 +113,7 @@ public class FirebaseData {
     }
 
 
-    public User getUserData(String userId) {
 
-        User user = new User();
-
-        DocumentReference docRef = database.collection("Users").document(userId);
-
-        // https://cloud.google.com/firestore/docs/query-data/get-data
-        // Source can be CACHE, SERVER, or DEFAULT.
-        Source source = Source.SERVER;
-
-        // Get the document, forcing the SDK to use the offline cache
-        docRef.get(source).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    // Document found on the server
-                    DocumentSnapshot document = task.getResult();
-                    Map<String,Object> userData = document.getData();
-                    for (Map.Entry<String, Object> pair : userData.entrySet()) {
-                        String key = pair.getKey();
-
-                        if (pair.getKey().equals("userId")) {
-                            System.out.println((String) pair.getValue());
-                            user.setId((String) pair.getValue());
-                        }
-                        if (pair.getKey().equals("name")) {
-                            System.out.println((String) pair.getValue());
-                            user.setName((String) pair.getValue());
-                        }
-                        if (pair.getKey().equals("contactInfo")){
-                            System.out.println((String) pair.getValue());
-                            user.setContactInfo((String) pair.getValue());
-                        }
-                        if (pair.getKey() == "userCodeList") {
-                            user.setCodeList((List) pair.getValue());
-                        }
-                    }
-                    Log.d(TAG, "User " + userId + " downloaded");
-                    Log.d(TAG, "Server document data: " + document.getData());
-                } else {
-                    Log.d(TAG, "Server get failed: ", task.getException());
-                }
-            }
-        });
-        return user;
-    }
 
     public ScannableCode getCode(String id) {
         ScannableCode code = new ScannableCode();
@@ -174,11 +129,9 @@ public class FirebaseData {
                         for (Map.Entry<String, Object> pair : user.entrySet()) {
                             String key = pair.getKey();
                             if (key.equals("codeName")) {
-                                System.out.println((String) pair.getValue());
                                 code.setCodeName((String) pair.getValue());
                             }
                             if (key.equals("codeScore")) {
-                                System.out.println((String) pair.getValue());
                                 code.setCodeScore(Integer.valueOf((String) pair.getValue()));
                             }
                         }
@@ -224,48 +177,45 @@ public class FirebaseData {
                 // Iterate over all documents in the collection
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
+
+                    List<Map> userCodeList = null;
                     String userId = new String();
-                    String name = new String();
-                    String contactInfo = new String();
-                    List<String> userCodeList = null;
-                    Map<String,Object> user = doc.getData();
-                    User addedUser;
+                    User user = new User();
+                    Map<String,Object> userData = doc.getData();
                     boolean success = false;
                     // Get all fields from the current document and construct a User
-                    for (Map.Entry<String, Object> pair : user.entrySet()) {
-
+                    for (Map.Entry<String, Object> pair : userData.entrySet()) {
                         String key = pair.getKey();
 
                         if (pair.getKey().equals("userId")) {
-                            System.out.println((String) pair.getValue());
+                            user.setId((String) pair.getValue());
                             userId = (String) pair.getValue();
-                            success = true;
                         }
                         if (pair.getKey().equals("name")) {
-                            System.out.println((String) pair.getValue());
-                            name = (String) pair.getValue();
-                            success = true;
+                            user.setName((String) pair.getValue());
                         }
                         if (pair.getKey().equals("contactInfo")){
-                            System.out.println((String) pair.getValue());
-                            contactInfo = (String) pair.getValue();
-                            success = true;
+                            user.setContactInfo((String) pair.getValue());
                         }
-                        if (pair.getKey().equals("userCodeList")) {
-                            userCodeList = (List) pair.getValue();
-
+                        if (pair.getKey() == "userCodeList") {
+                            user.setCodeList((List) pair.getValue());
+                        }
+                        if (pair.getKey().equals("numCodes")) {
+                            Integer numCodes;
+                            numCodes = ((Long) pair.getValue()).intValue();
+                            user.setTotalScore(numCodes);
+                        }
+                        if (pair.getKey().equals("totalScore")) {
+                            Integer totalScore;
+                            totalScore = ((Long) pair.getValue()).intValue();
+                            user.setTotalScore(totalScore);
                         }
                     }
+                    userDataList.put(userId, user);
+                    Log.d(TAG, "User downloaded");
+                    Log.d(TAG, "Server document data: " + doc.getData());
 
-                    // Add the user from the current document to userDataList
-                    if(success) {
-                        addedUser = new User(userId, name, contactInfo);
-                        if(userCodeList != null) {
-                            addedUser.setCodeList(userCodeList);
-                        }
-                        userDataList.put(userId, addedUser);
-                        Log.d(TAG, "User " + userId + " downloaded");
-                    }
+
                 }
             }
         });
@@ -334,15 +284,12 @@ public class FirebaseData {
 
                                    String key = pair.getKey();
                                    if (key.equals("userId")) {
-                                       System.out.println((String) pair.getValue());
                                        user.setId((String) pair.getValue());
                                    }
                                    if (pair.getKey().equals("name")) {
-                                       System.out.println((String) pair.getValue());
                                        user.setName((String) pair.getValue());
                                    }
                                    if (pair.getKey().equals("contactInfo")){
-                                       System.out.println((String) pair.getValue());
                                        user.setContactInfo((String) pair.getValue());
                                    }
                                    if (pair.getKey() == "userCodeList") {
@@ -385,15 +332,12 @@ public class FirebaseData {
 
                                     String key = pair.getKey();
                                     if (key.equals("userId")) {
-                                        System.out.println((String) pair.getValue());
                                         user.setId((String) pair.getValue());
                                     }
                                     if (pair.getKey().equals("name")) {
-                                        System.out.println((String) pair.getValue());
                                         user.setName((String) pair.getValue());
                                     }
                                     if (pair.getKey().equals("contactInfo")){
-                                        System.out.println((String) pair.getValue());
                                         user.setContactInfo((String) pair.getValue());
                                     }
                                     if (pair.getKey() == "userCodeList") {
@@ -416,6 +360,60 @@ public class FirebaseData {
                     }
                 });
         return userDataList;
+    }
+
+    public User getUserById(String userId) {
+
+        User user = new User();
+
+        DocumentReference docRef = database.collection("Users").document(userId);
+
+        // https://cloud.google.com/firestore/docs/query-data/get-data
+        // Source can be CACHE, SERVER, or DEFAULT.
+        Source source = Source.SERVER;
+
+        // Get the document, forcing the SDK to use the offline cache
+        docRef.get(source).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    // Document found on the server
+                    DocumentSnapshot document = task.getResult();
+                    Map<String,Object> userData = document.getData();
+                    for (Map.Entry<String, Object> pair : userData.entrySet()) {
+                        String key = pair.getKey();
+
+                        if (pair.getKey().equals("userId")) {
+                            user.setId((String) pair.getValue());
+                        }
+                        if (pair.getKey().equals("name")) {
+                            user.setName((String) pair.getValue());
+                        }
+                        if (pair.getKey().equals("contactInfo")){
+                            user.setContactInfo((String) pair.getValue());
+                        }
+                        if (pair.getKey() == "userCodeList") {
+                            user.setCodeList((List) pair.getValue());
+                        }
+                        if (pair.getKey().equals("numCodes")) {
+                            Integer numCodes;
+                            numCodes = ((Long) pair.getValue()).intValue();
+                            user.setTotalScore(numCodes);
+                        }
+                        if (pair.getKey().equals("totalScore")) {
+                            Integer totalScore;
+                            totalScore = ((Long) pair.getValue()).intValue();
+                            user.setTotalScore(totalScore);
+                        }
+                    }
+                    Log.d(TAG, "User downloaded");
+                    Log.d(TAG, "Server document data: " + document.getData());
+                } else {
+                    Log.d(TAG, "Server get failed: ", task.getException());
+                }
+            }
+        });
+        return user;
     }
 }
 

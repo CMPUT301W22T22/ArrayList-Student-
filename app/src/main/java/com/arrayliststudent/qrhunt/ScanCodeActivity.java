@@ -239,9 +239,9 @@ public class ScanCodeActivity extends AppCompatActivity {
                 String rawValue = barcode.getRawValue();
                 showData.setText(rawValue);
 
-               int score = ScanCodePresenter.calculateScore(barcode.getRawBytes());
+
+               int score = ScanCodePresenter.createScannableCode(barcode.getDisplayValue(), barcode.getRawBytes());
                showScore.setText(score + " points");
-               ScanCodePresenter.createScannableCode(barcode.getDisplayValue(), score);
 
             }
         }

@@ -73,12 +73,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         auth = MAuthenticator.getInstance();
+        auth.setCurrentUser(Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID));
         presenter = new MainPresenter();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                boolean login = auth.login(Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID));
+                boolean login = auth.login();
                 if(login) {
                     Intent intent = new Intent(getApplicationContext(), ConsoleActivity.class);
                     startActivity(intent);

@@ -29,9 +29,16 @@ public class ScanCodePresenter {
         return score;
     }
 
-    public static void createScannableCode(String name, int score){
+    public static int createScannableCode(String name, byte[] bytes){
 
-        ScannableCode code = new ScannableCode(name, score);
+        int score = calculateScore(bytes);
+        String hash = "";
+
+        for(int i = 0; i < bytes.length; i++){
+            hash = hash + bytes[i];
+        }
+        ScannableCode code = new ScannableCode(name, score, hash);
+        return score;
     }
 
 

@@ -24,22 +24,36 @@ public class MAuthenticator {
         return mAuthenticator;
     }
 
-    private MAuthenticator() { }
+    private MAuthenticator() {
+    }
 
-
-    public boolean login(String androidId) {
+    public void setCurrentUser(String androidId) {
         UserDataModel model = UserDataModel.getInstance();
-        HashMap<String, User> userList = model.getUserList();
-        for (Map.Entry<String, User> pair : userList.entrySet()) {
-            System.out.println(pair.getKey() + " " );
+        model.fetchCurrentUser(androidId);
+        this.android_id = androidId;
+
+    }
+
+
+    public boolean login() {
+        UserDataModel model = UserDataModel.getInstance();
+
+        User user = model.getCurrentUser();
+
+        boolean exists;
+        if ( user.getUserId() == null) {
+            exists = false;
+        } else {
+            exists = true;
         }
-        if (userList.containsKey(androidId)) {
-            System.out.println("user id " + androidId + " found");
-            this.android_id = androidId;
-            model.setUserId(androidId);
+
+        if (exists) {
+            System.out.println("user id found");
+            model.setUserId(this.android_id);
+            model.setCurrentUser();
             return true;
         } else {
-            System.out.println("user id " + androidId + " not found");
+            System.out.println("user id not found");
             return false;
         }
 
