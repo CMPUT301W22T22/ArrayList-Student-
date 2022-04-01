@@ -146,6 +146,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
             int score = calc.getScore(hash);
 
             ScannableCode code = new ScannableCode("test name", score);
+            code.setLocation(getApplicationContext());
             UserDataModel model = UserDataModel.getInstance();
             model.addCode(code);
 

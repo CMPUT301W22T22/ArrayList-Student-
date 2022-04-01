@@ -88,6 +88,7 @@ public class FirebaseData {
         Map<String, Object> codeData = new HashMap<>();
         codeData.put("codeName", code.getCodeName());
         codeData.put("codeScore", code.getCodeScore());
+        codeData.put("Location",code.getLocation());
 
 
         codeCollection

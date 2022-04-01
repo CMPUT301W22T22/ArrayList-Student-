@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class represents a ScannableCode object including the codeName and codeScore. The next
@@ -18,7 +20,7 @@ public class ScannableCode {
     String codeName;
     String id;
     int codeScore;
-    double[] location;
+    double[] location = {0,0};
     private ArrayList<Comment> comments = new ArrayList<Comment>();
 
     ScannableCode(String codeName, int codeScore){
@@ -130,5 +132,22 @@ public class ScannableCode {
     public void setLocation(Context context) {
         GPSLocation gpsLocation = new GPSLocation(context);
         this.location = gpsLocation.getDeviceLocation();
+    }
+
+    public void setLocation(List<Double> list){
+        this.location[0] = list.get(0);
+        this.location[0] = list.get(1);
+    }
+
+    /**
+     * getter for Location
+     * @return
+     */
+
+    public List<Double> getLocation() {
+        List<Double> list = new LinkedList<>();
+        list.add(location[0]);
+        list.add(location[1]);
+        return list;
     }
 }
