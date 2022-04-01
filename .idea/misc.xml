@@ -34,6 +34,8 @@
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_add_code.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_remove_profle.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_upload_code.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/high_score_content.xml" value="0.28830718994140625" />
         <entry key="app/src/main/res/layout/recycler_content.xml" value="0.245018115942029" />
         <entry key="app/src/main/res/layout/user_recycler_content.xml" value="0.1" />
