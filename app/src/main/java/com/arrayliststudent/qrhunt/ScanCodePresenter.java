@@ -41,6 +41,12 @@ public class ScanCodePresenter {
         return score;
     }
 
+    public static void UpdateCode(ScannableCode code){
+        UserDataModel model = UserDataModel.getInstance();
+        model.addCode(code);
+
+    }
+
 
 
 }

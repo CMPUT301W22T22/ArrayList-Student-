@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/Recycler_UserName"
-        android:layout_width="321dp"
+        android:layout_width="302dp"
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:text="@string/UserName"
