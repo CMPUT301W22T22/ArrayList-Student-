@@ -10,6 +10,13 @@ import java.util.Observer;
 public class ConsolePresenter {
 
 
+    ConsolePresenter() {
+    }
+
+    public void refresh() {
+        UserDataModel model = UserDataModel.getInstance();
+        model.refresh();
+    }
 
     /**
      * This function is an example for how to add an Observer object to the Observable class
@@ -21,6 +28,5 @@ public class ConsolePresenter {
     public void setUpObserver(Observer arg) {
         UserDataModel model = UserDataModel.getInstance();
         model.addObserver(arg);
-        model.notifyObservers();
     }
 }

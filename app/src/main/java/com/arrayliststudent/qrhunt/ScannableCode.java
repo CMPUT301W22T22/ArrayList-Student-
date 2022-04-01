@@ -23,12 +23,13 @@ public class ScannableCode {
     double[] location = {0,0};
     private ArrayList<Comment> comments = new ArrayList<Comment>();
 
-    ScannableCode(String codeName, int codeScore){
+    ScannableCode(String codeName, int codeScore, String hash){
         this.codeName = codeName;
         this.codeScore = codeScore;
         try
         {
-            this.id = toHexString(getSHA(codeName));
+            System.out.println(hash);
+            this.id = toHexString(getSHA(hash));
         }
         catch (NoSuchAlgorithmException e) {
             System.out.println("Exception thrown for incorrect algorithm: " + e);
