@@ -20,7 +20,7 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
     TextView totalCodeScore;
     TextInputEditText searchbar;
 
-    CodeListPresenter presenter;
+    //CodeListPresenter presenter;
     CodeListAdapter recyclerAdapter;
 
     // ClickListener for RecyclerView
@@ -36,8 +36,8 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_list);
 
-        presenter = new CodeListPresenter();
-        presenter.setUpObserver(this);
+        //presenter = new CodeListPresenter();
+        //presenter.setUpObserver(this);
 
         codeList = findViewById(R.id.code_list_view);
         codeList.setLayoutManager(new LinearLayoutManager(this));
@@ -50,7 +50,7 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                presenter.refresh();
+                //presenter.refresh();
             }
         }, 1000);
 
