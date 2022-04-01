@@ -26,9 +26,6 @@ public class MAuthenticator {
 
     private MAuthenticator() { }
 
-    public static void set_flag(boolean flag) {
-        MAuthenticator.successFlag = flag;
-    }
 
     public boolean login(String androidId) {
         UserDataModel model = UserDataModel.getInstance();

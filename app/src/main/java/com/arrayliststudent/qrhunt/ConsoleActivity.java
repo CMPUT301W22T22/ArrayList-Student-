@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.service.autofill.UserData;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 /**
  * The ConsoleActivity is the main control panel for the application. From here the user can choose
@@ -38,6 +40,8 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
     ImageView QRImageView;
     ImageView CameraImageView;
     CardView scanCodeView;
+
+    Button testButton;
 
     /**
      * Click listener for QR code list button. This should open the list of QR codes that the
@@ -124,6 +128,30 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    private View.OnClickListener onTestBtnClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            Random rd = new Random();
+            byte[] arr = new byte[40];
+            rd.nextBytes(arr);
+
+            String hash = "";
+
+            for(int i = 0; i < arr.length; i++){
+                hash = hash + arr[i];
+            }
+
+            ScoreCalculator calc = new ScoreCalculator();
+            int score = calc.getScore(hash);
+
+            ScannableCode code = new ScannableCode("test name", score);
+            UserDataModel model = UserDataModel.getInstance();
+            model.addCode(code);
+
+        }
+    };
+
     /**
      * The update method is called from the Observable class UserDataModel upon notifyObservers().
      * The intended purpose is to refresh any views with data from the UserDataModel.
@@ -136,9 +164,9 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
     public void update(Observable o, Object arg) {
         UserDataModel model = UserDataModel.getInstance();
         User currentUser = model.getCurrentUser();
-        userTextView.setText(currentUser.getName());
-        scoreTextView.setText(currentUser.getTotalScore());
-        numCodesTextView.setText(currentUser.getNumCodes());
+//        userTextView.setText(currentUser.getName());
+//        scoreTextView.setText(currentUser.getTotalScore());
+//        numCodesTextView.setText(currentUser.getNumCodes());
     }
 
     /**
@@ -170,5 +198,8 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         CameraImageView.setOnClickListener(onCameraClicked);
         scanCodeView = findViewById(R.id.console_card_scancode);
         scanCodeView.setOnClickListener(onCameraClicked);
+
+        testButton = findViewById(R.id.test_button);
+        testButton.setOnClickListener(onTestBtnClicked);
     }
 }

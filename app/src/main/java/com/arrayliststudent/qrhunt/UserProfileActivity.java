@@ -25,6 +25,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -77,8 +78,9 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
                     String userId = new String();
                     String name = new String();
                     String contactInfo = new String();
-                    ArrayList<ScannableCode> userCodeList;
+                    List<String> userCodeList = null;
                     Map<String,Object> user = doc.getData();
+                    User addedUser;
                     boolean success = false;
                     for (Map.Entry<String, Object> pair : user.entrySet()) {
 
@@ -99,12 +101,16 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
                             contactInfo = (String) pair.getValue();
                             success = true;
                         }
-//                        if (pair.getKey() == "userCodeList") {
-//                            userCodeList = new ArrayList<ScannableCode>(pair.getValue());
-//                        }
+                        if (pair.getKey().equals("userCodeList")) {
+                            userCodeList = (List) pair.getValue();
+                        }
                     }
                     if(success) {
-                        userDataList.put(userId, new User(userId, name, contactInfo));
+                        addedUser = new User(userId, name, contactInfo);
+                        if(userCodeList != null) {
+                            addedUser.setCodeList(userCodeList);
+                        }
+                        userDataList.put(userId, addedUser);
                         Log.d(TAG, "User " + userId + " downloaded");
                     }
                 }
