@@ -51,10 +51,19 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userProfilePresenter = new UserProfilePresenter();
+        String android_ID;
+
+        //May use intent if opening from User Search -Kieran
         Intent intent = getIntent();
+        if(intent.hasExtra("idFromSearch")){
+            android_ID = intent.getStringExtra("idFromSearch");
+        }
+        else{
+            android_ID = Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                    Settings.Secure.ANDROID_ID);
+        }
         setContentView(R.layout.activity_user_profile);
-        String android_ID = Settings.Secure.getString(getApplicationContext().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+
         //user = firebaseData.getUser(android_ID);
         //user =  userProfilePresenter.getUsers().get(android_ID);
         user = new User(android_ID,"name");
