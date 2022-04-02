@@ -79,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                boolean login = auth.login();
-                if(login) {
+                if(auth.login()) {
                     Intent intent = new Intent(getApplicationContext(), ConsoleActivity.class);
                     startActivity(intent);
                 }

@@ -18,7 +18,6 @@ public class MainPresenter {
      *
      */
     MainPresenter() {
-        UserDataModel model = UserDataModel.getInstance();
     }
 
     /**

@@ -158,7 +158,11 @@ public class UserDataModel extends Observable {
         System.out.println(currentUser.getNumCodes());
     }
 
-    public List<Map> getUserCodeList() {
-        return currentUser.getUserCodeList();
+    public ArrayList<Map> getUserCodeList() {
+        List<Map> localDataset = currentUser.getUserCodeList();
+        System.out.println("words");
+        ArrayList<Map> codeList = new ArrayList(localDataset);
+
+        return codeList;
     }
 }
