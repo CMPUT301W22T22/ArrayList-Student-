@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents a User object including their user name, user id, and list of previously
@@ -18,8 +19,10 @@ public class User {
     private String userId;
     private String name;
     private String contactInfo = "None";
+    private int totalScore;
+    private int numCodes;
 
-    private List<String> userCodeList = new LinkedList<String>();
+    private List<Map> userCodeList = new LinkedList<>();
 
 
     public User(String androidId, String name) {
@@ -38,7 +41,7 @@ public class User {
     }
 
 
-    public List<String> getUserCodeList() {
+    public List<Map> getUserCodeList() {
         return userCodeList;
     }
 
@@ -47,7 +50,7 @@ public class User {
     public boolean equals(Object obj) {
         boolean result = false;
         if (obj instanceof User) {
-            User s = (User)obj;
+            User s = (User) obj;
             result = this.userId.equals(s.userId);
         }
         return result;
@@ -61,6 +64,7 @@ public class User {
 
     /**
      * Getter for the user name.
+     *
      * @return name
      * String representing the user name.
      */
@@ -71,36 +75,27 @@ public class User {
     /**
      * Getter for the total score of the user. Computes the total score by summing the score of
      * every ScannableCode in the userCodeList.
+     *
      * @return totalScore
      * Integer representing the total score of the user.
      */
     public int getTotalScore() {
-        int totalScore = 0;
-//        for (String s : userCodeList) {
-//            if ()
-//            totalScore += Integer.valueOf(s);
-//        }
-        ScoreGenerator scoreGenerator = new ScoreGenerator();
-        ScanCodePresenter scanCodePresenter = new ScanCodePresenter();
-        for (String s : userCodeList){
-            totalScore += ScanCodePresenter.calculateScore(s.getBytes(StandardCharsets.UTF_8));
-        }
-
 
         return totalScore;
     }
 
     /**
      * Getter for the number of codes owned by the user.
-     * @return
-     * Integer for the size of the userCodeList.
+     *
+     * @return Integer for the size of the userCodeList.
      */
     public int getNumCodes() {
-        return userCodeList.size();
+        return numCodes;
     }
 
     /**
      * Getter for the userId
+     *
      * @return userId
      * String representing the unique android id of the user.
      */
@@ -110,6 +105,7 @@ public class User {
 
     /**
      * Getter for the ContactInfo
+     *
      * @return contactInfo
      * String representing the contactInfo of the user.
      */
@@ -119,8 +115,8 @@ public class User {
 
     /**
      * Setter for the userName
-     * @param name
-     * String representing the name of the user.
+     *
+     * @param name String representing the name of the user.
      */
     public void setName(String name) {
         this.name = name;
@@ -128,18 +124,38 @@ public class User {
 
     /**
      * Setter for the userName
-     * @param contactInfo
-     * String representing the ContactInfo of the user.
+     *
+     * @param contactInfo String representing the ContactInfo of the user.
      */
     public void setContactInfo(String contactInfo) {
         this.contactInfo = contactInfo;
     }
 
-    public void setCodeList(List<String> userCodeList) {
+    public void setCodeList(List<Map> userCodeList) {
         this.userCodeList = userCodeList;
     }
 
     public void setId(String value) {
         this.userId = value;
+    }
+
+    public void addToScore(int codeScore) {
+        totalScore += codeScore;
+    }
+
+    public void setTotalScore(int initialScore) {
+        this.totalScore = initialScore;
+    }
+
+    public void setNumCodes(int numCodes) {
+        this.numCodes = numCodes;
+    }
+
+    public void addToNumCodes() {
+        numCodes += 1;
+    }
+
+    public void addToNumCodes(int i) {
+        numCodes += i;
     }
 }

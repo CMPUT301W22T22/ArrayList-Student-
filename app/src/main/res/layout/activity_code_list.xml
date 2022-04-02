@@ -14,7 +14,10 @@
         app:layout_constraintBottom_toTopOf="@+id/total_codescore_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+    </androidx.recyclerview.widget.RecyclerView>
+
+
 
     <TextView
         android:id="@+id/total_codescore_view"

@@ -76,41 +76,37 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
                 for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
                 {
                     String userId = new String();
-                    String name = new String();
-                    String contactInfo = new String();
-                    List<String> userCodeList = null;
                     Map<String,Object> user = doc.getData();
-                    User addedUser;
+                    User user1 = new User();
                     boolean success = false;
                     for (Map.Entry<String, Object> pair : user.entrySet()) {
 
                         String key = pair.getKey();
 
                         if (pair.getKey().equals("userId")) {
-                            System.out.println((String) pair.getValue());
+                            user1.setId((String) pair.getValue());
                             userId = (String) pair.getValue();
-                            success = true;
                         }
                         if (pair.getKey().equals("name")) {
-                            System.out.println((String) pair.getValue());
-                            name = (String) pair.getValue();
-                            success = true;
+                            user1.setName((String) pair.getValue());
                         }
                         if (pair.getKey().equals("contactInfo")){
-                            System.out.println((String) pair.getValue());
-                            contactInfo = (String) pair.getValue();
-                            success = true;
+                            user1.setContactInfo((String) pair.getValue());
                         }
-                        if (pair.getKey().equals("userCodeList")) {
-                            userCodeList = (List) pair.getValue();
+                        if (pair.getKey() == "userCodeList") {
+                            user1.setCodeList((List) pair.getValue());
+                        }
+                        if (pair.getKey().equals("numCodes")) {
+                            //
+                        }
+                        if (pair.getKey().equals("totalScore")) {
+                            Integer totalScore;
+                            totalScore = ((Long) pair.getValue()).intValue();
+                            user1.setTotalScore(totalScore);
                         }
                     }
-                    if(success) {
-                        addedUser = new User(userId, name, contactInfo);
-                        if(userCodeList != null) {
-                            addedUser.setCodeList(userCodeList);
-                        }
-                        userDataList.put(userId, addedUser);
+                    if(true) {
+                        userDataList.put(userId, user1);
                         Log.d(TAG, "User " + userId + " downloaded");
                     }
                 }

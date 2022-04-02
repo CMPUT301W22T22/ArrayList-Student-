@@ -49,9 +49,10 @@ public class HighScorePresenter {
                     String userId = new String();
                     String name = new String();
                     String contactInfo = new String();
-                    List<String> userCodeList = null;
+                    List<Map> userCodeList = null;
                     Map<String,Object> user = doc.getData();
                     User addedUser;
+                    Integer totalScore = -1;
                     boolean success = false;
                     // Get all fields from the current document and construct a User
                     for (Map.Entry<String, Object> pair : user.entrySet()) {
@@ -73,6 +74,10 @@ public class HighScorePresenter {
                             contactInfo = (String) pair.getValue();
                             success = true;
                         }
+                        if (pair.getKey().equals("totalScore")) {
+                            totalScore = ((Long) pair.getValue()).intValue();
+
+                        }
                         if (pair.getKey().equals("userCodeList")) {
                             userCodeList = (List) pair.getValue();
 
@@ -82,6 +87,7 @@ public class HighScorePresenter {
                     // Add the user from the current document to userDataList
                     if(success) {
                         addedUser = new User(userId, name, contactInfo);
+                        addedUser.setTotalScore(totalScore);
                         if(userCodeList != null) {
                             addedUser.setCodeList(userCodeList);
                         }

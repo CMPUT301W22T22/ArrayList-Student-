@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+
 public class GPSLocation {
     private LocationManager locationManager;
     public double[] deviceLocation = {0, 0};
@@ -35,12 +38,17 @@ public class GPSLocation {
             // for ActivityCompat#requestPermissions for more details.
         }
         Location location = locationManager.getLastKnownLocation(provider);
-        deviceLocation[0] = location.getLatitude();
-        deviceLocation[1] = location.getLongitude();
+        if (location != null){
+            deviceLocation[0] = location.getLatitude();
+            deviceLocation[1] = location.getLongitude();
+        }
+        else {
+            deviceLocation[0] = 0;
+            deviceLocation[1] = 0;
+        }
     }
 
     public double[] getDeviceLocation() {
-        System.out.println(deviceLocation[0]+" "+deviceLocation[1]);
         return deviceLocation;
     }
 }

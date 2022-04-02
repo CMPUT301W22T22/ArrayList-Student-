@@ -1,9 +1,6 @@
 package com.arrayliststudent.qrhunt;
 
 
-import android.provider.Settings;
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,6 +16,7 @@ public class UserDataModel extends Observable {
     FirebaseData database;
     HashMap<String, User> userList;
     private String userID;
+    private User currentUser;
 
     /**
      * Singleton pattern for UserDataModel. Constructor initializes the database.
@@ -45,10 +43,19 @@ public class UserDataModel extends Observable {
 
     public void addCode(ScannableCode code) {
 
-        User user = userList.get(userID);
-        user.getUserCodeList().add(code.getCodeName());
-        database.addUserData(user);
-        database.addCode(code);
+        User user = getCurrentUser();
+        Map<String, String> codeData = new HashMap<>();
+        codeData.put(code.getId(), code.getCodeName());
+        if (!user.getUserCodeList().contains(codeData)) {
+            user.addToScore(code.getCodeScore());
+            user.addToNumCodes();
+            System.out.println("Code Score = " + code.getCodeScore());
+            System.out.println("Total Score = " + user.getTotalScore());
+
+            user.getUserCodeList().add(codeData);
+            database.addUserData(user);
+            database.addCode(code);
+        }
         setChanged();
         notifyObservers();
     }
@@ -59,7 +66,7 @@ public class UserDataModel extends Observable {
      * The User object of the current user.
      */
     public User getCurrentUser() {
-        return userList.get(userID);
+        return currentUser;
     }
 
     public Collection<User> getUsers() {
@@ -67,15 +74,11 @@ public class UserDataModel extends Observable {
     }
 
     public boolean checkUserExists(String userID) {
-        System.out.println("stuff happened");
-        userList = database.getAllUserData();
-        if (userList.containsKey(userID)) {
-            System.out.println("user id " + userID + " found");
-            this.userID = userID;
-            return true;
-        } else {
-            System.out.println("user id " + userID + " not found");
+        User user = database.getUserById(userID);
+        if (user.getUserId() == null){
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -108,8 +111,16 @@ public class UserDataModel extends Observable {
      * User name of the new user
      */
     public void newUser(String userID, String userName) {
-        database.addUserData(new User(userID, userName));
+        User user = new User(userID, userName);
+        user.setTotalScore(0);
+        database.addUserData(user);
         this.userID = userID;
+        setCurrentUser(user);
+
+    }
+
+    public void setCurrentUser(User user) {
+        this.currentUser = user;
     }
 
     /**
@@ -119,6 +130,11 @@ public class UserDataModel extends Observable {
         userList = database.getAllUserData();
     }
 
+    public void refresh() {
+        setChanged();
+        notifyObservers();
+    }
+
     /**
      * Setter for the user id
      * @param androidId
@@ -126,5 +142,27 @@ public class UserDataModel extends Observable {
      */
     public void setUserId(String androidId) {
         this.userID = androidId;
+    }
+
+    public void setCurrentUser() {
+        User user = database.getUserById(userID);
+        this.currentUser = user;
+    }
+
+    public User getUserById(String androidId) {
+        return database.getUserById(androidId);
+    }
+
+    public void fetchCurrentUser(String androidId) {
+        this.currentUser = database.getUserById(androidId);
+        System.out.println(currentUser.getNumCodes());
+    }
+
+    public ArrayList<Map> getUserCodeList() {
+        List<Map> localDataset = currentUser.getUserCodeList();
+        System.out.println("words");
+        ArrayList<Map> codeList = new ArrayList(localDataset);
+
+        return codeList;
     }
 }

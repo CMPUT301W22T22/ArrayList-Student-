@@ -44,9 +44,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UserProfileActivity" />
+            android:name=".UserProfileActivity"
+            android:parentActivityName=".ConsoleActivity" />
         <activity
-            android:name=".HighScoreListActivity" />
+            android:name=".HighScoreListActivity"
+            android:parentActivityName=".ConsoleActivity" />
+        <activity
+            android:name=".CodeListActivity"
+            android:parentActivityName=".ConsoleActivity" />
         <activity
             android:name=".MapsActivity"
             android:parentActivityName=".ConsoleActivity"/>
@@ -57,10 +62,11 @@
         <activity
             android:name=".ConsoleActivity" />
         <activity
-            android:name=".QRCodeActivity" />
+            android:name=".QRCodeActivity"
+            android:parentActivityName=".CodeListActivity" />
 
-        <activity android:name=".CommentsActivity"/>
-        <activity android:name=".GPSLocation"/>
+        <activity android:name=".CommentsActivity"
+            android:parentActivityName=".QRCodeActivity" />
 
     </application>
 

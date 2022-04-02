@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -26,6 +27,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -45,7 +58,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public GoogleMap mMap;
-    public float[][] codeList;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -110,7 +122,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                     locationPermissionGranted = true;
-                    //initMap();
                 }
             }
         }
@@ -160,35 +171,37 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * @param zoom
      */
     private void addMarker(LatLng latLng, float zoom){
+        List<List<Double>> codeList = new LinkedList<>();
         if(locationPermissionGranted){
-            Log.d(TAG,"Adding Marker to: latitude: " + latLng.latitude + ", longitude: " + latLng.longitude);
+            Log.d(TAG,"Current location is latitude: " + latLng.latitude + ", longitude: " + latLng.longitude);
             //mMap.addMarker(new MarkerOptions().position(deviceLocation).title("Marker"));
             /*add all code markers to the map at once*/
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference collectionReference = db.collection("ScannableCodes");
+            collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                    assert queryDocumentSnapshots != null;
+                    for(QueryDocumentSnapshot doc: queryDocumentSnapshots) {
+                        List<Double> codeLocation;
+                        Map<String,Object> code = doc.getData();
+                        for(Map.Entry<String, Object> pair : code.entrySet()) {
+                            String key = pair.getKey();
+                            if (pair.getKey().equals("Location")) {
+                                codeLocation = (List<Double>) pair.getValue();
+                                codeList.add(codeLocation);
+                                mMap.addMarker(new MarkerOptions().position(new LatLng(codeLocation.get(0),codeLocation.get(1))).title(codeLocation.get(0)+","+codeLocation.get(1)));
+                                Log.d(TAG,"*****Added code marker to: latitude: " + codeLocation.get(0) + ", longitude: " + codeLocation.get(1));
+                            }
+                        }
+                    }
+                }
+            });
+            /*ScannableCode code = firebaseData.getCode("1ef4e838a9aa1a80dcc2a3af4fd57190f8a91c3bf373c85142f2941687ebf127");
+            mMap.addMarker(new MarkerOptions().position(new LatLng(code.getLocation()[0],code.getLocation()[1])).title("Marker"));
+            Log.d(TAG,"*******Adding code marker to: latitude: " + code.getLocation()[0] + ", longitude: " + code.getLocation()[1]);*/
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(deviceLocation,15f));
         }
 
     }
 }
-
-
-/*
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Edmonton and move the camera
-        LatLng edmonton = new LatLng(53.5461,-113.4938);
-        mMap.addMarker(new MarkerOptions().position(edmonton).title("Marker in Edmonton"));
-        // Zoom in the camera to focus on Edmonton
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(edmonton,15f));
-    }
-}   */

@@ -68,7 +68,7 @@ import java.util.concurrent.Executors;
  * Displays score in bottom right corner
  * Takes Picture when button is pressed
  */
-public class ScanCodeActivity extends AppCompatActivity {
+public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFragment.OnFragmentInteractionListener{
     private ListenableFuture cameraProviderFuture;
     private ExecutorService cameraExecutor;
     private PreviewView cameraView;
@@ -82,7 +82,9 @@ public class ScanCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_code);
         showData = findViewById(R.id.display_data);
+        showData.setText("NO_data");
         showScore = findViewById(R.id.display_score);
+        showData.setText("0");
         takePicture = findViewById(R.id.take_Picture);
 
         cameraView = findViewById(R.id.camerapreview);
@@ -149,10 +151,13 @@ public class ScanCodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 capturePhoto(imageCapture);
+                new UploadCodeFragment(Integer.valueOf(showScore.getText().toString()))
+                        .show(getSupportFragmentManager(),"Upload");
             }
         });
 
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     private void capturePhoto(ImageCapture imageCapture) {
@@ -183,6 +188,27 @@ public class ScanCodeActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    @Override
+    public void onUploadPressed(String codeName, Boolean location_info) {
+        ScannableCode code;
+        byte[] arr;
+        arr = showData.getText().toString().getBytes(StandardCharsets.UTF_8);
+
+        String hash = "";
+
+        for(int i = 0; i < arr.length; i++){
+            hash = hash + arr[i];
+        }
+        code = new ScannableCode(codeName,Integer.valueOf(showScore.getText().toString()),hash);
+        if (location_info){
+            code.setLocation(getApplicationContext());
+        }
+        UserDataModel model = UserDataModel.getInstance();
+        model.addCode(code);
+
+    }
+
 
     /**
      * MyImageAnalyzer
@@ -239,9 +265,9 @@ public class ScanCodeActivity extends AppCompatActivity {
                 String rawValue = barcode.getRawValue();
                 showData.setText(rawValue);
 
-               int score = ScanCodePresenter.calculateScore(barcode.getRawBytes());
-               showScore.setText(score + " points");
-               ScanCodePresenter.createScannableCode(barcode.getDisplayValue(), score);
+
+               int score = ScanCodePresenter.createScannableCode(barcode.getDisplayValue(), barcode.getRawBytes());
+               showScore.setText(String.valueOf(score));
 
             }
         }
