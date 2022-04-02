@@ -16,6 +16,7 @@ public class MAuthenticator {
     private String android_id;
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
     DocumentSnapshot document;
+    private boolean ownerPrivledge;
 
     public static boolean successFlag;
     private static final MAuthenticator mAuthenticator  = new MAuthenticator();
@@ -31,32 +32,31 @@ public class MAuthenticator {
         UserDataModel model = UserDataModel.getInstance();
         model.fetchCurrentUser(androidId);
         this.android_id = androidId;
+        model.setUserId(this.android_id);
+        //setPrivledges(user.getPublicKey());
+
 
     }
 
 
-    public boolean login() {
+    public boolean loggedIn() {
         UserDataModel model = UserDataModel.getInstance();
 
         User user = model.getCurrentUser();
 
-        boolean exists;
         if ( user.getUserId() == null) {
-            exists = false;
+            System.out.println("hello");
+            return  false;
         } else {
-            exists = true;
+            model.setUserCodes();
+            return true;
         }
 
-        if (exists) {
-            System.out.println("user id found");
-            model.setUserId(this.android_id);
-            model.setCurrentUser();
-            return true;
-        } else {
-            System.out.println("user id not found");
-            return false;
-        }
 
     }
+
+//    private void setPrivledges(String publicKey) {
+//
+//    }
 
 }

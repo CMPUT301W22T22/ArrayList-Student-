@@ -17,6 +17,8 @@ public class UserDataModel extends Observable {
     HashMap<String, User> userList;
     private String userID;
     private User currentUser;
+    private ArrayList<ScannableCode> userCodes;
+    private ScannableCode savedCode;
 
     /**
      * Singleton pattern for UserDataModel. Constructor initializes the database.
@@ -44,15 +46,15 @@ public class UserDataModel extends Observable {
     public void addCode(ScannableCode code) {
 
         User user = getCurrentUser();
-        Map<String, String> codeData = new HashMap<>();
-        codeData.put(code.getId(), code.getCodeName());
-        if (!user.getUserCodeList().contains(codeData)) {
+//        Map<String, String> codeData = new HashMap<>();
+//
+//        codeData.put(code.getId(), code.getCodeName());
+        if (/*!user.getUserCodeList().contains(codeData*/true) {
             user.addToScore(code.getCodeScore());
             user.addToNumCodes();
-            System.out.println("Code Score = " + code.getCodeScore());
-            System.out.println("Total Score = " + user.getTotalScore());
 
-            user.getUserCodeList().add(codeData);
+            user.addCode(code);
+            setCurrentUser(user);
             database.addUserData(user);
             database.addCode(code);
         }
@@ -128,6 +130,7 @@ public class UserDataModel extends Observable {
      */
     public void fetchData() {
         userList = database.getAllUserData();
+        setUserCodes();
     }
 
     public void refresh() {
@@ -155,14 +158,56 @@ public class UserDataModel extends Observable {
 
     public void fetchCurrentUser(String androidId) {
         this.currentUser = database.getUserById(androidId);
-        System.out.println(currentUser.getNumCodes());
+    }
+
+    public void setUserCodes() {
+        List<Map> localDataset = currentUser.getUserCodeList();
+
+        ArrayList<ScannableCode> codeList = new ArrayList();
+
+        for (Map<String, String> m : localDataset) {
+            ScannableCode code = new ScannableCode();
+            String codeName = new String();
+            for (Map.Entry<String,String> entry : m.entrySet()) {
+                String key = entry.getKey();
+                if(key.equals("id")) {
+                    code = database.getCode(entry.getValue());
+                }
+                if(key.equals("codeName")) {
+                    codeName = entry.getValue();
+                }
+
+            }
+            code.setCodeName(codeName);
+            codeList.add(code);
+        }
+        this.userCodes = codeList;
+    }
+
+    public ArrayList<ScannableCode> getUserCodes() {
+
+
+        return this.userCodes;
     }
 
     public ArrayList<Map> getUserCodeList() {
         List<Map> localDataset = currentUser.getUserCodeList();
-        System.out.println("words");
+
         ArrayList<Map> codeList = new ArrayList(localDataset);
 
+
         return codeList;
+    }
+
+    public void saveCode(ScannableCode code) {
+        this.savedCode = code;
+    }
+
+    public ScannableCode getSavedCode() {
+        return savedCode;
+    }
+
+    public ArrayList<ScannableCode> getAllCodes() {
+        return database.getAllCodeData();
     }
 }

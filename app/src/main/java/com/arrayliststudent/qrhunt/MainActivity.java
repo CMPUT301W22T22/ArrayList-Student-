@@ -79,12 +79,12 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(auth.login()) {
+                if(auth.loggedIn()) {
                     Intent intent = new Intent(getApplicationContext(), ConsoleActivity.class);
                     startActivity(intent);
                 }
             }
-        }, 2000);
+        }, 3500);
         nameEditTxt = findViewById(R.id.main_edit_username);
         confirmBtn = findViewById(R.id.main_btn_confirm);
         confirmBtn.setOnClickListener(confirmBtnClickListener);

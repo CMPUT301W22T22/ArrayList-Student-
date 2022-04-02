@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -31,7 +33,7 @@ import java.util.Random;
 public class ConsoleActivity extends AppCompatActivity implements Observer {
 
     ConsolePresenter presenter;
-    CustomAdapter userTextAdapter;
+    CustomAdapter textAdapter;
     TextView userTextView;
     TextView scoreTextView;
     TextView numCodesTextView;
@@ -44,6 +46,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
     CardView scanCodeView;
 
     Button testButton;
+    Button test1Button;
 
     /**
      * Click listener for QR code list button. This should open the list of QR codes that the
@@ -155,6 +158,28 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    private View.OnClickListener onTest1BtnClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            UserDataModel model = UserDataModel.getInstance();
+            ArrayList<ScannableCode> codes = model.getAllCodes();
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    for (ScannableCode code : codes) {
+                        List<Double> loc = code.getLocation();
+                        String locString = new String(loc.toString());
+                        System.out.println("Location: " + locString);
+                    }
+                }
+            }, 3500);
+
+
+        }
+    };
+
     /**
      * The update method is called from the Observable class UserDataModel upon notifyObservers().
      * The intended purpose is to refresh any views with data from the UserDataModel.
@@ -165,15 +190,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        UserDataModel model = UserDataModel.getInstance();
-        User currentUser = model.getCurrentUser();
-        currentUser.addToScore(0);
-        currentUser.addToNumCodes(0);
-
-        System.out.println("update method called");
-        userTextView.setText(currentUser.getName());
-        scoreTextView.setText(String.valueOf(currentUser.getTotalScore()));
-        numCodesTextView.setText(String.valueOf(currentUser.getNumCodes()));
+        textAdapter.updateData();
     }
 
     /**
@@ -191,13 +208,9 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         numCodesTextView = findViewById(R.id.console_text_numcodes);
         presenter = new ConsolePresenter();
         presenter.setUpObserver(this);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                presenter.refresh();
-            }
-        }, 1000);
+        textAdapter = new CustomAdapter(userTextView, scoreTextView, numCodesTextView);
+        presenter.refresh();
+
         mapImageView = findViewById(R.id.console_img_map);
         mapImageView.setOnClickListener(onMapClicked);
         userImageView = findViewById(R.id.console_img_user);
@@ -215,5 +228,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
 
         testButton = findViewById(R.id.test_button);
         testButton.setOnClickListener(onTestBtnClicked);
+        test1Button = findViewById(R.id.test1_button);
+        test1Button.setOnClickListener(onTest1BtnClicked);
     }
 }
