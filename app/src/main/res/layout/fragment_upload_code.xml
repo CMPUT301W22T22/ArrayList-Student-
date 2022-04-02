@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/uploadcode_edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Code Name"
+        android:importantForAutofill="no" />
+
+    <TextView
+        android:id="@+id/uploadcode_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:hint="Code Score" />
+
+    <Switch
+        android:id="@+id/location_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text=" Location info"
+        android:textSize="20sp" />
+
+
+</LinearLayout>

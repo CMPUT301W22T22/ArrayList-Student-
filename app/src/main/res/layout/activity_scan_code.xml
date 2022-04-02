@@ -36,16 +36,16 @@
         android:id="@+id/display_data"/>
 
     <TextView
+        android:id="@+id/display_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginRight="0.5dp"
-        android:paddingLeft="12dp"
         android:padding="12dp"
-        android:translationX="280dp"
+        android:paddingLeft="12dp"
         android:paddingBottom="4dp"
-        android:text="Points"
-        android:id="@+id/display_score"/>
+        android:text="0"
+        android:translationX="280dp" />
 
     <Button
         android:layout_width="wrap_content"
