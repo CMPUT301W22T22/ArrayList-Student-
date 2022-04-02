@@ -41,7 +41,9 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recycler_content, parent, false);
-            return new ViewHolder(view);    }
+            System.out.println("hihi");
+            return new ViewHolder(view);
+        }
 
         // Bind data to view holder
 
@@ -50,8 +52,8 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
             // Get element from your dataset at this position and replace the
             // contents of the view with that element
             UserDataModel model = UserDataModel.getInstance();
-            List<Map> localDataset = model.getUserCodeList();
-            System.out.println("word");
+            ArrayList<Map> localDataset = model.getUserCodeList();
+            System.out.println("words");
 
             Map<String, String> dataMap = localDataset.get(position);
             for (Map.Entry<String, String> pair : dataMap.entrySet()) {
@@ -59,7 +61,6 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
                 holder.getCodeScore().setText(pair.getKey());
                 System.out.println(pair.getKey());
             }
-
 
             holder.itemView.setOnClickListener(v -> {
                 if (listener != null)
@@ -82,7 +83,6 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
 
         public void updateData() {
             System.out.println("word");
-
             notifyDataSetChanged();
         }
 
