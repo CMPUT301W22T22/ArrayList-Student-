@@ -36,7 +36,8 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_code_list);
 
-
+        presenter = new CodeListPresenter();
+        presenter.setUpObserver(this);
 
         codeList = findViewById(R.id.code_list_view);
         codeList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
