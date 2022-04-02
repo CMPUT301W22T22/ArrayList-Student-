@@ -41,6 +41,7 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recycler_content, parent, false);
+
             return new ViewHolder(view);
         }
 
@@ -54,6 +55,7 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
             ArrayList<ScannableCode> localDataset = model.getUserCodes();
             ArrayList<Map> localCodeList = model.getUserCodeList();
 
+
             Map<String, String> dataMap = localCodeList.get(position);
             for (Map.Entry<String, String> pair : dataMap.entrySet()) {
                 String key = pair.getKey();
@@ -65,6 +67,7 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
             ScannableCode code = localDataset.get(position);
             System.out.println(code.getCodeScore());
             holder.getCodeScore().setText(String.valueOf(code.getCodeScore()));
+
 
 
             holder.itemView.setOnClickListener(v -> {
@@ -87,6 +90,7 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
         }
 
         public void updateData() {
+
             notifyDataSetChanged();
         }
 
