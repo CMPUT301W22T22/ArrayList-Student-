@@ -58,6 +58,7 @@ public class FirebaseData {
         userData.put("totalScore", user.getTotalScore());
         userData.put("userCodeList", user.getUserCodeList());
         userData.put("userId", user.getUserId());
+        System.out.println(user.getUserCodeList());
 
         collectionReference
                 .document(user.getUserId())
@@ -126,17 +127,24 @@ public class FirebaseData {
                     if (document.exists()) {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         Map<String,Object> user = document.getData();
+                        code.setId(id);
                         for (Map.Entry<String, Object> pair : user.entrySet()) {
                             String key = pair.getKey();
-                            if (key.equals("codeName")) {
-                                code.setCodeName((String) pair.getValue());
-                            }
                             if (key.equals("codeScore")) {
-                                code.setCodeScore(Integer.valueOf((String) pair.getValue()));
+                                Integer codeScore;
+                                codeScore = ((Long) pair.getValue()).intValue();
+                                code.setCodeScore((Integer) codeScore);
+                                System.out.println(code.getCodeScore());
                             }
+                            if (key.equals("Location")){
+                                code.setLocation((List<Double>) pair.getValue());
+                            }
+
                         }
+                        Log.d(TAG, "Code document exists");
+
                     } else {
-                        Log.d(TAG, "No such document");
+                        Log.d(TAG, "No such code document " + id);
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
@@ -187,25 +195,25 @@ public class FirebaseData {
                     for (Map.Entry<String, Object> pair : userData.entrySet()) {
                         String key = pair.getKey();
 
-                        if (pair.getKey().equals("userId")) {
+                        if (key.equals("userId")) {
                             user.setId((String) pair.getValue());
                             userId = (String) pair.getValue();
                         }
-                        if (pair.getKey().equals("name")) {
+                        if (key.equals("name")) {
                             user.setName((String) pair.getValue());
                         }
-                        if (pair.getKey().equals("contactInfo")){
+                        if (key.equals("contactInfo")){
                             user.setContactInfo((String) pair.getValue());
                         }
-                        if (pair.getKey() == "userCodeList") {
+                        if (key == "userCodeList") {
                             user.setCodeList((List) pair.getValue());
                         }
-                        if (pair.getKey().equals("numCodes")) {
+                        if (key.equals("numCodes")) {
                             Integer numCodes;
                             numCodes = ((Long) pair.getValue()).intValue();
                             user.setTotalScore(numCodes);
                         }
-                        if (pair.getKey().equals("totalScore")) {
+                        if (key.equals("totalScore")) {
                             Integer totalScore;
                             totalScore = ((Long) pair.getValue()).intValue();
                             user.setTotalScore(totalScore);
@@ -222,49 +230,45 @@ public class FirebaseData {
         return userDataList;
     }
 
-   public boolean checkForUser(String androidId) {
-        successFlag = false;
-        DocumentReference docRef = database.collection("Users").document(androidId);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-           @Override
-           public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-               if (task.isSuccessful()) {
-                   DocumentSnapshot document = task.getResult();
-                   if (document.exists()) {
-                       successFlag = true;
-                       Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                   } else {
-                       Log.d(TAG, "No such document");
-                   }
-               } else {
-                   Log.d(TAG, "get failed with ", task.getException());
-               }
-           }
-       });
-       return successFlag;
-   }
+    // Returns a list of every code from the the "ScannableCodes" collection
+    public ArrayList<ScannableCode> getAllCodeData() {
+        ArrayList<ScannableCode> codeList = new ArrayList<>();
+        //snapshot listener to watch for changes in the database
 
-   public boolean checkForCode(String name) {
-       successFlag = false;
-       DocumentReference docRef = database.collection("ScannableCodes").document(name);
-       docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-           @Override
-           public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-               if (task.isSuccessful()) {
-                   DocumentSnapshot document = task.getResult();
-                   if (document.exists()) {
-                       Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                       successFlag = true;
-                   } else {
-                       Log.d(TAG, "No such document");
-                   }
-               } else {
-                   Log.d(TAG, "get failed with ", task.getException());
-               }
-           }
-       });
-       return successFlag;
-   }
+        codeCollection.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException error) {
+                // Iterate over all documents in the collection
+                for(QueryDocumentSnapshot doc: queryDocumentSnapshots)
+                {
+
+                    List<Map> userCodeList = null;
+                    String userId = new String();
+                    ScannableCode code = new ScannableCode();
+                    Map<String,Object> codeData = doc.getData();
+                    boolean success = false;
+                    // Get all fields from the current document and construct a User
+                    for (Map.Entry<String, Object> pair : codeData.entrySet()) {
+                        String key = pair.getKey();
+
+                        if (key.equals("codeScore")) {
+                            Integer codeScore;
+                            codeScore = ((Long) pair.getValue()).intValue();
+                            code.setCodeScore(codeScore);
+                        }
+                        if (key.equals("Location")){
+                            code.setLocation((List<Double>) pair.getValue());
+                        }
+                    }
+                    codeList.add(code);
+                    Log.d(TAG, "Code downloaded");
+                    Log.d(TAG, "Server document data: " + doc.getData());
+                }
+            }
+        });
+        return codeList;
+    }
+
 
    public ArrayList<User> getUsersByName(String userName){
        ArrayList<User> userDataList = new ArrayList<>();
@@ -292,7 +296,7 @@ public class FirebaseData {
                                    if (pair.getKey().equals("contactInfo")){
                                        user.setContactInfo((String) pair.getValue());
                                    }
-                                   if (pair.getKey() == "userCodeList") {
+                                   if (pair.getKey().equals("userCodeList")) {
                                        user.setCodeList((List) pair.getValue());
                                    }
                                }
@@ -340,7 +344,7 @@ public class FirebaseData {
                                     if (pair.getKey().equals("contactInfo")){
                                         user.setContactInfo((String) pair.getValue());
                                     }
-                                    if (pair.getKey() == "userCodeList") {
+                                    if (pair.getKey().equals("userCodeList")) {
                                         user.setCodeList((List) pair.getValue());
                                     }
                                 }
@@ -380,32 +384,35 @@ public class FirebaseData {
                     // Document found on the server
                     DocumentSnapshot document = task.getResult();
                     Map<String,Object> userData = document.getData();
-                    for (Map.Entry<String, Object> pair : userData.entrySet()) {
-                        String key = pair.getKey();
+                    if (userData != null) {
+                        for (Map.Entry<String, Object> pair : userData.entrySet()) {
+                            String key = pair.getKey();
 
-                        if (pair.getKey().equals("userId")) {
-                            user.setId((String) pair.getValue());
-                        }
-                        if (pair.getKey().equals("name")) {
-                            user.setName((String) pair.getValue());
-                        }
-                        if (pair.getKey().equals("contactInfo")){
-                            user.setContactInfo((String) pair.getValue());
-                        }
-                        if (pair.getKey() == "userCodeList") {
-                            user.setCodeList((List) pair.getValue());
-                        }
-                        if (pair.getKey().equals("numCodes")) {
-                            Integer numCodes;
-                            numCodes = ((Long) pair.getValue()).intValue();
-                            user.setTotalScore(numCodes);
-                        }
-                        if (pair.getKey().equals("totalScore")) {
-                            Integer totalScore;
-                            totalScore = ((Long) pair.getValue()).intValue();
-                            user.setTotalScore(totalScore);
+                            if (key.equals("userId")) {
+                                user.setId((String) pair.getValue());
+                            }
+                            if (key.equals("name")) {
+                                user.setName((String) pair.getValue());
+                            }
+                            if (key.equals("contactInfo")){
+                                user.setContactInfo((String) pair.getValue());
+                            }
+                            if (key.equals("userCodeList")) {
+                                user.setCodeList((List<Map>) pair.getValue());
+                            }
+                            if (key.equals("numCodes")) {
+                                Integer numCodes;
+                                numCodes = ((Long) pair.getValue()).intValue();
+                                user.setNumCodes(numCodes);
+                            }
+                            if (key.equals("totalScore")) {
+                                Integer totalScore;
+                                totalScore = ((Long) pair.getValue()).intValue();
+                                user.setTotalScore(totalScore);
+                            }
                         }
                     }
+
                     Log.d(TAG, "User downloaded");
                     Log.d(TAG, "Server document data: " + document.getData());
                 } else {

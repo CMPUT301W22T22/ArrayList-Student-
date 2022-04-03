@@ -1,5 +1,6 @@
 package com.arrayliststudent.qrhunt;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -12,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
 public class CodeListActivity extends AppCompatActivity implements Observer {
     RecyclerView codeList;
-    TextView totalCodeScore;
-    TextInputEditText searchbar;
+
 
     CodeListPresenter presenter;
     CodeListAdapter recyclerAdapter;
@@ -27,7 +29,25 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
     private class ListClickListener implements RVClickListener {
         @Override
         public void onItemClick(View itemView, int position) {
-            Toast.makeText(getApplicationContext(), "Good click", Toast.LENGTH_SHORT).show();
+            UserDataModel model = UserDataModel.getInstance();
+            ArrayList<ScannableCode> localDataset = model.getUserCodes();
+
+            ScannableCode code = localDataset.get(position);
+
+            ArrayList<Map> localCodeList = model.getUserCodeList();
+
+            Map<String, String> dataMap = localCodeList.get(position);
+            for (Map.Entry<String, String> pair : dataMap.entrySet()) {
+                String key = pair.getKey();
+                if (key.equals("codeName")) {
+                    code.setCodeName(pair.getValue());
+                }
+            }
+
+
+            Intent intent = new Intent(getApplicationContext(),QRCodeActivity.class);
+            intent.putExtra("code", code);
+            startActivity(intent);
         }
     }
 
@@ -43,26 +63,17 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
         codeList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerAdapter = new CodeListAdapter(new ListClickListener());
 
-        totalCodeScore = findViewById(R.id.total_codescore_view);
-        searchbar = findViewById(R.id.search_bar);
+
         codeList.setAdapter(recyclerAdapter);
 
         presenter = new CodeListPresenter();
         presenter.setUpObserver(this);
         presenter.refresh();
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                presenter.refresh();
-//            }
-//        }, 1000);
 
     }
 
     @Override
     public void update(Observable observable, Object o) {
         recyclerAdapter.updateData();
-        System.out.println("update method called");
     }
 }

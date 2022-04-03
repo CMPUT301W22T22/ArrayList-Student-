@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -157,5 +158,13 @@ public class User {
 
     public void addToNumCodes(int i) {
         numCodes += i;
+    }
+
+
+    public void addCode(ScannableCode codeData) {
+        Map<String, Object> codeMap = new HashMap<>();
+        codeMap.put("codeName", codeData.getCodeName());
+        codeMap.put("id", codeData.getId());
+        userCodeList.add(codeMap);
     }
 }

@@ -2,6 +2,7 @@ package com.arrayliststudent.qrhunt;
 
 import android.content.Context;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -9,13 +10,16 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents a ScannableCode object including the codeName and codeScore. The next
  * release should also contain an optional image of the object scanned, and an optional
  * geolocation.
  */
-public class ScannableCode {
+public class ScannableCode implements Serializable {
+
+    private static final long serialVersionUID = 0L;
 
     String codeName;
     String id;
@@ -38,6 +42,8 @@ public class ScannableCode {
     }
 
     ScannableCode() {}
+
+
 
     @Override
     public int hashCode() {
@@ -137,7 +143,7 @@ public class ScannableCode {
 
     public void setLocation(List<Double> list){
         this.location[0] = list.get(0);
-        this.location[0] = list.get(1);
+        this.location[1] = list.get(1);
     }
 
     /**
@@ -150,5 +156,9 @@ public class ScannableCode {
         list.add(location[0]);
         list.add(location[1]);
         return list;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
