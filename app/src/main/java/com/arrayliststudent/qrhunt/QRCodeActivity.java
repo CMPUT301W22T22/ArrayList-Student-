@@ -23,6 +23,10 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
     TextView geolocTextView;
 
     ImageView commentsImageView;
+    ImageView deleteImageView;
+    ImageView usersImageView;
+
+
     ScannableCode code;
     /**
      * Click listener for comments button. This starts the CommentsActivity.
@@ -33,6 +37,22 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(),CommentsActivity.class);
+            startActivity(intent);
+        }
+    };
+
+    private View.OnClickListener onDeleteClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            presenter.deleteCode(code);
+            finish();
+        }
+    };
+
+    private View.OnClickListener onUsersClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(),UserListActivity.class);
             startActivity(intent);
         }
     };
@@ -59,9 +79,20 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         presenter.setUpObserver(this);
 
 
+
         commentsImageView = findViewById(R.id.qr_img_comments);
         commentsImageView.setOnClickListener(onCommentsClicked);
+        deleteImageView = findViewById(R.id.qr_img_delete);
+        deleteImageView.setOnClickListener(onDeleteClicked);
+        usersImageView = findViewById(R.id.qr_img_users);
+        usersImageView.setOnClickListener(onUsersClicked);
 
+        deleteImageView.setVisibility(View.INVISIBLE);
+
+        MAuthenticator auth = MAuthenticator.getInstance();
+        if(auth.checkPrivledge()) {
+            deleteImageView.setVisibility(View.VISIBLE);
+        }
 
         Bundle extras = getIntent().getExtras();
 
@@ -73,16 +104,15 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
             String locString = new String(loc.toString());
             geolocTextView.setText("Location: " + locString);
         }
-
-
-
     }
+
     @Override
     public void onPause() {
         super.onPause();
         UserDataModel model = UserDataModel.getInstance();
         model.saveCode(code);
     }
+
     @Override
     public void onResume() {
         super.onResume();

@@ -57,7 +57,7 @@ public class CommentsActivity extends AppCompatActivity implements AddCommentFra
     public void onCommentOkPressed(String comment) {
         //add to list of comments (need author)
         commentAdapter.add(new Comment("author", comment));
-
+        commentAdapter.notifyDataSetChanged();
     }
 
 }

@@ -46,7 +46,6 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
     CardView scanCodeView;
 
     Button testButton;
-    Button test1Button;
 
     /**
      * Click listener for QR code list button. This should open the list of QR codes that the
@@ -158,27 +157,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         }
     };
 
-    private View.OnClickListener onTest1BtnClicked = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            UserDataModel model = UserDataModel.getInstance();
-            ArrayList<ScannableCode> codes = model.getAllCodes();
 
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    for (ScannableCode code : codes) {
-                        List<Double> loc = code.getLocation();
-                        String locString = new String(loc.toString());
-                        System.out.println("Location: " + locString);
-                    }
-                }
-            }, 3500);
-
-
-        }
-    };
 
     /**
      * The update method is called from the Observable class UserDataModel upon notifyObservers().
@@ -228,7 +207,10 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
 
         testButton = findViewById(R.id.test_button);
         testButton.setOnClickListener(onTestBtnClicked);
-        test1Button = findViewById(R.id.test1_button);
-        test1Button.setOnClickListener(onTest1BtnClicked);
+
+
+        // Initialize addCityButton
+        final FloatingActionButton ownerButton = findViewById(R.id.toggle_owner_button);
+        ownerButton.setOnClickListener((v)-> presenter.toggleOwner());
     }
 }

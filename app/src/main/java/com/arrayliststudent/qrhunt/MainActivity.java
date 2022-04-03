@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     MAuthenticator auth;
     MainPresenter presenter;
     EditText nameEditTxt;
+    TextView nameText;
     Button confirmBtn;
 
     /**
@@ -75,6 +77,16 @@ public class MainActivity extends AppCompatActivity {
         auth = MAuthenticator.getInstance();
         auth.setCurrentUser(Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID));
         presenter = new MainPresenter();
+
+        nameText = findViewById(R.id.main_txt_register);
+        nameEditTxt = findViewById(R.id.main_edit_username);
+        confirmBtn = findViewById(R.id.main_btn_confirm);
+        confirmBtn.setOnClickListener(confirmBtnClickListener);
+        nameText.setVisibility(View.INVISIBLE);
+        nameEditTxt.setVisibility(View.INVISIBLE);
+        confirmBtn.setVisibility(View.INVISIBLE);
+        confirmBtn.setVisibility(View.INVISIBLE);
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -82,11 +94,14 @@ public class MainActivity extends AppCompatActivity {
                 if(auth.loggedIn()) {
                     Intent intent = new Intent(getApplicationContext(), ConsoleActivity.class);
                     startActivity(intent);
+                } else {
+                    nameText.setVisibility(View.VISIBLE);
+                    nameEditTxt.setVisibility(View.VISIBLE);
+                    confirmBtn.setVisibility(View.VISIBLE);
+                    confirmBtn.setVisibility(View.VISIBLE);
                 }
             }
         }, 3500);
-        nameEditTxt = findViewById(R.id.main_edit_username);
-        confirmBtn = findViewById(R.id.main_btn_confirm);
-        confirmBtn.setOnClickListener(confirmBtnClickListener);
+
     }
 }
