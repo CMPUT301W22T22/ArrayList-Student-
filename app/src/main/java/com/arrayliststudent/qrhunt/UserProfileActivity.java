@@ -53,7 +53,8 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
         userProfilePresenter = new UserProfilePresenter();
         String android_ID;
 
-        //May use intent if opening from User Search -Kieran
+        //May use intent if opening from User Search
+        // ...except for the edit button maybe -Kieran
         Intent intent = getIntent();
         if(intent.hasExtra("idFromSearch")){
             android_ID = intent.getStringExtra("idFromSearch");

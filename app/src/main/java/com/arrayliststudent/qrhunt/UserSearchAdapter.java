@@ -21,11 +21,6 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.Vi
     }
 
     @NonNull
-    public Filter getFilter() {
-        throw new RuntimeException("Stub!");
-    }
-
-    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View view = LayoutInflater.from(parent.getContext())
@@ -42,6 +37,7 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.Vi
 
         for(User user : localUserList){
             holder.getUserNameTV().setText(user.getName());
+            System.out.println(user.getName());
         }
 
         holder.itemView.setOnClickListener(v -> {
@@ -60,6 +56,7 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.Vi
     @Override
     public int getItemCount(){
         UserDataModel model = UserDataModel.getInstance();
+        model.fetchData();
         if (model.getUsers() != null) {
             return model.getUsers().size();
         } else {
@@ -70,16 +67,22 @@ public class UserSearchAdapter extends RecyclerView.Adapter<UserSearchAdapter.Vi
     //Custom UserSearch RVAdapter ViewHolder class
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView userName;
+        private final TextView userNameView;
 
         public ViewHolder(View view){
             super(view);
             //just gonna borrow this
-            userName = view.findViewById(R.id.userlist_text_username);
+            userNameView = view.findViewById(R.id.userlist_text_username);
         }
 
         public TextView getUserNameTV(){
-            return userName;
+            return userNameView;
         }
+    }
+
+
+    @NonNull
+    public Filter getFilter() {
+        throw new RuntimeException("Stub!");
     }
 }

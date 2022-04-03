@@ -107,6 +107,10 @@ public class UserSearchActivity extends AppCompatActivity implements Observer {
             public boolean onQueryTextChange(String newText) {
 
                 userSearchAdapter.getFilter().filter(newText);
+
+                //TODO: empty list check and error message
+
+
                 return false;
             }
         });
