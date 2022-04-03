@@ -195,9 +195,10 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
     @Override
     public void onUploadPressed(String codeName, int score, File photo, Boolean location_info, Boolean photo_info) {
         ScannableCode code;
-        String hash = ScanCodePresenter.getHash(codeName.getBytes(StandardCharsets.UTF_8));
+        UserDataModel model = UserDataModel.getInstance();
+        User currentUser = model.getCurrentUser();
 
-        code =  ScanCodePresenter.createScannableCode(codeName, score, hash);
+        code =  ScanCodePresenter.createScannableCode(Integer.toString(currentUser.getNumCodes()), score, codeName);
 
         if(photo_info){
             code.setPhotoFile(photo);
@@ -206,7 +207,7 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
         if (location_info) {
             code.setLocation(getApplicationContext());
         }
-        UserDataModel model = UserDataModel.getInstance();
+
         model.addCode(code);
         Toast.makeText(ScanCodeActivity.this, "Upload is complete", Toast.LENGTH_SHORT).show();
 
@@ -268,7 +269,7 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
                 String rawValue = barcode.getRawValue();
                 String hash = ScanCodePresenter.getHash(rawValue.getBytes(StandardCharsets.UTF_8));
                 int score = ScanCodePresenter.calculateScore(hash);
-                showData.setText(rawValue);
+                showData.setText(hash);
                 showScore.setText(Integer.toString(score));
             }
         }
