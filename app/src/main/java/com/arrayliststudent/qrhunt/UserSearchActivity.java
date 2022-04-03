@@ -2,10 +2,13 @@ package com.arrayliststudent.qrhunt;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -26,7 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class UserSearchActivity extends AppCompatActivity {
+public class UserSearchActivity extends AppCompatActivity implements UserSearchFragment.OnFragmentInteractionListener {
     ListView listView;
     ArrayAdapter<String> arrayAdapter;
 
@@ -60,10 +63,18 @@ public class UserSearchActivity extends AppCompatActivity {
         List<String> nameList = getUserNames();
         System.out.println("%%%"+nameList);
 
+
         listView = findViewById(R.id.list_item);
         arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,nameList);
         listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                new UserSearchFragment(nameList.get(position)).show(getSupportFragmentManager(),"get user data");
+            }
+        });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
