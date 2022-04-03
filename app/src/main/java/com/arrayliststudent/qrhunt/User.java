@@ -80,6 +80,17 @@ public class User {
      * Integer representing the total score of the user.
      */
     public int getTotalScore() {
+        int totalScore = 0;
+//        for (String s : userCodeList) {
+//            if ()
+//            totalScore += Integer.valueOf(s);
+//        }
+        ScoreGenerator scoreGenerator = new ScoreGenerator();
+        ScanCodePresenter scanCodePresenter = new ScanCodePresenter();
+        //for (String s : userCodeList){
+            //totalScore += ScanCodePresenter.calculateScore(s.getBytes(StandardCharsets.UTF_8));
+       // }
+
 
         return totalScore;
     }

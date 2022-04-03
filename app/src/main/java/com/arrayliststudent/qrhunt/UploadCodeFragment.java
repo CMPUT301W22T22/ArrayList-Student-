@@ -14,16 +14,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import java.io.File;
+
 public class UploadCodeFragment extends DialogFragment {
     private UploadCodeFragment.OnFragmentInteractionListener listener;
     private int score;
+    private  String name;
+    private File photo;
     private EditText name_edit;
     private TextView Score_view;
     private Switch aSwitch;
+    private Switch bSwitch;
 
 
     public interface OnFragmentInteractionListener{
-        void onUploadPressed(String codeName, Boolean location_info);
+        void onUploadPressed(String codeName, int score, File photo, Boolean location_info, Boolean photo_info);
     }
     @Override
     public void onAttach(Context context){
@@ -46,7 +51,8 @@ public class UploadCodeFragment extends DialogFragment {
         name_edit = view.findViewById(R.id.uploadcode_edit_name);
         Score_view = view.findViewById(R.id.uploadcode_score);
         aSwitch = view.findViewById(R.id.location_switch);
-        name_edit.setText("Code Name");
+        bSwitch = view.findViewById(R.id.photo_switch);
+        name_edit.setText(name);
         Score_view.setText(String.valueOf(score));
 
 
@@ -58,12 +64,14 @@ public class UploadCodeFragment extends DialogFragment {
                 .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        listener.onUploadPressed(name_edit.getText().toString(),aSwitch.isChecked());
+                        listener.onUploadPressed(name, score, photo, aSwitch.isChecked(), bSwitch.isChecked());
                     }
                 }).create();
 
     }
-    public UploadCodeFragment(int score){
+    public UploadCodeFragment(String name, int score, File photo){
+        this.name = name;
         this.score = score;
+        this.photo = photo;
     }
 }

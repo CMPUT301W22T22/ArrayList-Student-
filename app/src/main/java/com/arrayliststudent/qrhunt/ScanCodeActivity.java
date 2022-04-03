@@ -68,7 +68,8 @@ import java.util.concurrent.Executors;
  * Displays score in bottom right corner
  * Takes Picture when button is pressed
  */
-public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFragment.OnFragmentInteractionListener{
+
+public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFragment.OnFragmentInteractionListener {
     private ListenableFuture cameraProviderFuture;
     private ExecutorService cameraExecutor;
     private PreviewView cameraView;
@@ -91,22 +92,22 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
         this.getWindow().setFlags(1024, 1024);
 
         cameraExecutor = Executors.newSingleThreadExecutor();
-        cameraProviderFuture =  ProcessCameraProvider.getInstance(this);
+        cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         analyzer = new MyImageAnalyzer();
 
         cameraProviderFuture.addListener(new Runnable() {
             @Override
             public void run() {
-                try{
-                    if(ActivityCompat.checkSelfPermission(ScanCodeActivity.this, Manifest.permission.CAMERA) != (PackageManager.PERMISSION_GRANTED)){
-                        ActivityCompat.requestPermissions(ScanCodeActivity.this, new String[] {Manifest.permission.CAMERA}, 101);
-                    }else{
+                try {
+                    if (ActivityCompat.checkSelfPermission(ScanCodeActivity.this, Manifest.permission.CAMERA) != (PackageManager.PERMISSION_GRANTED)) {
+                        ActivityCompat.requestPermissions(ScanCodeActivity.this, new String[]{Manifest.permission.CAMERA}, 101);
+                    } else {
                         ProcessCameraProvider processCameraProvider = (ProcessCameraProvider) cameraProviderFuture.get();
                         bindpreview(processCameraProvider);
                     }
-                }catch (ExecutionException e){
+                } catch (ExecutionException e) {
                     e.printStackTrace();
-                }catch (InterruptedException e){
+                } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -117,7 +118,7 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
     @SuppressLint("MissingSuperCall")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 101 && grantResults.length > 0){
+        if (requestCode == 101 && grantResults.length > 0) {
             ProcessCameraProvider processCameraProvider = null;
             try {
                 processCameraProvider = (ProcessCameraProvider) cameraProviderFuture.get();
@@ -150,9 +151,9 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
             @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
             public void onClick(View view) {
-                capturePhoto(imageCapture);
-                new UploadCodeFragment(Integer.valueOf(showScore.getText().toString()))
-                        .show(getSupportFragmentManager(),"Upload");
+                File photoFile = capturePhoto(imageCapture);
+                new UploadCodeFragment(showData.getText().toString(), Integer.valueOf(showScore.getText().toString()), photoFile)
+                        .show(getSupportFragmentManager(), "Upload");
             }
         });
 
@@ -160,10 +161,10 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
 
 
     @RequiresApi(api = Build.VERSION_CODES.P)
-    private void capturePhoto(ImageCapture imageCapture) {
+    private File capturePhoto(ImageCapture imageCapture) {
 
-        File photoDir = new File ("/mnt/sdcard/Pictures/QRHUNT");
-        if (!photoDir.exists()){
+        File photoDir = new File("/mnt/sdcard/Pictures/QRHUNT");
+        if (!photoDir.exists()) {
             photoDir.mkdir();
         }
         Date date = new Date();
@@ -187,25 +188,27 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
                         Toast.makeText(ScanCodeActivity.this, "Error Photo was not saved: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
+        return photoFile;
     }
 
     @Override
-    public void onUploadPressed(String codeName, Boolean location_info) {
+    public void onUploadPressed(String codeName, int score, File photo, Boolean location_info, Boolean photo_info) {
         ScannableCode code;
-        byte[] arr;
-        arr = showData.getText().toString().getBytes(StandardCharsets.UTF_8);
+        String hash = ScanCodePresenter.getHash(codeName.getBytes(StandardCharsets.UTF_8));
 
-        String hash = "";
+        code =  ScanCodePresenter.createScannableCode(codeName, score, hash);
 
-        for(int i = 0; i < arr.length; i++){
-            hash = hash + arr[i];
+        if(photo_info){
+            code.setPhotoFile(photo);
         }
-        code = new ScannableCode(codeName,Integer.valueOf(showScore.getText().toString()),hash);
-        if (location_info){
+
+        if (location_info) {
             code.setLocation(getApplicationContext());
         }
         UserDataModel model = UserDataModel.getInstance();
         model.addCode(code);
+        Toast.makeText(ScanCodeActivity.this, "Upload is complete", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -263,15 +266,15 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
                 Rect bounds = barcode.getBoundingBox();
                 Point[] corners = barcode.getCornerPoints();
                 String rawValue = barcode.getRawValue();
+                String hash = ScanCodePresenter.getHash(rawValue.getBytes(StandardCharsets.UTF_8));
+                int score = ScanCodePresenter.calculateScore(hash);
                 showData.setText(rawValue);
-
-
-               int score = ScanCodePresenter.createScannableCode(barcode.getDisplayValue(), barcode.getRawBytes());
-               showScore.setText(String.valueOf(score));
-
+                showScore.setText(Integer.toString(score));
             }
         }
+
+        }
     }
-}
+
 
 
