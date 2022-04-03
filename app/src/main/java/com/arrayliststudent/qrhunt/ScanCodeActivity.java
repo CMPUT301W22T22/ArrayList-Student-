@@ -69,7 +69,7 @@ import java.util.concurrent.Executors;
  * Takes Picture when button is pressed
  */
 
-public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFragment.OnFragmentInteractionListener {
+public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFragment.OnFragmentInteractionListener, SaveCodeFragment.OnFragmentInteractionListener {
     private ListenableFuture cameraProviderFuture;
     private ExecutorService cameraExecutor;
     private PreviewView cameraView;
@@ -209,7 +209,7 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
         }
 
         model.addCode(code);
-        Toast.makeText(ScanCodeActivity.this, "Upload is complete", Toast.LENGTH_SHORT).show();
+        new SaveCodeFragment(code).show(getSupportFragmentManager(), "Barcode successfully uploaded");
 
     }
 

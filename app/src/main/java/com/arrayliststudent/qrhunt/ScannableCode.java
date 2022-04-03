@@ -22,7 +22,7 @@ public class ScannableCode {
     String id;
     int codeScore;
     double[] location = {0,0};
-    File photoFile;
+    File photoFile = new File("");
     private ArrayList<Comment> comments = new ArrayList<Comment>();
 
     ScannableCode(String codeName, int codeScore, String hash){
@@ -156,5 +156,9 @@ public class ScannableCode {
 
     public void setPhotoFile(File photoFile){
         this.photoFile = photoFile;
+    }
+
+    public File getPhotoFile() {
+        return photoFile;
     }
 }
