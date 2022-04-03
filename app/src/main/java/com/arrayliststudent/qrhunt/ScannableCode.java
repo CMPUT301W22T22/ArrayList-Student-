@@ -2,6 +2,7 @@ package com.arrayliststudent.qrhunt;
 
 import android.content.Context;
 
+import java.io.File;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -25,6 +26,7 @@ public class ScannableCode implements Serializable {
     String id;
     int codeScore;
     double[] location = {0,0};
+    File photoFile = new File("");
     private ArrayList<Comment> comments = new ArrayList<Comment>();
 
     ScannableCode(String codeName, int codeScore, String hash){
@@ -160,6 +162,14 @@ public class ScannableCode implements Serializable {
         list.add(location[0]);
         list.add(location[1]);
         return list;
+    }
+
+    public void setPhotoFile(File photoFile){
+        this.photoFile = photoFile;
+    }
+
+    public File getPhotoFile() {
+        return photoFile;
     }
 
     public void setId(String id) {
