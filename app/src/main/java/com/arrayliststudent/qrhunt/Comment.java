@@ -1,11 +1,13 @@
 package com.arrayliststudent.qrhunt;
 
+import java.io.Serializable;
+
 /**
  * @author Kieran
  *
  * Comment class used to store comments and their author. Also has getters.
  */
-public class Comment {
+public class Comment implements Serializable {
 
     private String author;
     private String body;
@@ -19,6 +21,8 @@ public class Comment {
         this.author = author;
         this.body = body;
     }
+
+
 
     public String getAuthor() {
         return author;
