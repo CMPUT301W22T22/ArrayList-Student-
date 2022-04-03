@@ -56,7 +56,7 @@
         android:paddingLeft="12dp"
         android:padding="12dp"
         android:paddingBottom="4dp"
-        android:text="Upload Code"
+        android:text="Take Picture"
         android:id="@+id/take_Picture"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -26,21 +26,12 @@
         android:hint="Code Score" />
 
     <Switch
-        android:id="@+id/photo_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:minHeight="48dp"
-        android:text=" Upload Photo"
-        android:textSize="20sp" />
-
-    <Switch
         android:id="@+id/location_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:checked="true"
         android:minHeight="48dp"
-        android:text=" Upload Location"
+        android:text=" Location info"
         android:textSize="20sp" />
 
 
