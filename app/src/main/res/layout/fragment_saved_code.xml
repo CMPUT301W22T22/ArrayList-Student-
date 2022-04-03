@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/display_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:text="Code Successfully Uploaded" />
+
+    <TextView
+        android:id="@+id/display_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:hint="Code Score" />
+
+    <TextView
+        android:id="@+id/display_hash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:hint="Code Hash" />
+
+    <TextView
+        android:id="@+id/display_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:hint="Code Score" />
+
+    <TextView
+        android:id="@+id/display_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:ems="10"
+        android:hint="No Location Recorded" />
+
+    <ImageView
+        android:id="@+id/display_photo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ImageView>
+
+</LinearLayout>
