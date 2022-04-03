@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,16 +17,17 @@ import java.util.Observer;
  */
 public class QRCodeActivity extends AppCompatActivity implements Observer {
     QRPresenter presenter;
-    CustomAdapter nameTextAdapter;
-    CustomAdapter scoreTextAdapter;
-    CustomAdapter geolocTextAdapter;
 
     TextView nameTextView;
     TextView scoreTextView;
     TextView geolocTextView;
 
     ImageView commentsImageView;
+    ImageView deleteImageView;
+    ImageView usersImageView;
 
+
+    ScannableCode code;
     /**
      * Click listener for comments button. This starts the CommentsActivity.
      * @param v
@@ -35,6 +37,23 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(),CommentsActivity.class);
+            intent.putExtra("code",code);
+            startActivity(intent);
+        }
+    };
+
+    private View.OnClickListener onDeleteClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            presenter.deleteCode(code);
+            finish();
+        }
+    };
+
+    private View.OnClickListener onUsersClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(),UserListActivity.class);
             startActivity(intent);
         }
     };
@@ -60,8 +79,54 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         presenter = new QRPresenter();
         presenter.setUpObserver(this);
 
+
+
         commentsImageView = findViewById(R.id.qr_img_comments);
         commentsImageView.setOnClickListener(onCommentsClicked);
+        deleteImageView = findViewById(R.id.qr_img_delete);
+        deleteImageView.setOnClickListener(onDeleteClicked);
+        usersImageView = findViewById(R.id.qr_img_users);
+        usersImageView.setOnClickListener(onUsersClicked);
+
+        deleteImageView.setVisibility(View.INVISIBLE);
+
+        MAuthenticator auth = MAuthenticator.getInstance();
+        if(auth.checkPrivledge()) {
+            deleteImageView.setVisibility(View.VISIBLE);
+        }
+
+        Bundle extras = getIntent().getExtras();
+
+        if (extras != null ) {
+            this.code = (ScannableCode) extras.getSerializable("code");
+            nameTextView.setText("Name: " + code.getCodeName());
+            scoreTextView.setText("Score: " + (String.valueOf(code.getCodeScore())));
+            List<Double> loc = code.getLocation();
+            String locString = new String(loc.toString());
+            geolocTextView.setText("Location: " + locString);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        UserDataModel model = UserDataModel.getInstance();
+        model.saveCode(code);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(this.code == null) {
+            UserDataModel model = UserDataModel.getInstance();
+
+            code = model.getSavedCode();
+            nameTextView.setText("Name: " + code.getCodeName());
+            scoreTextView.setText("Score: " + (String.valueOf(code.getCodeScore())));
+            List<Double> loc = code.getLocation();
+            String locString = new String(loc.toString());
+            geolocTextView.setText("Location: " + locString);
+        }
 
     }
 
