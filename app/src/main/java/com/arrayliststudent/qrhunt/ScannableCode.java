@@ -128,6 +128,10 @@ public class ScannableCode implements Serializable {
         return comments;
     }
 
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
+
     public String getId() {
         return this.id;
     }
@@ -160,5 +164,12 @@ public class ScannableCode implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+
+
+    public List<Comment> getCommentsList() {
+        List<Comment> list = (List<Comment>) comments;
+        return list;
     }
 }

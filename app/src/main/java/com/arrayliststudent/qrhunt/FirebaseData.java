@@ -97,6 +97,7 @@ public class FirebaseData {
         codeData.put("codeName", code.getCodeName());
         codeData.put("codeScore", code.getCodeScore());
         codeData.put("Location", code.getLocation());
+        codeData.put("Comment",code.getComments());
 
 
         codeCollection
@@ -142,6 +143,15 @@ public class FirebaseData {
                             }
                             if (key.equals("Location")) {
                                 code.setLocation((List<Double>) pair.getValue());
+                            }
+                            if (key.equals("Comment")){
+                                List<HashMap<String,String>> list =
+                                        (List<HashMap<String, String>>) pair.getValue();
+                                ArrayList<Comment> comments = new ArrayList<>();
+                                for (HashMap<String,String> map:list){
+                                    comments.add(new Comment(map.get("author"),map.get("body")));
+                                }
+                                code.setComments(comments);
                             }
 
                         }
@@ -260,6 +270,15 @@ public class FirebaseData {
                         }
                         if (key.equals("Location")) {
                             code.setLocation((List<Double>) pair.getValue());
+                        }
+                        if (key.equals("Comment")){
+                            List<HashMap<String,String>> list =
+                                    (List<HashMap<String, String>>) pair.getValue();
+                            ArrayList<Comment> comments = new ArrayList<>();
+                            for (HashMap<String,String> map:list){
+                                comments.add(new Comment(map.get("author"),map.get("body")));
+                            }
+
                         }
                     }
                     codeList.add(code);

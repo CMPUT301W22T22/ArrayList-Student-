@@ -23,7 +23,6 @@
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/activity_high_score_list.xml" value="0.32314814814814813" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/activity_main.xml" value="0.3569230769230769" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/activity_user_profile.xml" value="0.18541666666666667" />
-        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/bottom_dialog.xml" value="0.3625" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/fragment_edit_profile.xml" value="0.18541666666666667" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/high_score_content.xml" value="0.32314814814814813" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/recycler_content.xml" value="0.32314814814814813" />
@@ -32,6 +31,7 @@
         <entry key="..\:/Users/vinay/AndroidStudioProjects/ArrayList-Student-/app/src/main/res/drawable/qr_camera_background.xml" value="0.575" />
         <entry key="..\:/Users/vinay/AndroidStudioProjects/ArrayList-Student-/app/src/main/res/layout/activity_console.xml" value="0.3844444444444444" />
         <entry key="..\:/Users/vinay/AndroidStudioProjects/ArrayList-Student-/app/src/main/res/layout/activity_main.xml" value="0.16822916666666668" />
+        <entry key="app/src/main/res/layout/activity_comments_list.xml" value="0.245018115942029" />
         <entry key="app/src/main/res/layout/activity_console.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/activity_high_score_list.xml" value="0.245018115942029" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.245018115942029" />
@@ -40,11 +40,13 @@
         <entry key="app/src/main/res/layout/activity_scan_code.xml" value="0.245018115942029" />
         <entry key="app/src/main/res/layout/activity_user_list.xml" value="0.245018115942029" />
         <entry key="app/src/main/res/layout/activity_user_profile.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/comment_content.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_add_code.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_edit_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/high_score_content.xml" value="0.28830718994140625" />
         <entry key="app/src/main/res/layout/recycler_content.xml" value="0.245018115942029" />
         <entry key="app/src/main/res/layout/user_recycler_content.xml" value="0.1" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/comments.xml" value="0.2355" />
       </map>
     </option>
   </component>
