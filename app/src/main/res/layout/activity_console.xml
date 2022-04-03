@@ -16,15 +16,17 @@
 
     </Button>
 
-    <Button
-        android:id="@+id/test1_button"
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/toggle_owner_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Get all codes"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/test_button">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
-    </Button>
 
     <LinearLayout
         android:id="@+id/linearLayout"

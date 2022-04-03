@@ -23,7 +23,7 @@ public class User {
     private int totalScore;
     private int numCodes;
 
-    private List<Map> userCodeList = new LinkedList<>();
+    private ArrayList<Map> userCodeList = new ArrayList<>();
 
 
     public User(String androidId, String name) {
@@ -133,7 +133,7 @@ public class User {
     }
 
     public void setCodeList(List<Map> userCodeList) {
-        this.userCodeList = userCodeList;
+        this.userCodeList = new ArrayList<Map>(userCodeList);
     }
 
     public void setId(String value) {
@@ -167,4 +167,13 @@ public class User {
         codeMap.put("id", codeData.getId());
         userCodeList.add(codeMap);
     }
+
+    public void deleteCode(int position) {
+        System.out.println("code list size: " + userCodeList.size());
+
+        userCodeList.remove(position);
+        System.out.println("code list size: " + userCodeList.size());
+
+    }
+
 }

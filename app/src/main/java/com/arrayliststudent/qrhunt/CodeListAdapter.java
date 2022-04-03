@@ -52,7 +52,7 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
             // Get element from your dataset at this position and replace the
             // contents of the view with that element
             UserDataModel model = UserDataModel.getInstance();
-            ArrayList<ScannableCode> localDataset = model.getUserCodes();
+            ArrayList<ScannableCode> localUserCodes = model.getUserCodes();
             ArrayList<Map> localCodeList = model.getUserCodeList();
 
 
@@ -64,8 +64,7 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
                 }
             }
 
-            ScannableCode code = localDataset.get(position);
-            System.out.println(code.getCodeScore());
+            ScannableCode code = localUserCodes.get(position);
             holder.getCodeScore().setText(String.valueOf(code.getCodeScore()));
 
 

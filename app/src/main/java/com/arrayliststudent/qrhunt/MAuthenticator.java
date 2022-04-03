@@ -15,10 +15,8 @@ public class MAuthenticator {
     
     private String android_id;
     private FirebaseFirestore db= FirebaseFirestore.getInstance();
-    DocumentSnapshot document;
     private boolean ownerPrivledge;
 
-    public static boolean successFlag;
     private static final MAuthenticator mAuthenticator  = new MAuthenticator();
 
     public static MAuthenticator getInstance(){
@@ -26,6 +24,7 @@ public class MAuthenticator {
     }
 
     private MAuthenticator() {
+        ownerPrivledge = false;
     }
 
     public void setCurrentUser(String androidId) {
@@ -33,11 +32,7 @@ public class MAuthenticator {
         model.fetchCurrentUser(androidId);
         this.android_id = androidId;
         model.setUserId(this.android_id);
-        //setPrivledges(user.getPublicKey());
-
-
     }
-
 
     public boolean loggedIn() {
         UserDataModel model = UserDataModel.getInstance();
@@ -45,18 +40,37 @@ public class MAuthenticator {
         User user = model.getCurrentUser();
 
         if ( user.getUserId() == null) {
-            System.out.println("hello");
+            System.out.println("User Not Found");
             return  false;
         } else {
             model.setUserCodes();
+            setPrivledges();
             return true;
         }
+    }
 
+    private void setPrivledges() {
+        UserDataModel model = UserDataModel.getInstance();
+        User user = model.getCurrentUser();
+        if(user.getName() != null) {
+            ownerPrivledge = true;
+        } else {
+            ownerPrivledge = false;
+        }
+    }
+
+    public void toggleOwner() {
+        UserDataModel model = UserDataModel.getInstance();
+        if(ownerPrivledge) {
+            model.removeOwner(android_id);
+        } else {
+            model.addOwner(android_id);
+        }
+        ownerPrivledge = !ownerPrivledge;
 
     }
 
-//    private void setPrivledges(String publicKey) {
-//
-//    }
-
+    public boolean checkPrivledge() {
+        return ownerPrivledge;
+    }
 }

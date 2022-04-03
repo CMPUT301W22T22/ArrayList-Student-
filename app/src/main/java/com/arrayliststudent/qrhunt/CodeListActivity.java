@@ -3,6 +3,7 @@ package com.arrayliststudent.qrhunt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +31,10 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
         @Override
         public void onItemClick(View itemView, int position) {
             UserDataModel model = UserDataModel.getInstance();
+            model.setCodePosition(position);
             ArrayList<ScannableCode> localDataset = model.getUserCodes();
 
+            Log.d("malaka", "position clicked: " + position);
             ScannableCode code = localDataset.get(position);
 
             ArrayList<Map> localCodeList = model.getUserCodeList();
