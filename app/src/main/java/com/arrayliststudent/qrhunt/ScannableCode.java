@@ -170,6 +170,8 @@ public class ScannableCode implements Serializable {
 
     public File getPhotoFile() {
         return photoFile;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
