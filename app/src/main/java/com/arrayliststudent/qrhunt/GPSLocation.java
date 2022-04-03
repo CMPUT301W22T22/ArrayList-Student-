@@ -44,12 +44,11 @@ public class GPSLocation {
         }
         else {
             deviceLocation[0] = 0;
-            deviceLocation[0] = 0;
+            deviceLocation[1] = 0;
         }
     }
 
     public double[] getDeviceLocation() {
-        System.out.println(deviceLocation[0]+" "+deviceLocation[1]);
         return deviceLocation;
     }
 }

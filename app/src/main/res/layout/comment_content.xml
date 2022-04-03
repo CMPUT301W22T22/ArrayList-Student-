@@ -7,17 +7,19 @@
 
     <TextView
         android:id="@+id/comment_author"
-        android:layout_width="107dp"
-        android:layout_height="32dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="20dp"
-        android:textSize="30sp"/>
+        android:text="author"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/comment_body"
-        android:layout_width="254dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:textSize="20sp"/>
+        android:text="Comm"
+        android:textSize="20sp" />
 
 
 </LinearLayout>

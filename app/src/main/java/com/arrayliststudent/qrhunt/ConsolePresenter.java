@@ -10,6 +10,11 @@ import java.util.Observer;
 public class ConsolePresenter {
 
 
+    public void toggleOwner() {
+        MAuthenticator auth = MAuthenticator.getInstance();
+        auth.toggleOwner();
+    }
+
     ConsolePresenter() {
     }
 

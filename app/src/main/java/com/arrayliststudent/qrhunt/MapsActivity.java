@@ -34,7 +34,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +58,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public GoogleMap mMap;
-    public float[][] codeList;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -121,7 +122,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                     locationPermissionGranted = true;
-                    //initMap();
                 }
             }
         }
@@ -171,6 +171,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * @param zoom
      */
     private void addMarker(LatLng latLng, float zoom){
+        List<List<Double>> codeList = new LinkedList<>();
         if(locationPermissionGranted){
             Log.d(TAG,"Current location is latitude: " + latLng.latitude + ", longitude: " + latLng.longitude);
             //mMap.addMarker(new MarkerOptions().position(deviceLocation).title("Marker"));
@@ -188,14 +189,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             String key = pair.getKey();
                             if (pair.getKey().equals("Location")) {
                                 codeLocation = (List<Double>) pair.getValue();
-                                mMap.addMarker(new MarkerOptions().position(new LatLng(codeLocation.get(0),codeLocation.get(1))).title(codeLocation.get(0)+","+codeLocation.get(1)));
-                                Log.d(TAG,"Added code marker to: latitude: " + codeLocation.get(0) + ", longitude: " + codeLocation.get(1));
+                                codeList.add(codeLocation);
+                                if(codeLocation.get(0) != 0 && codeLocation.get(0) != 0) {
+                                    mMap.addMarker(new MarkerOptions().position(new LatLng(codeLocation.get(0), codeLocation.get(1))).title("[" + codeLocation.get(0) + "," + codeLocation.get(1) + "]"));
+                                    Log.d(TAG, "*****Added code marker to: latitude: " + codeLocation.get(0) + ", longitude: " + codeLocation.get(1));
+                                }
                             }
                         }
                     }
                 }
             });
-
             /*ScannableCode code = firebaseData.getCode("1ef4e838a9aa1a80dcc2a3af4fd57190f8a91c3bf373c85142f2941687ebf127");
             mMap.addMarker(new MarkerOptions().position(new LatLng(code.getLocation()[0],code.getLocation()[1])).title("Marker"));
             Log.d(TAG,"*******Adding code marker to: latitude: " + code.getLocation()[0] + ", longitude: " + code.getLocation()[1]);*/

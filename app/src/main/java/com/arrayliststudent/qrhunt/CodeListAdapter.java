@@ -41,7 +41,9 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.recycler_content, parent, false);
-            return new ViewHolder(view);    }
+
+            return new ViewHolder(view);
+        }
 
         // Bind data to view holder
 
@@ -50,15 +52,21 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
             // Get element from your dataset at this position and replace the
             // contents of the view with that element
             UserDataModel model = UserDataModel.getInstance();
-            List<Map> localDataset = model.getUserCodeList();
-            System.out.println("word");
+            ArrayList<ScannableCode> localUserCodes = model.getUserCodes();
+            ArrayList<Map> localCodeList = model.getUserCodeList();
 
-            Map<String, String> dataMap = localDataset.get(position);
+
+            Map<String, String> dataMap = localCodeList.get(position);
             for (Map.Entry<String, String> pair : dataMap.entrySet()) {
-                holder.getCodeName().setText(pair.getValue());
-                holder.getCodeScore().setText(pair.getKey());
-                System.out.println(pair.getKey());
+                String key = pair.getKey();
+                if (key.equals("codeName")) {
+                    holder.getCodeName().setText(pair.getValue());
+                }
             }
+
+            ScannableCode code = localUserCodes.get(position);
+            holder.getCodeScore().setText(String.valueOf(code.getCodeScore()));
+
 
 
             holder.itemView.setOnClickListener(v -> {
@@ -81,7 +89,6 @@ public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHo
         }
 
         public void updateData() {
-            System.out.println("word");
 
             notifyDataSetChanged();
         }

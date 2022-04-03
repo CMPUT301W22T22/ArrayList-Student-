@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class User {
     private int totalScore;
     private int numCodes;
 
-    private List<Map> userCodeList = new LinkedList<>();
+    private ArrayList<Map> userCodeList = new ArrayList<>();
 
 
     public User(String androidId, String name) {
@@ -132,7 +133,7 @@ public class User {
     }
 
     public void setCodeList(List<Map> userCodeList) {
-        this.userCodeList = userCodeList;
+        this.userCodeList = new ArrayList<Map>(userCodeList);
     }
 
     public void setId(String value) {
@@ -158,4 +159,21 @@ public class User {
     public void addToNumCodes(int i) {
         numCodes += i;
     }
+
+
+    public void addCode(ScannableCode codeData) {
+        Map<String, Object> codeMap = new HashMap<>();
+        codeMap.put("codeName", codeData.getCodeName());
+        codeMap.put("id", codeData.getId());
+        userCodeList.add(codeMap);
+    }
+
+    public void deleteCode(int position) {
+        System.out.println("code list size: " + userCodeList.size());
+
+        userCodeList.remove(position);
+        System.out.println("code list size: " + userCodeList.size());
+
+    }
+
 }

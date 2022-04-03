@@ -1,9 +1,16 @@
 package com.arrayliststudent.qrhunt;
 
 
+import android.content.Intent;
+import android.os.Handler;
+import android.view.View;
+
+import com.google.firebase.firestore.core.Query;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
@@ -17,6 +24,9 @@ public class UserDataModel extends Observable {
     HashMap<String, User> userList;
     private String userID;
     private User currentUser;
+    private ArrayList<ScannableCode> userCodes;
+    private ScannableCode savedCode;
+    private int codePosition;
 
     /**
      * Singleton pattern for UserDataModel. Constructor initializes the database.
@@ -41,18 +51,20 @@ public class UserDataModel extends Observable {
         return userDataList;
     }
 
+
+
     public void addCode(ScannableCode code) {
 
         User user = getCurrentUser();
-        Map<String, String> codeData = new HashMap<>();
-        codeData.put(code.getId(), code.getCodeName());
-        if (!user.getUserCodeList().contains(codeData)) {
+//        Map<String, String> codeData = new HashMap<>();
+//
+//        codeData.put(code.getId(), code.getCodeName());
+        if (/*!user.getUserCodeList().contains(codeData*/true) {
             user.addToScore(code.getCodeScore());
             user.addToNumCodes();
-            System.out.println("Code Score = " + code.getCodeScore());
-            System.out.println("Total Score = " + user.getTotalScore());
 
-            user.getUserCodeList().add(codeData);
+            user.addCode(code);
+            setUserCodes();
             database.addUserData(user);
             database.addCode(code);
         }
@@ -128,6 +140,7 @@ public class UserDataModel extends Observable {
      */
     public void fetchData() {
         userList = database.getAllUserData();
+        setUserCodes();
     }
 
     public void refresh() {
@@ -153,12 +166,120 @@ public class UserDataModel extends Observable {
         return database.getUserById(androidId);
     }
 
-    public void fetchCurrentUser(String androidId) {
-        this.currentUser = database.getUserById(androidId);
-        System.out.println(currentUser.getNumCodes());
+    public User getOwnerById(String androidId) {
+        return database.getOwnerById(androidId);
     }
 
-    public List<Map> getUserCodeList() {
-        return currentUser.getUserCodeList();
+    public void fetchCurrentUser(String androidId) {
+        this.currentUser = database.getUserById(androidId);
+    }
+
+    public void setUserCodes() {
+        List<Map> localDataset = currentUser.getUserCodeList();
+
+        ArrayList<ScannableCode> codeList = new ArrayList();
+
+        for (Map<String, String> m : localDataset) {
+            ScannableCode code = new ScannableCode();
+            String codeName = new String();
+            for (Map.Entry<String,String> entry : m.entrySet()) {
+                String key = entry.getKey();
+                if(key.equals("id")) {
+                    code = database.getCode(entry.getValue());
+                }
+                if(key.equals("codeName")) {
+                    codeName = entry.getValue();
+                }
+
+            }
+            code.setCodeName(codeName);
+            codeList.add(code);
+        }
+        this.userCodes = codeList;
+    }
+
+    public ArrayList<ScannableCode> getUserCodes() {
+
+
+        return this.userCodes;
+    }
+
+    public ArrayList<Map> getUserCodeList() {
+        List<Map> localDataset = currentUser.getUserCodeList();
+
+        ArrayList<Map> codeList = new ArrayList(localDataset);
+
+
+        return codeList;
+    }
+
+    public void saveCode(ScannableCode code) {
+        this.savedCode = code;
+    }
+
+    public ScannableCode getSavedCode() {
+        return savedCode;
+    }
+
+    public ArrayList<ScannableCode> getAllCodes() {
+        return database.getAllCodeData();
+    }
+
+    public void addOwner(String android_id) {
+        database.addOwner(android_id, currentUser.getName());
+    }
+
+    public void removeOwner(String android_id) {
+        database.removeOwner(android_id);
+    }
+
+    public ArrayList<User> removeCodeFromUsers(ArrayList<User> users) {
+        for(User user : users) {
+            ArrayList<Map> codeList = (ArrayList<Map>) user.getUserCodeList();
+            Iterator iterator = codeList.iterator();
+            String code = new String();
+            while (iterator.hasNext()) {
+                Map<String,Object> m = (Map<String, Object>) iterator.next();
+                for (Map.Entry<String,Object> entry : m.entrySet()) {
+                    String key = entry.getKey();
+                    if(key.equals("id")) {
+                        iterator.remove();
+                    }
+                }
+
+            }
+        }
+        return users;
+    }
+
+    public void deleteUserCodes(String id, int position) {
+        currentUser.deleteCode(position);
+        currentUser.setTotalScore(
+                currentUser.getTotalScore()-userCodes.get(position).getCodeScore());
+        currentUser.setNumCodes(currentUser.getNumCodes()-1);
+        database.removerUserData(currentUser);
+        database.addUserData(currentUser);
+        userCodes.remove(position);
+        ArrayList<User> users = database.getUsersByCode(id);
+        Handler handler = new Handler();
+        ArrayList<User> newUsers;
+
+        newUsers = removeCodeFromUsers(users);
+        database.addUsers(newUsers);
+        setChanged();
+        notifyObservers();
+
+    }
+
+    public void deleteCode(String id) {
+        database.deleteCode(id);
+    }
+
+    public int getCodePosition() {
+        return codePosition;
+    }
+
+    public void setCodePosition(int position) {
+        this.codePosition = position;
     }
 }
