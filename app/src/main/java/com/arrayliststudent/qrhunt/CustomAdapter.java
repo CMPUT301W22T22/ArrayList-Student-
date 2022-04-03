@@ -17,8 +17,8 @@ public class CustomAdapter {
         UserDataModel model = UserDataModel.getInstance();
         User currentUser = model.getCurrentUser();
         text1.setText(currentUser.getName());
-        text2.setText(String.valueOf(currentUser.getTotalScore()));
-        text3.setText(String.valueOf(currentUser.getNumCodes()));
+        text2.setText(String.valueOf("Score: " + currentUser.getTotalScore()));
+        text3.setText(String.valueOf("Codes: " +currentUser.getNumCodes()));
     }
 
 }
