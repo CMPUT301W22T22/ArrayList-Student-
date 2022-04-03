@@ -68,8 +68,7 @@ import java.util.concurrent.Executors;
  * Displays score in bottom right corner
  * Takes Picture when button is pressed
  */
-
-public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFragment.OnFragmentInteractionListener, SaveCodeFragment.OnFragmentInteractionListener {
+public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFragment.OnFragmentInteractionListener{
     private ListenableFuture cameraProviderFuture;
     private ExecutorService cameraExecutor;
     private PreviewView cameraView;
@@ -92,22 +91,22 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
         this.getWindow().setFlags(1024, 1024);
 
         cameraExecutor = Executors.newSingleThreadExecutor();
-        cameraProviderFuture = ProcessCameraProvider.getInstance(this);
+        cameraProviderFuture =  ProcessCameraProvider.getInstance(this);
         analyzer = new MyImageAnalyzer();
 
         cameraProviderFuture.addListener(new Runnable() {
             @Override
             public void run() {
-                try {
-                    if (ActivityCompat.checkSelfPermission(ScanCodeActivity.this, Manifest.permission.CAMERA) != (PackageManager.PERMISSION_GRANTED)) {
-                        ActivityCompat.requestPermissions(ScanCodeActivity.this, new String[]{Manifest.permission.CAMERA}, 101);
-                    } else {
+                try{
+                    if(ActivityCompat.checkSelfPermission(ScanCodeActivity.this, Manifest.permission.CAMERA) != (PackageManager.PERMISSION_GRANTED)){
+                        ActivityCompat.requestPermissions(ScanCodeActivity.this, new String[] {Manifest.permission.CAMERA}, 101);
+                    }else{
                         ProcessCameraProvider processCameraProvider = (ProcessCameraProvider) cameraProviderFuture.get();
                         bindpreview(processCameraProvider);
                     }
-                } catch (ExecutionException e) {
+                }catch (ExecutionException e){
                     e.printStackTrace();
-                } catch (InterruptedException e) {
+                }catch (InterruptedException e){
                     e.printStackTrace();
                 }
             }
@@ -118,7 +117,7 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
     @SuppressLint("MissingSuperCall")
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 101 && grantResults.length > 0) {
+        if(requestCode == 101 && grantResults.length > 0){
             ProcessCameraProvider processCameraProvider = null;
             try {
                 processCameraProvider = (ProcessCameraProvider) cameraProviderFuture.get();
@@ -151,9 +150,9 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
             @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
             public void onClick(View view) {
-                File photoFile = capturePhoto(imageCapture);
-                new UploadCodeFragment(showData.getText().toString(), Integer.valueOf(showScore.getText().toString()), photoFile)
-                        .show(getSupportFragmentManager(), "Upload");
+                capturePhoto(imageCapture);
+                new UploadCodeFragment(Integer.valueOf(showScore.getText().toString()))
+                        .show(getSupportFragmentManager(),"Upload");
             }
         });
 
@@ -161,10 +160,10 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
 
 
     @RequiresApi(api = Build.VERSION_CODES.P)
-    private File capturePhoto(ImageCapture imageCapture) {
+    private void capturePhoto(ImageCapture imageCapture) {
 
-        File photoDir = new File("/mnt/sdcard/Pictures/QRHUNT");
-        if (!photoDir.exists()) {
+        File photoDir = new File ("/mnt/sdcard/Pictures/QRHUNT");
+        if (!photoDir.exists()){
             photoDir.mkdir();
         }
         Date date = new Date();
@@ -188,28 +187,25 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
                         Toast.makeText(ScanCodeActivity.this, "Error Photo was not saved: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-        return photoFile;
     }
 
     @Override
-    public void onUploadPressed(String codeName, int score, File photo, Boolean location_info, Boolean photo_info) {
+    public void onUploadPressed(String codeName, Boolean location_info) {
         ScannableCode code;
-        UserDataModel model = UserDataModel.getInstance();
-        User currentUser = model.getCurrentUser();
+        byte[] arr;
+        arr = showData.getText().toString().getBytes(StandardCharsets.UTF_8);
 
-        code =  ScanCodePresenter.createScannableCode(Integer.toString(currentUser.getNumCodes()), score, codeName);
+        String hash = "";
 
-        if(photo_info){
-            code.setPhotoFile(photo);
+        for(int i = 0; i < arr.length; i++){
+            hash = hash + arr[i];
         }
-
-        if (location_info) {
+        code = new ScannableCode(codeName,Integer.valueOf(showScore.getText().toString()),hash);
+        if (location_info){
             code.setLocation(getApplicationContext());
         }
-
+        UserDataModel model = UserDataModel.getInstance();
         model.addCode(code);
-        new SaveCodeFragment(code).show(getSupportFragmentManager(), "Barcode successfully uploaded");
 
     }
 
@@ -267,15 +263,15 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
                 Rect bounds = barcode.getBoundingBox();
                 Point[] corners = barcode.getCornerPoints();
                 String rawValue = barcode.getRawValue();
-                String hash = ScanCodePresenter.getHash(rawValue.getBytes(StandardCharsets.UTF_8));
-                int score = ScanCodePresenter.calculateScore(hash);
-                showData.setText(hash);
-                showScore.setText(Integer.toString(score));
+                showData.setText(rawValue);
+
+
+               int score = ScanCodePresenter.createScannableCode(barcode.getDisplayValue(), barcode.getRawBytes());
+               showScore.setText(String.valueOf(score));
+
             }
         }
-
-        }
     }
-
+}
 
 
