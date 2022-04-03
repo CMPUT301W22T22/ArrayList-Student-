@@ -24,12 +24,15 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UserSearchFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
-
+    private String userName;
+    private int score;
+    private int codeNum;
     public interface OnFragmentInteractionListener{
 
     }
@@ -55,27 +58,17 @@ public class UserSearchFragment extends DialogFragment {
         TextView nameText = view.findViewById(R.id.name_text);
         TextView scoreText = view.findViewById(R.id.score_text);
         TextView codeText = view.findViewById(R.id.code_text);
+        nameText.setText(userName);
+        scoreText.setText(String.valueOf(score));
+        codeText.setText(String.valueOf(codeNum));
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
                 .setPositiveButton("OK",null).create();
     }
-    public UserSearchFragment(String userName){
-        FirebaseFirestore ff = FirebaseFirestore.getInstance();
-        CollectionReference collectionReference = ff.collection("Users");
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for(QueryDocumentSnapshot doc: value) {
-                    User user = new User();
-                    Map<String,Object> code = doc.getData();
-                    for(Map.Entry<String, Object> pair : code.entrySet()) {
-                        if (pair.getValue().equals(userName)) {
-                            System.out.println();
-                        }
-                    }
-                }
-            }
-        });
+    public UserSearchFragment(String userName, int score, int codeNum){
+        this.userName = userName;
+        this.score = score;
+        this.codeNum = codeNum;
     }
 }
