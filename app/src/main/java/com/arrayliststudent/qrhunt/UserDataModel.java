@@ -254,13 +254,17 @@ public class UserDataModel extends Observable {
 
     public void deleteUserCodes(String id, int position) {
         currentUser.deleteCode(position);
+        currentUser.setTotalScore(
+                currentUser.getTotalScore()-userCodes.get(position).getCodeScore());
+        currentUser.setNumCodes(currentUser.getNumCodes()-1);
+        database.removerUserData(currentUser);
+        database.addUserData(currentUser);
         userCodes.remove(position);
         ArrayList<User> users = database.getUsersByCode(id);
         Handler handler = new Handler();
         ArrayList<User> newUsers;
 
         newUsers = removeCodeFromUsers(users);
-
         database.addUsers(newUsers);
         setChanged();
         notifyObservers();
