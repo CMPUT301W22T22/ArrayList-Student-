@@ -23,10 +23,21 @@
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/activity_high_score_list.xml" value="0.32314814814814813" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/activity_main.xml" value="0.3569230769230769" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/activity_user_profile.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/activity_user_search.xml" value="0.26666666666666666" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/bottom_dialog.xml" value="0.3625" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/comment_content.xml" value="0.3625" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/fragment_add_code.xml" value="0.3625" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/fragment_add_comment.xml" value="0.3625" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/fragment_edit_profile.xml" value="0.18541666666666667" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/fragment_remove_profle.xml" value="0.3625" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/fragment_upload_code.xml" value="0.3625" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/fragment_user_search.xml" value="0.3138888888888889" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/high_score_content.xml" value="0.32314814814814813" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/recycler_content.xml" value="0.32314814814814813" />
         <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/user_recycler_content.xml" value="0.32314814814814813" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/user_search_content.xml" value="0.3625" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/layout/user_search_fragment_layout.xml" value="0.3625" />
+        <entry key="..\:/Users/treky/Desktop/ArrayList-Student-/app/src/main/res/menu/menu.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/vinay/AndroidStudioProjects/ArrayList-Student-/app/src/main/res/drawable/background_image.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/vinay/AndroidStudioProjects/ArrayList-Student-/app/src/main/res/drawable/qr_camera_background.xml" value="0.575" />
         <entry key="..\:/Users/vinay/AndroidStudioProjects/ArrayList-Student-/app/src/main/res/layout/activity_console.xml" value="0.3844444444444444" />

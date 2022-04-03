@@ -67,6 +67,8 @@
 
         <activity android:name=".CommentsActivity"
             android:parentActivityName=".QRCodeActivity" />
+        <activity android:name=".UserSearchActivity"
+            android:parentActivityName=".QRCodeActivity"/>
 
     </application>
 

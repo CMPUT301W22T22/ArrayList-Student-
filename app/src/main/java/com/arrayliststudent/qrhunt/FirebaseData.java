@@ -224,7 +224,7 @@ public class FirebaseData {
                         if (key.equals("numCodes")) {
                             Integer numCodes;
                             numCodes = ((Long) pair.getValue()).intValue();
-                            user.setTotalScore(numCodes);
+                            user.setNumCodes(numCodes);
                         }
                         if (key.equals("totalScore")) {
                             Integer totalScore;
