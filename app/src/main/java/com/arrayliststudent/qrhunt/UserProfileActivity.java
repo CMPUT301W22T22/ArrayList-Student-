@@ -178,7 +178,7 @@ public class UserProfileActivity extends AppCompatActivity implements RemoveProf
     public void onEditOKPressed(User user) {
         //this.user = user;
         userName.setText(user.getName());
-        contactInfo.setText(String.valueOf(user.getTotalScore()));
+        contactInfo.setText(user.getContactInfo());
         userProfilePresenter.editUser(user,this.user);
         this.user = user;
     }

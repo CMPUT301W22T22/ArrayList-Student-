@@ -4,58 +4,105 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-/**
- * Custom list for users
- * Based on CustomRVAdapter by lyury
- *
- * @author jmgraham
- * @see CustomRVAdapter
- * @see UserDataModel
- * @see UserListActivity
- */
-public class UserListAdapter extends CustomRVAdapter{
-    private RVClickListener listener;
 
-    public UserListAdapter(RVClickListener listener){
-        super(listener);
+public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHolder> {
+
+    private ArrayList<User> users;
+    private LayoutInflater mInflater;
+    private ItemClickListener mClickListener;
+    private Context context;
+
+    // data is passed into the constructor
+    UserListAdapter(Context context, ArrayList<User> users) {
+        this.context = context;
+        this.mInflater = LayoutInflater.from(context);
+        this.users = users;
     }
 
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        UserDataModel model = UserDataModel.getInstance();
-        ArrayList<User> users = (ArrayList<User>) model.getUsers();
-
-        //holder.getUsername().setText(users.get(position).getUsername());
-
-        holder.itemView.setOnClickListener(v -> {
-            if (listener != null)
-                listener.onItemClick(holder.itemView, holder.getAdapterPosition());
-            else
-                throw new IllegalStateException("Click listener not set");
-        });
+    // inflates the row layout from xml when needed
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.user_list_content, parent, false);
+        return new ViewHolder(view);
     }
 
-    // ViewHolder for Recycler View
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView username;
+    // binds the data to the TextView in each row
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        User user = users.get(position);
+        holder.UserName.setText(user.getName());
+    }
 
-        public ViewHolder(View view) {
-            super(view);
-            username = view.findViewById(R.id.userlist_text_username);
+    // total number of rows
+    @Override
+    public int getItemCount() {
+        return users.size();
+    }
+
+
+    // stores and recycles views as they are scrolled off screen
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView UserName;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            UserName = itemView.findViewById(R.id.Recycler_list_UserName);
+            itemView.setOnClickListener(this);
         }
 
-        public TextView getUsername() {
-            return username;
+        @Override
+        public void onClick(View view) {
+            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
         }
+    }
+
+    // convenience method for getting data at click position
+    User getItem(int id) {
+        return users.get(id);
+    }
+
+    // allows clicks events to be caught
+    void setClickListener(ItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+    // parent activity will implement this method to respond to click events
+    public interface ItemClickListener {
+        void onItemClick(View view, int position);
+    }
+
+    public void add(User user)
+    {
+        if (user!=null){
+            users.add(user);
+            notifyItemInserted(users.size());
+        }
+    }
+
+    public void remove(User user){
+        if (user!=null){
+            int p = users.indexOf(user);
+            users.remove(user);
+            notifyItemRemoved(p);
+            //showUndoSnackbar();
+        }
+
+    }
+
+
+    public void clear(){
+        users.clear();
+        notifyDataSetChanged();
+    }
+
+    public Context getContext() {
+        return context;
     }
 }

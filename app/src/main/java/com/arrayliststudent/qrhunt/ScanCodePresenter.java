@@ -14,39 +14,30 @@ import java.security.NoSuchAlgorithmException;
  */
 public class ScanCodePresenter {
 
-    public static int calculateScore(byte[] rawValue){
-        ScoreGenerator generate = new ScoreGenerator();
-
+    public static String getHash(byte[] rawValue){
         String hash = "";
 
         for(int i = 0; i < rawValue.length; i++){
             hash = hash + rawValue[i];
         }
 
+        return hash;
+    }
+
+    public static int calculateScore(String hash){
+        ScoreGenerator generate = new ScoreGenerator();
         int score = generate.calculateScore(hash);
-        System.out.println(score);
-
         return score;
     }
 
-    public static int createScannableCode(String name, byte[] bytes){
-
-        int score = calculateScore(bytes);
-        String hash = "";
-
-        for(int i = 0; i < bytes.length; i++){
-            hash = hash + bytes[i];
-        }
+    public static ScannableCode createScannableCode(String name, int score, String hash){
         ScannableCode code = new ScannableCode(name, score, hash);
-        return score;
+        return code;
     }
 
-    public static void UpdateCode(ScannableCode code){
+    public static void UpdateCode(ScannableCode code) {
         UserDataModel model = UserDataModel.getInstance();
         model.addCode(code);
-
     }
-
-
 
 }

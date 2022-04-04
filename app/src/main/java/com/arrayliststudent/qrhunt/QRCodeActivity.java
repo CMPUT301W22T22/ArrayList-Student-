@@ -1,13 +1,17 @@
 package com.arrayliststudent.qrhunt;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -21,7 +25,7 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
     TextView nameTextView;
     TextView scoreTextView;
     TextView geolocTextView;
-
+    ImageView qrPhotoImageView;
     ImageView commentsImageView;
     ImageView deleteImageView;
     ImageView usersImageView;
@@ -54,6 +58,7 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(),UserListActivity.class);
+            intent.putExtra("ID",code.getId());
             startActivity(intent);
         }
     };
@@ -80,7 +85,7 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         presenter.setUpObserver(this);
 
 
-
+        qrPhotoImageView = findViewById(R.id.qr_img_photo);
         commentsImageView = findViewById(R.id.qr_img_comments);
         commentsImageView.setOnClickListener(onCommentsClicked);
         deleteImageView = findViewById(R.id.qr_img_delete);
@@ -104,6 +109,12 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
             List<Double> loc = code.getLocation();
             String locString = new String(loc.toString());
             geolocTextView.setText("Location: " + locString);
+
+            File photo = code.getPhotoFile();
+            if(photo.exists()){
+                Bitmap bitmap =  BitmapFactory.decodeFile(photo.getAbsolutePath());
+                qrPhotoImageView.setImageBitmap(bitmap);
+            }
         }
     }
 
@@ -126,6 +137,12 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
             List<Double> loc = code.getLocation();
             String locString = new String(loc.toString());
             geolocTextView.setText("Location: " + locString);
+
+            File photo = code.getPhotoFile();
+            if(photo.exists()){
+                Bitmap bitmap =  BitmapFactory.decodeFile(photo.getAbsolutePath());
+                qrPhotoImageView.setImageBitmap(bitmap);
+            }
         }
 
     }
