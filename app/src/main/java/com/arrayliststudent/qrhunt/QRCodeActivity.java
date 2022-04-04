@@ -54,6 +54,7 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(),UserListActivity.class);
+            intent.putExtra("code",code);
             startActivity(intent);
         }
     };

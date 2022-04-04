@@ -70,6 +70,9 @@
         <activity android:name=".UserSearchActivity"
             android:parentActivityName=".QRCodeActivity"/>
 
+        <activity android:name=".UserListActivity"
+            android:parentActivityName=".QRCodeActivity"/>
+
     </application>
 
 </manifest>
