@@ -146,6 +146,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
             int score = calc.getScore(hash);
 
             ScannableCode code = new ScannableCode("test name", score, hash);
+            code.setLocation(getApplicationContext());
             UserDataModel model = UserDataModel.getInstance();
             model.addCode(code);
 
@@ -202,5 +203,9 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
 
         testButton = findViewById(R.id.test_button);
         testButton.setOnClickListener(onTestBtnClicked);
+
+        // Initialize addCityButton
+        final FloatingActionButton ownerButton = findViewById(R.id.toggle_owner_button);
+        ownerButton.setOnClickListener((v)-> presenter.toggleOwner());
     }
 }
