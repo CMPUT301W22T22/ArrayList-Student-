@@ -2,6 +2,7 @@ package com.arrayliststudent.qrhunt;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -197,6 +198,7 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
 
         if(photo_info){
             code.setPhotoFile(photo);
+
         }
         if (location_info){
             code.setLocation(getApplicationContext());

@@ -1,5 +1,6 @@
 package com.arrayliststudent.qrhunt;
 
+import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
@@ -23,7 +24,15 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -43,18 +52,22 @@ import java.util.Map;
 public class FirebaseData {
     final String TAG = "dunno what to put here";
     FirebaseFirestore database;
+    FirebaseStorage storage;
     CollectionReference collectionReference;
     CollectionReference codeCollection;
     CollectionReference ownerCollection;
+    StorageReference photoColletion;
 
 
     private static boolean successFlag;
 
     public FirebaseData() {
         database = FirebaseFirestore.getInstance();
+        storage  = FirebaseStorage.getInstance();
         collectionReference = database.collection("Users");
         codeCollection = database.collection("ScannableCodes");
         ownerCollection = database.collection("Owners");
+        photoColletion = storage.getReference();
     }
 
     public void addUserData(User user) {//adds or overwrites User data on the firebase
@@ -98,6 +111,7 @@ public class FirebaseData {
         codeData.put("codeScore", code.getCodeScore());
         codeData.put("Location", code.getLocation());
         codeData.put("Comment",code.getComments());
+        codeData.put("Photo", Uri.fromFile(code.getPhotoFile()).toString());
 
 
         codeCollection
@@ -118,8 +132,8 @@ public class FirebaseData {
                     }
                 });
 
-
     }
+
 
 
     public ScannableCode getCode(String id) {
@@ -152,6 +166,9 @@ public class FirebaseData {
                                     comments.add(new Comment(map.get("author"),map.get("body")));
                                 }
                                 code.setComments(comments);
+                            }
+                            if(key.equals("Photo")){
+                                code.setPhotoFile(new File(pair.getValue().toString()));
                             }
 
                         }
