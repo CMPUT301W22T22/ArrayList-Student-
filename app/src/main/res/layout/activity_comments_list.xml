@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Yoinked from high score list-->
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".QRCodeActivity">
+    tools:context=".CommentsActivity">
+
+    <ListView
+        android:id="@+id/comment_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        app:layout_constraintTop_toBottomOf="@+id/add_comment_butt"
+        >
+
+    </ListView>
 
     <Button
         android:id="@+id/add_comment_butt"
@@ -15,22 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="5sp"
         android:layout_marginTop="5sp"
-        android:layout_gravity="top|right"
-        android:text="Add Comment" />
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary" />
-
-    <ListView
-        android:id="@+id/comment_list"
-        android:layout_width="match_parent"
-        android:layout_height="622dp"
-        android:layout_gravity="bottom">
-
-    </ListView>
+        android:layout_gravity="top|end"
+        android:text="Add Comment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
