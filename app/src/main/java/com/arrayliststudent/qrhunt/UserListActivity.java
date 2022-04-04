@@ -54,7 +54,7 @@ public class UserListActivity extends AppCompatActivity implements UserSearchFra
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 assert value != null;
 
-                //get users who have the selected code
+                //TODO: get users who have the selected code
                 for(QueryDocumentSnapshot doc: value) {
                     Map<String, Object> code = doc.getData();
                     for (Map.Entry<String, Object> pair : code.entrySet()) {
