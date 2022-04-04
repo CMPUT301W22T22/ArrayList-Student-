@@ -27,13 +27,11 @@ import io.grpc.Status;
 /**
  * @author Kieran
  *
- * Comment activity class. Currently just does local, unsaved adding/viewing of comments for
- * demonstration purposes... does not seem to pass comment from fragment to activity 3/13
+ * Comment activity class. Retrives comments for a given QR code and displays them, along with
+ * their author.
  *
  * Launches fragment for adding comment.
  *
- * Known issue 3/13: The comment seems to be passed from the fragment to the activity but is not
- * displayed. Liekly will be resolved upon database integration.
  */
 public class CommentsActivity extends AppCompatActivity implements AddCommentFragment.OnFragmentInteractionListener{
 
