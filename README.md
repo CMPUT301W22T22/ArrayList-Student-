@@ -1,5 +1,5 @@
 # Welcome to QR Hunt
-QR Hunt is a mobile game based on the following description, for the CMPUT 301 Winter 2022 Group Project. It is developed using Java and Android Studio. 
+QR Hunt is a mobile game based on the following description, for the CMPUT 301 Winter 2022 Group Project.  
 
 # Original Project Description（Eclass）
 
@@ -23,6 +23,10 @@ Players can see on a map local QR codes that other players have scanned.
 
 * Users: Users will be able to download the apk and install it on their devices from which they will be able to play.
 * Developers: To work on the project, first clone the repository, then create a new branch and start working (it's that easy!). When you have completed your work, submit a pull request and we will review it.
+
+# Development
+QR Hunt was developed using Java and Android Studio. A representation of our storyboard, along with a detailed UML diagram and CRC cards can be found in the Wiki. User and code data is stored in firestore. Third party libraries were also used for the QR code scanning and the map view.
+
 
 # Attribution of image assets
 ConsoleActivity: </br>
