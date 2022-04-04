@@ -47,7 +47,7 @@ public class UploadCodeFragment extends DialogFragment {
         Score_view = view.findViewById(R.id.uploadcode_score);
         aSwitch = view.findViewById(R.id.location_switch);
         name_edit.setText("Code Name");
-        Score_view.setText(String.valueOf(score));
+        Score_view.setText(String.valueOf("Score: " + score));
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
