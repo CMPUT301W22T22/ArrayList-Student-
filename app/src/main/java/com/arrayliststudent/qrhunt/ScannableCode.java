@@ -53,7 +53,10 @@ public class ScannableCode implements Serializable {
         return hashString.hashCode();
     }
 
-    // https://www.geeksforgeeks.org/sha-256-hash-in-java/
+    /**
+     * This method generates a SHA-256 hash code from a String input
+     * https://www.geeksforgeeks.org/sha-256-hash-in-java/
+     */
     private static byte[] getSHA(String input) throws NoSuchAlgorithmException
     {
         // Static getInstance method is called with hashing SHA
@@ -65,6 +68,10 @@ public class ScannableCode implements Serializable {
         return md.digest(input.getBytes(StandardCharsets.UTF_8));
     }
 
+    /**
+     * This method converts a raw byte value to a String
+     * https://www.geeksforgeeks.org/sha-256-hash-in-java/
+     */
     private static String toHexString(byte[] hash)
     {
         // Convert byte array into signum representation

@@ -33,6 +33,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
     TextView userTextView;
     TextView scoreTextView;
     TextView numCodesTextView;
+    TextView viewCodesText;
     ImageView mapImageView;
     ImageView userImageView;
     ImageView searchImageView;
@@ -147,6 +148,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
 
             ScannableCode code = new ScannableCode("test name", score, hash);
             code.setLocation(getApplicationContext());
+            System.out.println(code.getLocation());
             UserDataModel model = UserDataModel.getInstance();
             model.addCode(code);
 
@@ -200,6 +202,8 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         CameraImageView.setOnClickListener(onCameraClicked);
         scanCodeView = findViewById(R.id.console_card_scancode);
         scanCodeView.setOnClickListener(onCameraClicked);
+        viewCodesText = findViewById(R.id.console_txt_viewcodes);
+        viewCodesText.setOnClickListener(onQRClicked);
 
         testButton = findViewById(R.id.test_button);
         testButton.setOnClickListener(onTestBtnClicked);
@@ -207,5 +211,11 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         // Initialize addCityButton
         final FloatingActionButton ownerButton = findViewById(R.id.toggle_owner_button);
         ownerButton.setOnClickListener((v)-> presenter.toggleOwner());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.removeObserver(this);
     }
 }

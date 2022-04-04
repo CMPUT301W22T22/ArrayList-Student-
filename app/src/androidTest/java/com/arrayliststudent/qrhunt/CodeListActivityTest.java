@@ -27,47 +27,49 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Map;
+
 public class CodeListActivityTest  {
     private Solo solo;
 
 
     @Rule
-    public ActivityTestRule<CodeListActivity> rule  =
-            new ActivityTestRule<>(CodeListActivity.class,true,true);
+    public ActivityTestRule<MainActivity> rule  =
+            new ActivityTestRule<>(MainActivity.class,true,true);
     @Before
     public void setUp() throws Exception{
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
-        UserDataModel model = UserDataModel.getInstance();
-        String android_id = Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID);
-        model.fetchCurrentUser(Settings.Secure.getString(getApplicationContext().getContentResolver(),Settings.Secure.ANDROID_ID));
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                model.setUserId(android_id);
-                model.setUserCodes();
-            }
-        }, 3500);
-
     }
     @Test
     public void start() throws Exception{
         Activity activity = rule.getActivity();
     }
     @Test
-    public void mapsTest(){
-        Context context = solo.getCurrentActivity();
-        solo.assertCurrentActivity("Activity initializtion failed",CodeListActivity.class);
-        //assert Map is successfully opened.
-        assertTrue(solo.waitForLogMessage("Map is ready!",10));
+    public void codeListTest(){
+        solo.waitForActivity(ConsoleActivity.class, 2000);
+        solo.clickOnText("Generate Code");
+        solo.clickOnText("View Codes"); //Click Scan Code Button
+        // Asserts that the current activity is the ScanCodeActivity. Otherwise, show “Wrong Activity”
+        assertTrue(solo.waitForActivity(CodeListActivity.class, 2000));
+        solo.assertCurrentActivity("Wrong Activity", CodeListActivity.class);
 
-//        assertNotEquals(deviceLocation, new double[]{0, 0});
-//        assertNotNull(deviceLocation);
-    }
-    @Test
-    public void locationPermissionTest(){
+        UserDataModel model = UserDataModel.getInstance();
+        List<Map> codes = model.getCurrentUser().getUserCodeList();
+        String codeName = new String();
+        for (Map<String, Object> m : codes) {
+            for (Map.Entry<String, Object> entry : m.entrySet()){
+                if (entry.getKey().equals("codeName")) {
+                    codeName = (String) entry.getValue();
+                }
+            }
+            break;
+        }
+        assertTrue(solo.waitForText(codeName, 1, 500));
+        solo.clickOnText(codeName);
+        assertTrue(solo.waitForActivity(QRCodeActivity.class, 2000));
+        solo.assertCurrentActivity("Wrong Activity", QRCodeActivity.class);
 
-//        assertEquals(ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION), PackageManager.PERMISSION_GRANTED);
-//        assertEquals(ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION),PackageManager.PERMISSION_GRANTED);
     }
+
 }

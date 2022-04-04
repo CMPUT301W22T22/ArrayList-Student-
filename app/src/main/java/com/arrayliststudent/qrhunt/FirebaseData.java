@@ -70,8 +70,12 @@ public class FirebaseData {
         photoColletion = storage.getReference();
     }
 
+    /**
+     * Adds a given User to the Users collection
+     * @param user
+     * User to be added
+     */
     public void addUserData(User user) {//adds or overwrites User data on the firebase
-
         Map<String, Object> userData = new HashMap<>();
         userData.put("contactInfo", user.getContactInfo());
         userData.put("name", user.getName());
@@ -99,20 +103,18 @@ public class FirebaseData {
                 });
     }
 
+    /**
+     * Adds a given ScannableCode to the ScannableCode collection
+     * @param code
+     * ScannableCode to be added
+     */
     public void addCode(ScannableCode code) {
-        // When a new code is added is must be added to the ScannableCodes collection and appended
-        // to the codeList of the current user document from the Users collection
-
-        // Add to ScannableCodes collection
-        // First check if the code already exists
-
         Map<String, Object> codeData = new HashMap<>();
         codeData.put("codeName", code.getCodeName());
         codeData.put("codeScore", code.getCodeScore());
         codeData.put("Location", code.getLocation());
         codeData.put("Comment",code.getComments());
         codeData.put("Photo", Uri.fromFile(code.getPhotoFile()).toString());
-
 
         codeCollection
                 .document(code.getId())
@@ -134,8 +136,11 @@ public class FirebaseData {
 
     }
 
-
-
+    /**
+     * Retrieves a given ScannableCode from the ScannableCode collection based on code Id
+     * @return
+     * ScannableCode retrieved from ScannableCode collection
+     */
     public ScannableCode getCode(String id) {
         ScannableCode code = new ScannableCode();
         DocumentReference docRef = database.collection("ScannableCodes").document(id);
@@ -185,6 +190,11 @@ public class FirebaseData {
         return code;
     }
 
+    /**
+     * Removes a given User from the Users collection
+     * @param user
+     * User to be removed from Users collection
+     */
     public void removerUserData(User user) {//removes User data from the firebase
         collectionReference
                 .document(user.getUserId())
@@ -206,7 +216,11 @@ public class FirebaseData {
     }
 
 
-    // Returns a list of every User from the the "Users" collection
+    /**
+     * Retrieves a list of every User from the the "Users" collection
+     * @return
+     * HashMap of all users from the Users collection
+     */
     public HashMap<String, User> getAllUserData() {
         HashMap<String, User> userDataList = new HashMap<>();
         //snapshot listener to watch for changes in the database
@@ -252,15 +266,18 @@ public class FirebaseData {
                     userDataList.put(userId, user);
                     Log.d(TAG, "User downloaded");
                     Log.d(TAG, "Server document data: " + doc.getData());
-
-
                 }
             }
         });
         return userDataList;
     }
 
-    // Returns a list of every code from the the "ScannableCodes" collection
+
+    /**
+     * Retrieves a list of every code from the the "ScannableCodes" collection
+     * @return
+     * ArrayList of all ScannableCodes from the ScannableCodes collection
+     */
     public ArrayList<ScannableCode> getAllCodeData() {
         ArrayList<ScannableCode> codeList = new ArrayList<>();
         //snapshot listener to watch for changes in the database
@@ -307,7 +324,11 @@ public class FirebaseData {
         return codeList;
     }
 
-
+    /**
+     * Retrieves a list of Users from the the "Users" collection based on name
+     * @return
+     * ArrayList of users from the Users collection with given user name
+     */
     public ArrayList<User> getUsersByName(String userName) {
         ArrayList<User> userDataList = new ArrayList<>();
         //snapshot listener to watch for changes in the database
@@ -356,6 +377,12 @@ public class FirebaseData {
         return userDataList;
     }
 
+    /**
+     * Retrieves a list of Users from the the "Users" collection who have a given code
+     * https://firebase.google.com/docs/firestore/query-data/queries
+     * @return
+     * ArrayList of users from the Users collection with given code
+     */
     public ArrayList<User> getUsersByCode(String codeId) {
         ArrayList<User> userDataList = new ArrayList<>();
         //snapshot listener to watch for changes in the database
@@ -404,16 +431,19 @@ public class FirebaseData {
         return userDataList;
     }
 
+    /**
+     * Retrieves a User from the the "Users" collection based on user id
+     * @param userId
+     * user id of User to be retrieved.
+     * @return
+     * User from the Users collection with given user id
+     */
     public User getUserById(String userId) {
-
         User user = new User();
-
         DocumentReference docRef = database.collection("Users").document(userId);
-
         // https://cloud.google.com/firestore/docs/query-data/get-data
         // Source can be CACHE, SERVER, or DEFAULT.
         Source source = Source.SERVER;
-
         // Get the document, forcing the SDK to use the offline cache
         docRef.get(source).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -425,7 +455,6 @@ public class FirebaseData {
                     if (userData != null) {
                         for (Map.Entry<String, Object> pair : userData.entrySet()) {
                             String key = pair.getKey();
-
                             if (key.equals("userId")) {
                                 user.setId((String) pair.getValue());
                             }
@@ -450,7 +479,6 @@ public class FirebaseData {
                             }
                         }
                     }
-
                     Log.d(TAG, "User downloaded");
                     Log.d(TAG, "Server document data: " + document.getData());
                 } else {
@@ -461,16 +489,19 @@ public class FirebaseData {
         return user;
     }
 
+    /**
+     * Retrieves a User from the the "Owners" collection based on user id
+     * @param androidId
+     * user id of User to be retrieved.
+     * @return
+     * User from the Owners collection with given user id
+     */
     public User getOwnerById(String androidId) {
-
         User user = new User();
-
         DocumentReference docRef = database.collection("Owners").document(androidId);
-
         // https://cloud.google.com/firestore/docs/query-data/get-data
         // Source can be CACHE, SERVER, or DEFAULT.
         Source source = Source.SERVER;
-
         // Get the document, forcing the SDK to use the offline cache
         docRef.get(source).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -498,17 +529,16 @@ public class FirebaseData {
         return user;
     }
 
+    /**
+     * Adds a User to the "Owners" collection
+     * @param android_id
+     * user id of User to be added.
+     * @param name
+     * user name of User to be added.
+     */
     public void addOwner(String android_id, String name) {
-        // When a new code is added is must be added to the ScannableCodes collection and appended
-        // to the codeList of the current user document from the Users collection
-
-        // Add to ScannableCodes collection
-        // First check if the code already exists
-
         Map<String, Object> ownerData = new HashMap<>();
         ownerData.put("name", name);
-
-
         ownerCollection
                 .document(android_id)
                 .set(ownerData)
@@ -526,10 +556,13 @@ public class FirebaseData {
                         Log.d(TAG, "User " + android_id + " data failed to upload: " + e.toString());
                     }
                 });
-
-
     }
 
+    /**
+     * Removes a User to the "Owners" collection
+     * @param android_id
+     * user id of User to be removed.
+     */
     public void removeOwner(String android_id) {
         ownerCollection
                 .document(android_id)
@@ -550,6 +583,11 @@ public class FirebaseData {
                 });
     }
 
+    /**
+     * Removes a ScannableCode to the "ScannableCode" collection
+     * @param id
+     * id of Code to be removed.
+     */
     public void deleteCode(String id) {
         codeCollection
                 .document(id)
@@ -570,34 +608,11 @@ public class FirebaseData {
                 });
     }
 
-    // https://firebase.google.com/docs/firestore/query-data/queries
-    public ArrayList<Map> getsUserByCode(String id) {
-        // Create a reference to the cities collection
-
-        // Create a query against the collection.
-        ArrayList<Map> users = new ArrayList<>();
-        database.collection("Users")
-                .whereArrayContains("userCodeList", id)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-
-                                Map<String, Object> userData = document.getData();
-                                if (userData != null) {
-                                    users.add(userData);
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
-                                }
-                            }
-                        }
-                    }
-                });
-        return users;
-    }
-
+    /**
+     * Adds multiple users to the Users collection
+     * @param users
+     * ArrayList of users to be added
+     */
     public void addUsers(ArrayList<User> users) {
         for (User user : users) {
             addUserData(user);
@@ -605,12 +620,3 @@ public class FirebaseData {
     }
 
 }
-/*
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if false;
-    }
-  }
-}*/

@@ -19,14 +19,18 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * The CodeListActivity displays a list of ScannableCodes owned by the current user
+ */
 public class CodeListActivity extends AppCompatActivity implements Observer {
+
     RecyclerView codeList;
-
-
     CodeListPresenter presenter;
     CodeListAdapter recyclerAdapter;
 
-    // ClickListener for RecyclerView
+    /**
+     * Click Listener for Recycler View
+     */
     private class ListClickListener implements RVClickListener {
         @Override
         public void onItemClick(View itemView, int position) {
@@ -34,7 +38,6 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
             model.setCodePosition(position);
             ArrayList<ScannableCode> localDataset = model.getUserCodes();
 
-            Log.d("malaka", "position clicked: " + position);
             ScannableCode code = localDataset.get(position);
 
             ArrayList<Map> localCodeList = model.getUserCodeList();
@@ -47,13 +50,18 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
                 }
             }
 
-
             Intent intent = new Intent(getApplicationContext(),QRCodeActivity.class);
             intent.putExtra("code", code);
             startActivity(intent);
         }
     }
 
+    /**
+     * The onCreate() method instantiates the CodeListPresenter class and sets the click listeners for
+     *  all views for this Activity.
+     * @param savedInstanceState
+     * Bundle saved from previous session.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +74,6 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
         codeList.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerAdapter = new CodeListAdapter(new ListClickListener());
 
-
         codeList.setAdapter(recyclerAdapter);
 
         presenter = new CodeListPresenter();
@@ -75,6 +82,14 @@ public class CodeListActivity extends AppCompatActivity implements Observer {
 
     }
 
+    /**
+     * The update method is called from the Observable class UserDataModel upon notifyObservers().
+     * The intended purpose is to refresh any views with data from the UserDataModel.
+     * @param observable
+     * The Observable class which called update(), which is the UserDataModel.
+     * @param o
+     * Any object passed from the Observable, not used in this case.
+     */
     @Override
     public void update(Observable observable, Object o) {
         recyclerAdapter.updateData();
