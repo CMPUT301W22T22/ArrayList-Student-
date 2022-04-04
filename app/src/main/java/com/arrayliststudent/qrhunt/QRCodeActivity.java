@@ -3,6 +3,7 @@ package com.arrayliststudent.qrhunt;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.List;
@@ -132,11 +138,8 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
             String locString = loc.toString();
             geolocTextView.setText("Location: " + locString);
 
-            File photo = code.getPhotoFile();
-            if(photo.exists()){
-                Bitmap bitmap =  BitmapFactory.decodeFile(photo.getAbsolutePath());
-                qrPhotoImageView.setImageBitmap(bitmap);
-            }
+            //String photo = code.getPhotoLink();
+            //Glide.with(this).load(photo).placeholder(Drawable.createFromPath("@mipmap/qr_codes")).into(qrPhotoImageView);
         }
     }
 
@@ -167,11 +170,8 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
             String locString = loc.toString();
             geolocTextView.setText("Location: " + locString);
 
-            File photo = code.getPhotoFile();
-            if(photo.exists()){
-                Bitmap bitmap =  BitmapFactory.decodeFile(photo.getAbsolutePath());
-                qrPhotoImageView.setImageBitmap(bitmap);
-            }
+            //String photo = code.getPhotoLink();
+            //Glide.with(this).load(photo).into(qrPhotoImageView);
         }
 
     }

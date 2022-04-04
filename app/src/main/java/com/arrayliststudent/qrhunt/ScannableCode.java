@@ -26,7 +26,7 @@ public class ScannableCode implements Serializable {
     String id;
     int codeScore;
     double[] location = {0,0};
-    File photoFile = new File("");
+    String photoLink = "";
     private ArrayList<Comment> comments = new ArrayList<Comment>();
 
     ScannableCode(String codeName, int codeScore, String hash){
@@ -180,11 +180,11 @@ public class ScannableCode implements Serializable {
         return list;
     }
 
-    public File getPhotoFile() {
-        return photoFile;
+    public String getPhotoLink() {
+        return photoLink;
     }
 
-    public void setPhotoFile(File photoFile) {
-        this.photoFile = photoFile;
+    public void setPhotoLink(String photoLink) {
+        this.photoLink = photoLink;
     }
 }

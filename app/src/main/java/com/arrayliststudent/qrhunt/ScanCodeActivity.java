@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.Image;
 import android.media.ToneGenerator;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,11 +39,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
@@ -50,9 +55,11 @@ import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
@@ -77,6 +84,8 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
     private TextView showData;
     private TextView showScore;
     private Button takePicture;
+    FirebaseStorage storage;
+    StorageReference photoColletion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,16 +206,36 @@ public class ScanCodeActivity extends AppCompatActivity implements UploadCodeFra
         code =  ScanCodePresenter.createScannableCode(codeName, score, codeName);
 
         if(photo_info){
-            code.setPhotoFile(photo);
-
+            uploadPhoto(code, photo);
         }
         if (location_info){
             code.setLocation(getApplicationContext());
         }
         UserDataModel model = UserDataModel.getInstance();
         model.addCode(code);
-        new SavedCodeFragment(code).show(getSupportFragmentManager(), "Barcode successfully uploaded");
+        new SavedCodeFragment(code, photo).show(getSupportFragmentManager(), "Barcode successfully uploaded");
 
+    }
+
+    public void uploadPhoto(ScannableCode code, File photo){
+        storage  = FirebaseStorage.getInstance();
+        photoColletion = storage.getReference();
+
+        Uri filePath = Uri.fromFile(photo);
+        code.setPhotoLink("gs://arraylist-student.appspot.com/" + filePath.toString());
+        StorageReference ref = photoColletion.child(filePath.toString());
+
+        ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        code.setPhotoLink(uri.toString());
+                    }
+                });
+            }
+        });
     }
 
 

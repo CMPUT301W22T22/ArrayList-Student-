@@ -15,11 +15,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
 
 public class SavedCodeFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     ScannableCode barcode;
+    File photoFile = new File("");
     TextView displayName;
     TextView displayHash;
     TextView displayScore;
@@ -27,8 +33,9 @@ public class SavedCodeFragment extends DialogFragment {
     ImageView displayPhoto;
 
 
-    public SavedCodeFragment(ScannableCode barcode) {
+    public SavedCodeFragment(ScannableCode barcode, File photoFile) {
         this.barcode = barcode;
+        this.photoFile = photoFile;
     }
 
     public interface OnFragmentInteractionListener {
@@ -61,10 +68,11 @@ public class SavedCodeFragment extends DialogFragment {
         displayScore.setText("Score: " + Integer.toString(barcode.getCodeScore()));
         displayLocation.setText("Location: " +barcode.getLocation().toString());
 
-        File photo = barcode.getPhotoFile();
+        //String photo = barcode.getPhotoLink();
+        //Glide.with(this).load(photoFile).into(displayPhoto);
 
-        if (photo.exists()){
-            Bitmap bitmap =  BitmapFactory.decodeFile(photo.getAbsolutePath());
+        if (photoFile.exists()){
+            Bitmap bitmap =  BitmapFactory.decodeFile(photoFile.getAbsolutePath());
             displayPhoto.setImageBitmap(bitmap);
         }
 

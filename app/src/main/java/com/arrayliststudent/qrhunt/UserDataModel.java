@@ -1,6 +1,12 @@
 package com.arrayliststudent.qrhunt;
 
 import android.os.Handler;
+import android.view.View;
+
+import com.google.firebase.firestore.core.Query;
+
+import java.io.InputStream;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,6 +51,8 @@ public class UserDataModel extends Observable {
         }
         return userDataList;
     }
+
+
 
     /**
      * Adds a new ScannableCode to the users code list, updates their score, updates the
