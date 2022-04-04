@@ -20,15 +20,6 @@ public class MainPresenter {
     MainPresenter() {
     }
 
-    /**
-     * This function is an example for how to add a new ScannableCode to the app user data.
-     * @param code
-     * New ScannableCode to be added to the UserDataModel
-     */
-    public void addNewCode(ScannableCode code) {
-        UserDataModel model = UserDataModel.getInstance();
-        model.addCode(code);
-    }
 
     /**
      * This function is an example for how to add an Observer object to the Observable class
@@ -41,16 +32,7 @@ public class MainPresenter {
         model.addObserver(arg);
     }
 
-    /**
-     * This function is an example for how to remove an Observer object from the Observable class
-     * UserDataModel
-     * @param arg
-     * Observer object to be removed from Observable
-     */
-    public void removeObserver(Observer arg) {
-        UserDataModel model = UserDataModel.getInstance();
-        model.deleteObserver(arg);
-    }
+
 
     /**
      * Creates a new user.

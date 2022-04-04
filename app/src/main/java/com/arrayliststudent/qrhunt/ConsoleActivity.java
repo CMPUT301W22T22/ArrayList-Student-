@@ -29,7 +29,6 @@ import java.util.Random;
 public class ConsoleActivity extends AppCompatActivity implements Observer {
 
     ConsolePresenter presenter;
-    CustomAdapter userTextAdapter;
     TextView userTextView;
     TextView scoreTextView;
     TextView numCodesTextView;

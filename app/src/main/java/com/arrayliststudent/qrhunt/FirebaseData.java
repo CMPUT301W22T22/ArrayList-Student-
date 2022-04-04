@@ -127,7 +127,6 @@ public class FirebaseData {
         codeData.put("Location", code.getLocation());
         codeData.put("Comment",code.getComments());
         codeData.put("PhotoLink",code.getPhotoLink());
-        codeData.put("Photo", Uri.fromFile(code.getPhotoFile()).toString());
 
         codeCollection
                 .document(code.getId())
