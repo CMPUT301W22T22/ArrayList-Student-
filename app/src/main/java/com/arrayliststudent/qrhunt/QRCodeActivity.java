@@ -20,8 +20,8 @@ import java.util.Observer;
  * The QRCodeActivity displays the information for a given ScannableCode.
  */
 public class QRCodeActivity extends AppCompatActivity implements Observer {
-    QRPresenter presenter;
 
+    QRPresenter presenter;
     TextView nameTextView;
     TextView scoreTextView;
     TextView geolocTextView;
@@ -30,8 +30,8 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
     ImageView deleteImageView;
     ImageView usersImageView;
 
-
     ScannableCode code;
+
     /**
      * Click listener for comments button. This starts the CommentsActivity.
      * @param v
@@ -46,6 +46,12 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    /**
+     * Click listener for delete button. This deletes the QRCode from the app and returns to
+     * the previous activity.
+     * @param v
+     * View object that was clicked, in this case the Delete ImageView.
+     */
     private View.OnClickListener onDeleteClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -54,6 +60,12 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    /**
+     * Click listener for Users button. This starts the UserListActivity showing other Users
+     * who have the same code.
+     * @param v
+     * View object that was clicked, in this case the Users ImageView.
+     */
     private View.OnClickListener onUsersClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -63,6 +75,14 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         }
     };
 
+    /**
+     * This update method was not used since the data from the QRCodeActivity is set from the
+     * ScannableCode passed to the Activity using an intent
+     * @param o
+     * The Observable class which called update(), which is the UserDataModel.
+     * @param arg
+     * Any object passed from the Observable, not used in this case.
+     */
     @Override
     public void update(Observable o, Object arg) {
 
@@ -102,12 +122,14 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
 
         Bundle extras = getIntent().getExtras();
 
+        // This block gets the ScannableCode to be used for this Activity that was passed
+        // in the intent from the CodeListActivity
         if (extras != null ) {
             this.code = (ScannableCode) extras.getSerializable("code");
             nameTextView.setText("Name: " + code.getCodeName());
             scoreTextView.setText("Score: " + (String.valueOf(code.getCodeScore())));
             List<Double> loc = code.getLocation();
-            String locString = new String(loc.toString());
+            String locString = loc.toString();
             geolocTextView.setText("Location: " + locString);
 
             File photo = code.getPhotoFile();
@@ -118,6 +140,10 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         }
     }
 
+    /**
+     * The onPause() method saves the ScannableCode used for this activity so that it
+     * will be avaiable when returning from the CommentsActivity
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -125,17 +151,20 @@ public class QRCodeActivity extends AppCompatActivity implements Observer {
         model.saveCode(code);
     }
 
+    /**
+     * The onPause() method restores the ScannableCode used for this activity so that it
+     * will be avaiable when returning from the CommentsActivity
+     */
     @Override
     public void onResume() {
         super.onResume();
         if(this.code == null) {
             UserDataModel model = UserDataModel.getInstance();
-
             code = model.getSavedCode();
             nameTextView.setText("Name: " + code.getCodeName());
             scoreTextView.setText("Score: " + (String.valueOf(code.getCodeScore())));
             List<Double> loc = code.getLocation();
-            String locString = new String(loc.toString());
+            String locString = loc.toString();
             geolocTextView.setText("Location: " + locString);
 
             File photo = code.getPhotoFile();
