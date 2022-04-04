@@ -1,11 +1,11 @@
-# welcome ArrayList-Student-
+# Welcome to QR Hunt
+QR Hunt is a mobile game based on the following description, for the CMPUT 301 Winter 2022 Group Project.  
 
-# Description（Eclass）
+# Original Project Description（Eclass）
 
 [Link](https://eclass.srv.ualberta.ca/mod/page/view.php?id=5825439)
 
 # Description
-Warning: This is subject to change!
 
 You are to design and implement a simple, attractive, and easy-to-use Android application to satisfy the following goals. Your design must be flexible enough to allow developers to extend or migrate it.
 
@@ -18,6 +18,15 @@ We want users to compete with each other for the highest scoring QR codes, the m
 When a player scans a QR code they will take a photo of what or where the QR code is and also record the geolocation of the QR code. 
 
 Players can see on a map local QR codes that other players have scanned.
+
+# Instructions
+
+* Users: Users will be able to download the apk and install it on their devices from which they will be able to play.
+* Developers: To work on the project, first clone the repository, then create a new branch and start working (it's that easy!). When you have completed your work, submit a pull request and we will review it.
+
+# Development
+QR Hunt was developed using Java and Android Studio. A representation of our storyboard, along with a detailed UML diagram and CRC cards can be found in the Wiki. User and code data is stored in firestore. Third party libraries were also used for the QR code scanning and the map view.
+
 
 # Attribution of image assets
 ConsoleActivity: </br>

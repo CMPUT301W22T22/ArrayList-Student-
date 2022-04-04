@@ -1,21 +1,17 @@
 package com.arrayliststudent.qrhunt;
 
-import android.util.Log;
-import android.widget.Toast;
 
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 
-import java.util.HashMap;
-import java.util.Map;
 
+/**
+ * The MAuthenticator is responsible for logging the user into the app, and determining
+ * if the user has owner privledges.
+ */
 public class MAuthenticator {
     
     private String android_id;
-    private FirebaseFirestore db= FirebaseFirestore.getInstance();
     private boolean ownerPrivledge;
+    private User owner;
 
     private static final MAuthenticator mAuthenticator  = new MAuthenticator();
 
@@ -27,18 +23,29 @@ public class MAuthenticator {
         ownerPrivledge = false;
     }
 
+    /**
+     * Sets the current user of the app by recording the users androidId, and getting that
+     * user from the Users collection if it exists.
+     * @param androidId
+     * Android id of current user.
+     */
     public void setCurrentUser(String androidId) {
         UserDataModel model = UserDataModel.getInstance();
         model.fetchCurrentUser(androidId);
         this.android_id = androidId;
         model.setUserId(this.android_id);
+        owner = model.getOwnerById(android_id);
+
     }
 
+    /**
+     * Checks if the user log in was successful, indicating the User has registered previously.
+     * @return
+     * Boolean indicating if users exists in Users collection.
+     */
     public boolean loggedIn() {
         UserDataModel model = UserDataModel.getInstance();
-
         User user = model.getCurrentUser();
-
         if ( user.getUserId() == null) {
             System.out.println("User Not Found");
             return  false;
@@ -49,16 +56,22 @@ public class MAuthenticator {
         }
     }
 
+    /**
+     * Sets the owner privledges of the current user. Checks if the current user was found
+     * in the Owners collection.
+     */
     private void setPrivledges() {
-        UserDataModel model = UserDataModel.getInstance();
-        User user = model.getCurrentUser();
-        if(user.getName() != null) {
+        if(owner.getName() != null) {
             ownerPrivledge = true;
         } else {
             ownerPrivledge = false;
         }
     }
 
+    /**
+     * Toggles the current user's owner privledges by adding or removing the user from the
+     * Owners collection and changing the ownerPrivledge boolean.
+     */
     public void toggleOwner() {
         UserDataModel model = UserDataModel.getInstance();
         if(ownerPrivledge) {
@@ -67,9 +80,11 @@ public class MAuthenticator {
             model.addOwner(android_id);
         }
         ownerPrivledge = !ownerPrivledge;
-
     }
 
+    /**
+     * Getter for ownerPrivledge boolean indicating the current user has owner privledges.
+     */
     public boolean checkPrivledge() {
         return ownerPrivledge;
     }

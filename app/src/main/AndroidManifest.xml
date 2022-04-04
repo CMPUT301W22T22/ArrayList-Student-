@@ -45,7 +45,7 @@
         </activity>
         <activity
             android:name=".UserListActivity"
-            android:parentActivityName=".ConsoleActivity" />
+            android:parentActivityName=".QRCodeActivity" />
         <activity
             android:name=".UserProfileActivity"
             android:parentActivityName=".ConsoleActivity" />

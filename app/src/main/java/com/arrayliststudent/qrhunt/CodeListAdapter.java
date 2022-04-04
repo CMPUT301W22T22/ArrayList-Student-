@@ -24,8 +24,6 @@ import java.util.Map;
  * @see ScannableCode
  * @see CodeListActivity
  */
-
-
 public class CodeListAdapter extends RecyclerView.Adapter<CodeListAdapter.ViewHolder> {
 
         RVClickListener listener;

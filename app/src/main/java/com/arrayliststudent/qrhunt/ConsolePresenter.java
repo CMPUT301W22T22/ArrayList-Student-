@@ -34,4 +34,9 @@ public class ConsolePresenter {
         UserDataModel model = UserDataModel.getInstance();
         model.addObserver(arg);
     }
+
+    public void removeObserver(Observer arg) {
+        UserDataModel model = UserDataModel.getInstance();
+        model.deleteObserver(arg);
+    }
 }
