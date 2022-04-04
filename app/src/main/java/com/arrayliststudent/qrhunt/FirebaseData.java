@@ -3,11 +3,13 @@ package com.arrayliststudent.qrhunt;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,16 +30,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Firebase controller; responsible for getting and setting Firebase data
@@ -105,14 +112,12 @@ public class FirebaseData {
 
         // Add to ScannableCodes collection
         // First check if the code already exists
-
         Map<String, Object> codeData = new HashMap<>();
         codeData.put("codeName", code.getCodeName());
         codeData.put("codeScore", code.getCodeScore());
         codeData.put("Location", code.getLocation());
         codeData.put("Comment",code.getComments());
-        codeData.put("Photo", Uri.fromFile(code.getPhotoFile()).toString());
-
+        codeData.put("PhotoLink",code.getPhotoLink());
 
         codeCollection
                 .document(code.getId())
@@ -131,6 +136,8 @@ public class FirebaseData {
                         Log.d(TAG, "User " + code.getId() + " data failed to upload: " + e.toString());
                     }
                 });
+
+
 
     }
 
@@ -167,8 +174,8 @@ public class FirebaseData {
                                 }
                                 code.setComments(comments);
                             }
-                            if(key.equals("Photo")){
-                                code.setPhotoFile(new File(pair.getValue().toString()));
+                            if(key.equals("PhotoLink")){
+                                code.setPhotoLink(pair.getValue().toString());
                             }
 
                         }

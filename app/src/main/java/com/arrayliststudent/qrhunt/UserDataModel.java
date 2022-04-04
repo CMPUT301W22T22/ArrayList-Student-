@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.google.firebase.firestore.core.Query;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class UserDataModel extends Observable {
 
 
 
-    public void addCode(ScannableCode code) {
+    public void addCode(ScannableCode code ) {
 
         User user = getCurrentUser();
 //        Map<String, String> codeData = new HashMap<>();
