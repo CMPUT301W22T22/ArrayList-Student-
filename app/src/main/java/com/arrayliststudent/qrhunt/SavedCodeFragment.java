@@ -56,10 +56,10 @@ public class SavedCodeFragment extends DialogFragment {
         displayLocation = view.findViewById(R.id.display_location);
         displayPhoto = view.findViewById(R.id.display_photo);
 
-        displayName.setText(barcode.getCodeName());
-        displayHash.setText(barcode.getId());
-        displayScore.setText(Integer.toString(barcode.getCodeScore()));
-        displayLocation.setText(barcode.getLocation().toString());
+        displayName.setText("Name: " + barcode.getCodeName());
+        displayHash.setText("Hash: " + barcode.getId());
+        displayScore.setText("Score: " + Integer.toString(barcode.getCodeScore()));
+        displayLocation.setText("Location: " +barcode.getLocation().toString());
 
         File photo = barcode.getPhotoFile();
 
