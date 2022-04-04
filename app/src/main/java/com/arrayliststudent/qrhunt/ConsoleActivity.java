@@ -2,8 +2,6 @@ package com.arrayliststudent.qrhunt;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Settings;
 import android.service.autofill.UserData;
 import android.view.View;
 import android.widget.Button;
@@ -18,8 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -33,7 +29,7 @@ import java.util.Random;
 public class ConsoleActivity extends AppCompatActivity implements Observer {
 
     ConsolePresenter presenter;
-    CustomAdapter textAdapter;
+    CustomAdapter userTextAdapter;
     TextView userTextView;
     TextView scoreTextView;
     TextView numCodesTextView;
@@ -150,14 +146,11 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
             int score = calc.getScore(hash);
 
             ScannableCode code = new ScannableCode("test name", score, hash);
-            code.setLocation(getApplicationContext());
             UserDataModel model = UserDataModel.getInstance();
             model.addCode(code);
 
         }
     };
-
-
 
     /**
      * The update method is called from the Observable class UserDataModel upon notifyObservers().
@@ -169,7 +162,11 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
      */
     @Override
     public void update(Observable o, Object arg) {
-        textAdapter.updateData();
+        UserDataModel model = UserDataModel.getInstance();
+        User currentUser = model.getCurrentUser();
+        userTextView.setText(currentUser.getName());
+        scoreTextView.setText(String.valueOf(currentUser.getTotalScore()));
+        numCodesTextView.setText(String.valueOf(currentUser.getNumCodes()));
     }
 
     /**
@@ -187,9 +184,7 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
         numCodesTextView = findViewById(R.id.console_text_numcodes);
         presenter = new ConsolePresenter();
         presenter.setUpObserver(this);
-        textAdapter = new CustomAdapter(userTextView, scoreTextView, numCodesTextView);
         presenter.refresh();
-
         mapImageView = findViewById(R.id.console_img_map);
         mapImageView.setOnClickListener(onMapClicked);
         userImageView = findViewById(R.id.console_img_user);
@@ -207,10 +202,5 @@ public class ConsoleActivity extends AppCompatActivity implements Observer {
 
         testButton = findViewById(R.id.test_button);
         testButton.setOnClickListener(onTestBtnClicked);
-
-
-        // Initialize addCityButton
-        final FloatingActionButton ownerButton = findViewById(R.id.toggle_owner_button);
-        ownerButton.setOnClickListener((v)-> presenter.toggleOwner());
     }
 }

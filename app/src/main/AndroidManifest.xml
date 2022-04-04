@@ -44,6 +44,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".UserListActivity"
+            android:parentActivityName=".ConsoleActivity" />
+        <activity
             android:name=".UserProfileActivity"
             android:parentActivityName=".ConsoleActivity" />
         <activity

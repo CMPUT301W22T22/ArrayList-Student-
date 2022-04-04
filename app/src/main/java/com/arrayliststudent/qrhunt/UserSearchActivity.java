@@ -2,7 +2,6 @@ package com.arrayliststudent.qrhunt;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -25,47 +24,45 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public class UserSearchActivity extends AppCompatActivity implements UserSearchFragment.OnFragmentInteractionListener {
     ListView listView;
     ArrayAdapter<String> arrayAdapter;
+    ArrayList<String> nameList = new ArrayList<>();
 
-    private ArrayList<String> getUserNames(){
-        ArrayList<String> name = new ArrayList<>();
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_search);
+
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Users");
         collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                assert value != null;
                 for(QueryDocumentSnapshot doc: value) {
                     Map<String, Object> code = doc.getData();
                     for (Map.Entry<String, Object> pair : code.entrySet()) {
                         String key = pair.getKey();
                         if (pair.getKey().equals("name")) {
-                            name.add((String) pair.getValue());
-                            Log.d(TAG,"Added name " + (String) pair.getValue());
+                            if(!nameList.contains((String) pair.getValue())){
+                                nameList.add((String) pair.getValue());
+                                System.out.println("Added "+(String) pair.getValue());
+                            }
                         }
                     }
                 }
+                arrayAdapter.addAll(nameList);
             }
         });
-        return name;
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_search);
-        List<String> nameList = getUserNames();
-        System.out.println("%%%"+nameList);
 
 
         listView = findViewById(R.id.list_item);
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,nameList);
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,new ArrayList<>());
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
