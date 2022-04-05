@@ -49,10 +49,9 @@ public class UserSearchActivity extends AppCompatActivity implements UserSearchF
                     for (Map.Entry<String, Object> pair : code.entrySet()) {
                         String key = pair.getKey();
                         if (pair.getKey().equals("name")) {
-                            if(!nameList.contains((String) pair.getValue())){
-                                nameList.add((String) pair.getValue());
-                                System.out.println("Added "+(String) pair.getValue());
-                            }
+                            nameList.add((String) pair.getValue());
+                            System.out.println("Added "+(String) pair.getValue());
+
                         }
                     }
                 }

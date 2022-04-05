@@ -58,7 +58,7 @@ public class UserSearchFragment extends DialogFragment {
         TextView nameText = view.findViewById(R.id.name_text);
         TextView scoreText = view.findViewById(R.id.score_text);
         TextView codeText = view.findViewById(R.id.code_text);
-        nameText.setText(userName);
+        nameText.setText("User");
         scoreText.setText(String.valueOf("Score: " + score));
         codeText.setText(String.valueOf("Codes: " + codeNum));
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
